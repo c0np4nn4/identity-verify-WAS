@@ -463,6 +463,7 @@ impl<F: Field> Circuit<F> for MyCircuit<F> {
         let major_code =
             field_chip.load_private(layouter.namespace(|| "load major_code"), self.major_code)?;
 
+        // EdDSA algorithm
         let signature_r =
             field_chip.load_private(layouter.namespace(|| "load signature_r"), self.signature_r)?;
 
@@ -476,7 +477,7 @@ impl<F: Field> Circuit<F> for MyCircuit<F> {
         // let d = field_chip.add_and_mul(&mut layouter, a, b, c)?;
 
         field_chip.ed25519_verify(
-            layouter.namespace(|| "ed25519 verify"),
+            layouter.namespace(|| "EdDSA verify"),
             signature_r,
             signature_s,
             message,
@@ -546,6 +547,9 @@ impl<F: Field> Ed25519Instruction<F> for FieldChip<F> {
                 let msg = message.0.value().copied();
 
                 // TODO verifying signature
+                // Mathematical Expression
+                // R - R' = 0
+                // ref: https://shuklaayu.sh/blog/axiom-ed25519
 
                 Ok(())
             },
