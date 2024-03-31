@@ -2,14 +2,8 @@
 
 import {SubmitHandler, useForm} from 'react-hook-form';
 import axios from 'axios';
+import {ISignupForm} from '@/types/auth';
 
-
-interface ISignupForm {
-  nickname: string;
-  id: string;
-  password: string;
-  passwordConfirm: string;
-}
 
 export default function Page() {
   const {register, handleSubmit, formState: {errors}} = useForm<ISignupForm>();
