@@ -43,6 +43,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_DATABASE: db
+      TZ: Asia/Seoul
     volumes:
       - mysql-data:/var/lib/mysql
 volumes:
