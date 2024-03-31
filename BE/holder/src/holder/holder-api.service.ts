@@ -12,35 +12,28 @@ export class HolderAPIService {
     private readonly configService: ConfigService,
   ) {}
 
-  // 사용자가 존재하는지 유효성 검증
-  async getUserMajor(dto: UserVCDto): Promise<string> {
-    const { stNum, stPwd } = dto;
-    // params로 학생의 전공 코드를 DB에서 반환
-    const url = this.configService.get<string>('API_GET_USER_MAJOR');
-    return lastValueFrom(
-      this.httpService
-        .get(url, { params: { stNum, stPwd } })
-        .pipe(map((response) => response?.data)),
-    );
-  }
-
   // Issuer 호출
-  async createUserVC(dto: UserVCDto, stMajorCode: string) {
-    const { holderPubKey } = dto;
+  async createUserVC(dto: UserVCDto) {
+    const { studentNumber, holderPubKey } = dto;
+    const studentMajorCode = this.getUserMajorCode(studentNumber);
     const url = this.configService.get<string>('API_CREATE_USER_VC');
     return lastValueFrom(
       this.httpService
-        .get(url, { params: { stMajorCode, holderPubKey } })
+        .post(url, { params: { studentMajorCode, holderPubKey } })
         .pipe(map((response) => response?.data)),
     );
   }
 
   // Issuer 호출
   async getProofValue() {
-    // TODO: /generate-proof-value launch.env에 추가
     const url = this.configService.get<string>('API_GET_PROOF_VALUE');
     return lastValueFrom(
       this.httpService.post(url).pipe(map((response) => response?.data)),
     );
+  }
+
+  getUserMajorCode(studentNumber: string): number {
+    // TODO: 학번 파싱 후 대응되는 학과 코드 반환 (const에 저장)
+    return 24;
   }
 }

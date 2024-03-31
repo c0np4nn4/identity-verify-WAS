@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseFilters, Post } from '@nestjs/common';
+import { Controller, Get, Query, UseFilters, Post, Body } from '@nestjs/common';
 import { IssuerAPIService } from './issuer-api.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
@@ -12,11 +12,11 @@ export class IssuerAPIController {
   constructor(private readonly issuerAPIService: IssuerAPIService) {}
 
   // Holder에서 호출
-  @Get('/create-vc')
+  @Post('/create-vc')
   @ApiOperation({
     summary: 'HOLDER 호출) 사용자 VC 생성 후 블록체인에 키체인 적재',
   })
-  async createUserVC(@Query() dto: UserVCDto) {
+  async createUserVC(@Body() dto: UserVCDto) {
     const { vc } = this.issuerAPIService.createUserVC(dto);
     const vcString = JSON.stringify(vc);
     const issuerPubKey = await this.issuerAPIService.getIssuerPubKey();

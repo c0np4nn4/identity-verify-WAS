@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { lastValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,15 +13,12 @@ const bs58 = require('bs58');
 
 @Injectable()
 export class IssuerAPIService {
-  constructor(
-    private httpService: HttpService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   createUserVC(dto: UserVCDto) {
-    const { stMajorCode, holderPubKey } = dto;
+    const { studentMajorCode, holderPubKey } = dto;
     const uuid = uuidv4();
-    const vc = createVC(uuid, stMajorCode, holderPubKey);
+    const vc = createVC(uuid, studentMajorCode, holderPubKey);
     return { uuid, vc };
   }
 
