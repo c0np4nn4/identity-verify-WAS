@@ -1,6 +1,6 @@
 'use client';
 
-import {FormEvent, useState} from 'react';
+import {ChangeEventHandler, FormEvent, useState} from 'react';
 import axios from 'axios';
 
 
@@ -13,12 +13,12 @@ export default function Page() {
   });
 
 
-  const handleChange = (e) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setForm({
       ...form,
       [e.target!.name]: e.target!.value,
     });
-  };
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

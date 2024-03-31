@@ -45,5 +45,14 @@ services:
       MYSQL_DATABASE: db
     volumes:
       - mysql-data:/var/lib/mysql
+
+  service-homepage:
+    build: ./FE/service-homepage
+    image: service-homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - ./FE/service-homepage:/usr/src/app
+
 volumes:
   mysql-data:
