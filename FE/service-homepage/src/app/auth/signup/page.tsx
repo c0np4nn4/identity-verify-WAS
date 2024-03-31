@@ -57,7 +57,7 @@ export default function Page() {
           {...register('passwordConfirm', {required: true})}
         />
         <button className="bg-blue-500 text-white p-2 rounded-md">
-          Signup
+          회원가입
         </button>
       </form>
     </main>
