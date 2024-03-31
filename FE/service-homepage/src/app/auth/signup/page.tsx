@@ -1,78 +1,66 @@
 'use client';
 
-import {ChangeEventHandler, FormEvent, useState} from 'react';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import axios from 'axios';
 
 
+interface ISignupForm {
+  nickname: string;
+  id: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 export default function Page() {
-  const [form, setForm] = useState({
-    fullName: 'kimcookieya',
-    id: 'kimcookieya',
-    password: '1234',
-    passwordConfirm: '1234',
-  });
+  const {register, handleSubmit, formState: {errors}} = useForm<ISignupForm>();
 
-
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setForm({
-      ...form,
-      [e.target!.name]: e.target!.value,
-    });
-  }
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    console.log(form);
+  const onSubmit: SubmitHandler<ISignupForm> = async (data) => {
+    if (data.password !== data.passwordConfirm) {
+      alert('비밀번호가 다릅니다!');
+      return;
+    }
 
     try {
-      const res = await axios.post('/api/service/signup', form);
+      const res = await axios.post('/api/service/signup', data);
       console.log(res);
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
     }
-  }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-cetner p-24">
       <h1 className="text-4xl font-bold">Welcome to Service Client</h1>
       <p className="text-lg">This is a 회원가입 Page.</p>
       <form className="flex flex-col w-1/3 mt-8"
-       onSubmit={handleSubmit}>
+            onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
-          placeholder="Full Name"
+          placeholder="Nickname"
           className="p-2 border border-gray-300 rounded-md mb-4"
-          name="fullName"
-          value={form.fullName}
-          onChange={handleChange}
-          required
+          defaultValue={'kimcookieya'}
+          {...register('nickname', {required: true})}
         />
         <input
           type="text"
           placeholder="Id"
           className="p-2 border border-gray-300 rounded-md mb-4"
-          name="id"
-          value={form.id}
-          onChange={handleChange}
-          required
+          defaultValue={'min49590'}
+          {...register('id', {required: true})}
         />
         <input
           type="password"
           placeholder="Password"
           className="p-2 border border-gray-300 rounded-md mb-4"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          required
+          defaultValue={'1234'}
+          {...register('password', {required: true})}
         />
         <input
           type="password"
           placeholder="Password Confirm"
           className="p-2 border border-gray-300 rounded-md mb-4"
-          name="passwordConfirm"
-          value={form.passwordConfirm}
-          onChange={handleChange}
-          required
+          defaultValue={'1234'}
+          {...register('passwordConfirm', {required: true})}
         />
         <button className="bg-blue-500 text-white p-2 rounded-md">
           Signup
