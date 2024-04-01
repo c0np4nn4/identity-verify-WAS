@@ -30,9 +30,4 @@ export class HolderAPIService {
       this.httpService.post(url).pipe(map((response) => response?.data)),
     );
   }
-
-  getUserMajorCode(studentNumber: string): number {
-    // TODO: 학번 파싱 후 대응되는 학과 코드 반환 (const에 저장)
-    return 24;
-  }
 }
