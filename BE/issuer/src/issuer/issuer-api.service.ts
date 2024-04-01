@@ -41,6 +41,17 @@ export class IssuerAPIService {
     return;
   }
 
+  // TODO: 학과 본부 DB라고 가정한 student-pair 테이블 구현 필요 (pk, email, student_number)
+  async verifyMatchMajor(email: string, studentNumber: string) {
+    /*
+      const studentPair = await this.studentPairRepository.findOne({ where: { email, studentNumber }});
+      if (!studentPair) {
+        return { result: false, data: { message: 'Invalid student' } };
+      }
+    */
+    return { result: true };
+  }
+
   generateProofValue() {
     //! Key는 일단 env 파일로 관리
     // Issuer Key Pair 생성

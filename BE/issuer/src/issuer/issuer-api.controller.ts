@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseFilters, Post, Body } from '@nestjs/common';
 import { IssuerAPIService } from './issuer-api.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { CustomExceptionFilter } from '../filter/exception.filter';
 import { CustomErrorException } from '../filter/custom-error.exception';
@@ -45,4 +45,25 @@ export class IssuerAPIController {
   generateProofValue() {
     return this.issuerAPIService.generateProofValue();
   }
+
+    // Holder에서 호출
+  @Get('/verify-match')
+  @ApiOperation({
+    summary: 'SERVICE 호출) 학과 본부라 가정, 학번 - email 매칭 여부 검증',
+  })
+  @ApiQuery({
+    name: 'email',
+    description: '인증할 이메일 주소',
+  })
+  @ApiQuery({
+    name: 'studentNumber',
+    description: '학번',
+  })
+  async verifyMatchMajor(
+    @Query('email') email: string,
+    @Query('studentNumber') studentNumber: string
+  ) {
+    return await this.issuerAPIService.verifyMatchMajor(email, studentNumber);
+  }
 }
+

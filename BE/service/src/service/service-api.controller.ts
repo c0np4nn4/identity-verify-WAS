@@ -66,6 +66,10 @@ export class ServiceAPIController {
     name: 'code',
     description: '이메일로 받은 인증 코드',
   })
+  @ApiQuery({
+    name: 'studentNumber',
+    description: '학번',
+  })
   async verifyEmailCode(
     @Query('email') email: string,
     @Query('code') code: string,

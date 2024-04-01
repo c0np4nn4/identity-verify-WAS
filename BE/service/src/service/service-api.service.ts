@@ -97,6 +97,7 @@ export class ServiceAPIService {
   // Issuer에게 학생 email - 학번 매칭 여부 검증
   async verifyMajorMatch(email: string, studentNumber: string) {
     // TODO: test.env, launch.env에 추가
+    // /api/issuer/verify-match
     const url = this.configService.get<string>('API_VERIFY_MAJOR_MATCH');
     return lastValueFrom(
       this.httpService
