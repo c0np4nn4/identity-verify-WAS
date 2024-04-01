@@ -72,13 +72,13 @@ export class ServiceAPIService {
       where: { email: email },
     });
     if (!emailRow) {
-      return { statusCode: 400, data: { message: 'Email Not Exist' } };
+      return { result: false, message: 'Email Not Exist' }
     }
     const isCodeMatch = emailRow.code === code;
     if (!isCodeMatch) {
-      return { statusCode: 404, data: { message: 'Code is not match' } };
+      return { result: false, message: 'Code is not match' }
     }
-    return { statusCode: 200 };
+    return { result: true };
   }
 
   async loginUser(dto: LoginUserDto) {
@@ -92,6 +92,17 @@ export class ServiceAPIService {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
     return { statusCode: 200 };
+  }
+
+  // Issuer에게 학생 email - 학번 매칭 여부 검증
+  async verifyMajorMatch(email: string, studentNumber: string) {
+    // TODO: test.env, launch.env에 추가
+    const url = this.configService.get<string>('API_VERIFY_MAJOR_MATCH');
+    return lastValueFrom(
+      this.httpService
+        .get(url, { params: { email, studentNumber } })
+        .pipe(map((response) => response?.data)),
+    );
   }
 
   /* 
