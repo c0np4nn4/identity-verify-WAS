@@ -14,8 +14,7 @@ export class HolderAPIService {
 
   // Issuer 호출
   async createUserVC(dto: UserVCDto) {
-    const { studentNumber, holderPubKey } = dto;
-    const studentMajorCode = this.getUserMajorCode(studentNumber);
+    const { studentMajorCode, holderPubKey } = dto;
     const url = this.configService.get<string>('API_CREATE_USER_VC');
     return lastValueFrom(
       this.httpService
