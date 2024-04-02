@@ -3,12 +3,12 @@ import { ServiceAPIController } from './service-api.controller';
 import { ServiceAPIService } from './service-api.service';
 import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StudentEntity } from 'src/entity/student.entity';
+import { UserEntity } from 'src/entity/user.entity';
 
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([StudentEntity]),
+    TypeOrmModule.forFeature([UserEntity]),
   ],
   controllers: [ServiceAPIController],
   providers: [ServiceAPIService],

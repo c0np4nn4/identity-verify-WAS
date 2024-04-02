@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { IssuerAPIModule } from './issuer/issuer-api.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeormConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -11,6 +13,12 @@ import { ConfigModule } from '@nestjs/config';
         process.env.NODE_ENV === 'test'
           ? './src/config/.test.env'
           : './src/config/.launch.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        TypeormConfig(configService),
     }),
   ],
   controllers: [],
