@@ -15,7 +15,11 @@ export default function Page() {
     }
 
     try {
-      const res = await axios.post('/api/service/signup', data);
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_SERVICE + '/v1/register', {
+        nickname: data.nickname,
+        id: data.id,
+        password: data.password,
+      });
       console.log(res);
     } catch (e) {
       console.error(e);

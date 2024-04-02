@@ -10,7 +10,10 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<ISigninForm> = async (data) => {
     try {
-      const res = await axios.post('/api/service/signin', data);
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_SERVICE + '/v1/login', {
+        id: data.id,
+        password: data.password,
+      });
       console.log(res);
     } catch (e) {
       console.error(e);
