@@ -5,7 +5,6 @@ import { ProofDto } from '../dto/proof.dto';
 import { CustomExceptionFilter } from '../filter/exception.filter';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
-import { EmailSendCodeDto } from 'src/dto/email-send-code.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 
 @Controller('api/service')
@@ -41,52 +40,6 @@ export class ServiceAPIController {
       throw new CustomErrorException('Login Failed', 500);
     }
   }
-
-  @Post('/v1/send-email')
-  @ApiOperation({
-    summary: '2차 회원가입 이메일 인증 코드 발송',
-  })
-  async sendEmailCode(@Body() dto: EmailSendCodeDto) {
-    try {
-      return await this.serviceAPIService.sendEmailCode(dto);
-    } catch (error) {
-      throw new CustomErrorException('Send Email Failed', 500);
-    }
-  }
-
-  @Get('/v1/verify-email')
-  @ApiOperation({
-    summary: '2차 회원가입 이메일 인증 코드 검증 및 학과 매칭 검증',
-  })
-  @ApiQuery({
-    name: 'email',
-    description: '인증할 이메일 주소',
-  })
-  @ApiQuery({
-    name: 'code',
-    description: '이메일로 받은 인증 코드',
-  })
-  @ApiQuery({
-    name: 'studentNumber',
-    description: '학번',
-  })
-  async verifyEmailCode(
-    @Query('email') email: string,
-    @Query('code') code: string,
-    @Query('studentNumber') studentNumber: string,
-  ) {
-    const isEmailVerified = await this.serviceAPIService.verfiyEmailCode(email, code);
-    if (!isEmailVerified.result) {
-      return { statusCode: 400, data: { message: isEmailVerified.message } };
-    }
-    const isMajorVerified = await this.serviceAPIService.verifyMajorMatch(email, studentNumber)
-    if (!isMajorVerified.result) {
-      return { statusCode: 400, data: { message: isMajorVerified.message } };
-    }
-    return { statusCode: 200 };
-  }
-
-
 
   /* 
     Protocol API
