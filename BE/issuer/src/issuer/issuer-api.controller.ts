@@ -47,7 +47,7 @@ export class IssuerAPIController {
   }
 
     // Holder에서 호출
-  @Get('/verify-match')
+  @Get('/verify-major-match')
   @ApiOperation({
     summary: 'SERVICE 호출) 학과 본부라 가정, 학번 - email 매칭 여부 검증',
   })
