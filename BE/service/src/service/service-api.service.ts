@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { compare, compareSync, hashSync } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ServiceAPIService {
@@ -20,6 +21,7 @@ export class ServiceAPIService {
     private userRepository: Repository<UserEntity>,
     private httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
   /* 
@@ -57,7 +59,11 @@ export class ServiceAPIService {
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
-    return { statusCode: 200 };
+    const payload = { userId: userRow.pk };
+    const token = await this.jwtService.signAsync(payload, {
+      expiresIn: '90d',
+    });
+    return { statusCode: 200, data: { token } };
   }
 
   /* 
