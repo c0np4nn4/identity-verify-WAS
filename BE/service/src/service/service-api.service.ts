@@ -11,6 +11,7 @@ import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
+import { compare, compareSync, hashSync } from 'bcryptjs';
 
 @Injectable()
 export class ServiceAPIService {
@@ -41,7 +42,8 @@ export class ServiceAPIService {
       return { statusCode: 400, data: { message: 'Nickname Duplicate' } };
     }
     const uuid = uuidv4();
-    await this.userRepository.save({ ...dto, pk: uuid });
+    const hashedPwd = hashSync(dto.password, 10);
+    await this.userRepository.save({ ...dto, pk: uuid, password: hashedPwd });
     return { statusCode: 200, data: { pk: uuid } };
   }
 
@@ -51,7 +53,7 @@ export class ServiceAPIService {
     if (!userRow) {
       return { statusCode: 404, data: { message: 'User not exist' } };
     }
-    const isPasswordMatch = userRow.password === password;
+    const isPasswordMatch = compareSync(userRow.password, password);
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
