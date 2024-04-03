@@ -6,8 +6,8 @@ export const TypeormConfig = (
   configService: ConfigService,
 ): TypeOrmModuleOptions => ({
   type: 'mysql',
-  host: 'mysql',
-  port: 3306,
+  host: configService.get<string>('DB_HOST'),
+  port: parseInt(configService.get<string>('DB_PORT'), 10),
   username: configService.get<string>('DB_USERNAME'),
   password: configService.get<string>('DB_PWD'),
   database: 'db',

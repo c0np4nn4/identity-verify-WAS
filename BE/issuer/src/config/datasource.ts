@@ -7,8 +7,8 @@ const configService: ConfigService = new ConfigService();
 export default new DataSource({
   migrationsTableName: 'migrations',
   type: 'mysql',
-  host: 'mysql',
-  port: 3306,
+  host: 'mysql-student',
+  port: 3307,
   username: 'root',
   password: '1111',
   database: 'db',
