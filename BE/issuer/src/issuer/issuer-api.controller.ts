@@ -46,7 +46,7 @@ export class IssuerAPIController {
     return this.issuerAPIService.generateProofValue();
   }
 
-    // Holder에서 호출
+  // Holder에서 호출
   @Get('/verify-major-match')
   @ApiOperation({
     summary: 'SERVICE 호출) 학과 본부라 가정, 학번 - email 매칭 여부 검증',
@@ -61,9 +61,8 @@ export class IssuerAPIController {
   })
   async verifyMatchMajor(
     @Query('email') email: string,
-    @Query('studentNumber') studentNumber: string
+    @Query('studentNumber') studentNumber: string,
   ) {
     return await this.issuerAPIService.verifyMatchMajor(email, studentNumber);
   }
 }
-

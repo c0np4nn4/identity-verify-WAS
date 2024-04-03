@@ -6,10 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entity/user.entity';
 
 @Module({
-  imports: [
-    HttpModule,
-    TypeOrmModule.forFeature([UserEntity]),
-  ],
+  imports: [HttpModule, TypeOrmModule.forFeature([UserEntity])],
   controllers: [ServiceAPIController],
   providers: [ServiceAPIService],
 })
