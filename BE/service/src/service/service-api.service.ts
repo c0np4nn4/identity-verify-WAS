@@ -10,7 +10,6 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
-import { EmailCodeEntity } from 'src/entity/email-code.entity';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 
 @Injectable()
@@ -18,8 +17,6 @@ export class ServiceAPIService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-    @InjectRepository(EmailCodeEntity)
-    private emailCodeRepository: Repository<EmailCodeEntity>,
     private httpService: HttpService,
     private readonly configService: ConfigService,
   ) {}
