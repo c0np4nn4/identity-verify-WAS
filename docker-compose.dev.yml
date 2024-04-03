@@ -17,7 +17,6 @@ services:
       - mysql-student
     volumes:
       - ./BE/issuer:/usr/src/app
-      - /usr/src/app/node_modules
 
   verifier:
     build: ./BE/verifier
@@ -26,7 +25,6 @@ services:
       - 8083:8083
     volumes:
       - ./BE/verifier:/usr/src/app
-      - /usr/src/app/node_modules
 
   service:
     build: ./BE/service
@@ -52,12 +50,13 @@ services:
   mysql-student:
     image: mysql:8.0
     ports:
-      - 3307:3307
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_DATABASE: db
       TZ: Asia/Seoul
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-student-data:/var/lib/mysql
 volumes:
   mysql-data:
+  mysql-student-data:
