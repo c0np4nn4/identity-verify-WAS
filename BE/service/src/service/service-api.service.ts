@@ -52,17 +52,19 @@ export class ServiceAPIService {
   async loginUser(dto: LoginUserDto) {
     const { id, password } = dto;
     const userRow = await this.userRepository.findOne({ where: { id } });
+    console.log(userRow);
     if (!userRow) {
       return { statusCode: 404, data: { message: 'User not exist' } };
     }
-    const isPasswordMatch = compareSync(userRow.password, password);
+    const isPasswordMatch = compareSync(password, userRow.password);
+    console.log(isPasswordMatch);
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
     const payload = { userId: userRow.pk };
-    const token = await this.jwtService.signAsync(payload, {
-      expiresIn: '90d',
-    });
+    console.log(payload);
+    const token = await this.jwtService.signAsync(payload);
+    console.log(token);
     return { statusCode: 200, data: { token } };
   }
 
