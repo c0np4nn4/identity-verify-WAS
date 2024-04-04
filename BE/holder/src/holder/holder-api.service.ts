@@ -48,30 +48,14 @@ export class HolderAPIService {
       subject: 'Hello! Confirmation Code for Sign up',
       template: 'register.ejs',
       context: { code },
+      html: `<h1></h1>`,
     });
 
     return { statusCode: 200 };
   }
 
-  // TODO: 이메일 인증 코드 관리 외부 API로 대체
-  async verfiyEmailCode(email: string, code: string) {
-    // const emailRow = await this.emailCodeRepository.findOne({
-    //   where: { email: email },
-    // });
-    // if (!emailRow) {
-    //   return { result: false, message: 'Email Not Exist' }
-    // }
-    // const isCodeMatch = emailRow.code === code;
-    // if (!isCodeMatch) {
-    //   return { result: false, message: 'Code is not match' }
-    // }
-    return { result: true, message: '' };
-  }
-
   // Issuer 호출) 학생 email - 학번 매칭 여부 검증
   async verifyMajorMatch(email: string, studentNumber: string) {
-    // TODO: launch.env에 추가
-    // /api/issuer/verify-match
     const url = this.configService.get<string>('API_VERIFY_MAJOR_MATCH');
     return lastValueFrom(
       this.httpService

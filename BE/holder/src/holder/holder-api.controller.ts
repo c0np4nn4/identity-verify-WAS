@@ -60,15 +60,13 @@ export class HolderAPIController {
     @Query('code') code: string,
     @Query('studentNumber') studentNumber: string,
   ) {
-    const isEmailVerified = await this.holderAPIService.verfiyEmailCode(email, code);
-    if (!isEmailVerified.result) {
-      return { statusCode: 400, data: { message: isEmailVerified.message } };
-    }
-    const isMajorVerified = await this.holderAPIService.verifyMajorMatch(email, studentNumber)
+    const isMajorVerified = await this.holderAPIService.verifyMajorMatch(
+      email,
+      studentNumber,
+    );
     if (!isMajorVerified.result) {
       return { statusCode: 400, data: { message: isMajorVerified.message } };
     }
     return { statusCode: 200 };
   }
 }
-
