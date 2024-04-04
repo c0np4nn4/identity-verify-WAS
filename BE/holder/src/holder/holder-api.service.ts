@@ -5,12 +5,14 @@ import { map } from 'rxjs/operators';
 import { lastValueFrom } from 'rxjs';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { EmailSendCodeDto } from '../dto/email-send-code.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class HolderAPIService {
   constructor(
     private httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly mailerService: MailerService,
   ) {}
 
   // Issuer 호출
@@ -32,7 +34,6 @@ export class HolderAPIService {
     );
   }
 
-  
   async sendEmailCode(dto: EmailSendCodeDto) {
     const { email } = dto;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,13 +42,14 @@ export class HolderAPIService {
     }
     const code = Math.floor(Math.random() * 900000) + 100000;
 
-    // TODO: Email 전송 라이브러리 사용 필요
-    // TODO: 이메일 인증 코드 관리 외부 API로 대체
+    // TODO: 인증코드 저장 과정 필요 (FE로 토큰 발급?)
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Hello! Confirmation Code for Sign up',
+      template: 'register.ejs',
+      context: { code },
+    });
 
-    // await this.emailCodeRepository.save({
-    //   email: dto.email,
-    //   code: code.toString(),
-    // });
     return { statusCode: 200 };
   }
 
@@ -63,10 +65,8 @@ export class HolderAPIService {
     // if (!isCodeMatch) {
     //   return { result: false, message: 'Code is not match' }
     // }
-    return { result: true, message: "" };
+    return { result: true, message: '' };
   }
-
-
 
   // Issuer 호출) 학생 email - 학번 매칭 여부 검증
   async verifyMajorMatch(email: string, studentNumber: string) {
