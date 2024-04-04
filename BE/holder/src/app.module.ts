@@ -1,8 +1,7 @@
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { HolderAPIModule } from './holder/holder-api.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { mailerConfig } from './config/mailer.config';
 
 @Module({
   imports: [
@@ -15,9 +14,21 @@ import { mailerConfig } from './config/mailer.config';
           : './src/config/.launch.env',
     }),
     MailerModule.forRootAsync({
-      useFactory: () => {
-        return { ...mailerConfig };
-      },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: 'smtp.gmail.com',
+          port: 587,
+          auth: {
+            user: 'jinjae781@gmail.com',
+            pass: configService.get<string>('MAIL_PASSWORD'),
+          },
+        },
+        defaults: {
+          from: `"no-reply" <noreply@gmail.com>`,
+        },
+      }),
     }),
   ],
   controllers: [],
