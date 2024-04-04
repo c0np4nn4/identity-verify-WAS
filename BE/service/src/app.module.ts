@@ -3,6 +3,7 @@ import { ServiceAPIModule } from './service/service-api.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormConfig } from './config/typeorm.config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,6 +20,16 @@ import { TypeormConfig } from './config/typeorm.config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
         TypeormConfig(configService),
+    }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: `90d`,
+        },
+      }),
     }),
   ],
   controllers: [],
