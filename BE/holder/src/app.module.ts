@@ -14,7 +14,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
           : './src/config/.launch.env',
     }),
     MailerModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         transport: {
