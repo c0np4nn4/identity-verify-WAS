@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { HolderAPIController } from './holder-api.controller';
 import { HolderAPIService } from './holder-api.service';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -26,7 +26,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
           host: 'smtp.gmail.com',
           port: 587,
           auth: {
-            // TODO: launch.env에 추가
             user: configService.get<string>('MAIL_USER'),
             pass: configService.get<string>('MAIL_PASSWORD'),
           },

@@ -11,10 +11,10 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class HolderAPIService {
   constructor(
-    private httpService: HttpService,
+    private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   // Issuer 호출
