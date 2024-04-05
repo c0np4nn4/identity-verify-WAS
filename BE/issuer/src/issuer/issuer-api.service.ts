@@ -53,9 +53,9 @@ export class IssuerAPIService {
     const studentPair = await this.studentKeyPairRepository.findOne({
       where: { email, studentNumber },
     });
-    // if (!studentPair) {
-    //   return { result: false, data: { message: 'Invalid student' } };
-    // }
+    if (!studentPair) {
+      return { result: false };
+    }
     return { result: true };
   }
 

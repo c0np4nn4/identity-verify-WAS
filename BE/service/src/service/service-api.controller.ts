@@ -49,8 +49,9 @@ export class ServiceAPIController {
   @ApiOperation({
     summary: '생성된 Proof를 검증하기 위해 Verifier 서버로 프록시',
   })
-  async verifyProof(@Body() dto: ProofDto): Promise<boolean> {
-    return await this.serviceAPIService.verifyProof(dto);
+  async verifyProof(@Body() dto: ProofDto) {
+    const result = await this.serviceAPIService.verifyProof(dto);
+    return result === true ? { statusCode: 200 } : { statusCode: 400 };
   }
 
   //! Init API
