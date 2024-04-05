@@ -55,6 +55,7 @@ services:
   mysql-student:
     image: mysql:8.0
     container_name: mysql-student
+    command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3307:3306
     environment:

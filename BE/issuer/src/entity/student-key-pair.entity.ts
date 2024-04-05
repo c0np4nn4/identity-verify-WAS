@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'student-key-pair' })
+@Entity({ name: 'student_key_pair' })
 export class StudentKeyPairEntity {
   @PrimaryGeneratedColumn({ name: 'pk' })
   pk: string;
