@@ -11,7 +11,7 @@ import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
-import { compare, compareSync, hashSync } from 'bcryptjs';
+import { compareSync, hashSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

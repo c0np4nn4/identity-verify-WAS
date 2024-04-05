@@ -20,6 +20,15 @@ import { ConfigService } from '@nestjs/config';
         signOptions: { expiresIn: '90d' },
       }),
     }),
+    JwtModule.registerAsync({
+      imports: [],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        global: true,
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '300s' },
+      }),
+    }),
   ],
   controllers: [ServiceAPIController],
   providers: [ServiceAPIService],
