@@ -41,7 +41,7 @@ export async function connectToNEARContract(): Promise<Contract> {
 
 export function createVC(
   uuid: string,
-  stMajorCode: string,
+  studentMajorCode: string,
   holderPubKey: string,
 ) {
   const timeStamp = getTimeStamp();
@@ -58,7 +58,7 @@ export function createVC(
       id: `did:near:${holderPubKey}.testnet`,
       subject: {
         school_did: 'did:near:pnu.testnet',
-        major: stMajorCode,
+        major: studentMajorCode,
       },
     },
     proof: {

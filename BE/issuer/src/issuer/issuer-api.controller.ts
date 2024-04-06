@@ -1,6 +1,6 @@
-import { Controller, Get, Query, UseFilters, Post } from '@nestjs/common';
+import { Controller, Get, Query, UseFilters, Post, Body } from '@nestjs/common';
 import { IssuerAPIService } from './issuer-api.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { CustomExceptionFilter } from '../filter/exception.filter';
 import { CustomErrorException } from '../filter/custom-error.exception';
@@ -12,11 +12,11 @@ export class IssuerAPIController {
   constructor(private readonly issuerAPIService: IssuerAPIService) {}
 
   // Holder에서 호출
-  @Get('/create-vc')
+  @Post('/create-vc')
   @ApiOperation({
     summary: 'HOLDER 호출) 사용자 VC 생성 후 블록체인에 키체인 적재',
   })
-  async createUserVC(@Query() dto: UserVCDto) {
+  async createUserVC(@Body() dto: UserVCDto) {
     const { vc } = this.issuerAPIService.createUserVC(dto);
     const vcString = JSON.stringify(vc);
     const issuerPubKey = await this.issuerAPIService.getIssuerPubKey();
@@ -44,5 +44,25 @@ export class IssuerAPIController {
   })
   generateProofValue() {
     return this.issuerAPIService.generateProofValue();
+  }
+
+  // Holder에서 호출
+  @Get('/verify-major-match')
+  @ApiOperation({
+    summary: 'SERVICE 호출) 학과 본부라 가정, 학번 - email 매칭 여부 검증',
+  })
+  @ApiQuery({
+    name: 'email',
+    description: '인증할 이메일 주소',
+  })
+  @ApiQuery({
+    name: 'studentNumber',
+    description: '학번',
+  })
+  async verifyMatchMajor(
+    @Query('email') email: string,
+    @Query('studentNumber') studentNumber: string,
+  ) {
+    return await this.issuerAPIService.verifyMatchMajor(email, studentNumber);
   }
 }

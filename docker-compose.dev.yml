@@ -3,6 +3,7 @@ services:
   holder:
     build: ./BE/holder
     image: holder
+    container_name: holder
     ports:
       - 8081:8081
     volumes:
@@ -11,39 +12,58 @@ services:
   issuer:
     build: ./BE/issuer
     image: issuer
+    container_name: issuer
     ports:
       - 8082:8082
+    depends_on:
+      - mysql-student
     volumes:
       - ./BE/issuer:/usr/src/app
-      - /usr/src/app/node_modules
 
   verifier:
     build: ./BE/verifier
     image: verifier
+    container_name: verifier
     ports:
       - 8083:8083
     volumes:
       - ./BE/verifier:/usr/src/app
-      - /usr/src/app/node_modules
 
   service:
     build: ./BE/service
     image: service
+    container_name: service
     ports:
       - 4000:4000
     depends_on:
-      - mysql
+      - mysql-was
     volumes:
       - ./BE/service:/usr/src/app
 
-  mysql:
+  mysql-was:
     image: mysql:8.0
+    container_name: mysql-was
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: 1111
       MYSQL_DATABASE: db
+      TZ: Asia/Seoul
     volumes:
       - mysql-data:/var/lib/mysql
+
+  mysql-student:
+    image: mysql:8.0
+    container_name: mysql-student
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_DATABASE: db
+      TZ: Asia/Seoul
+    volumes:
+      - mysql-student-data:/var/lib/mysql
 volumes:
   mysql-data:
+  mysql-student-data:

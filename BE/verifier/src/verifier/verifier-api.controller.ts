@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseFilters } from '@nestjs/common';
 import { VerifierAPIService } from './verifier-api.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProofDto } from '../dto/proof.dto';
@@ -11,11 +11,11 @@ import { CustomErrorException } from '../filter/custom-error.exception';
 export class VerifierAPIController {
   constructor(private readonly verifierAPIService: VerifierAPIService) {}
 
-  @Get('verify-proof')
+  @Post('verify-proof')
   @ApiOperation({
     summary: '생성된 Proof를 검증',
   })
-  async verifyProof(@Query() dto: ProofDto): Promise<boolean> {
+  async verifyProof(@Body() dto: ProofDto): Promise<boolean> {
     const {
       HolderPubKey,
       proof,

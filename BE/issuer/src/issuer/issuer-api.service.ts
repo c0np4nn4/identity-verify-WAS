@@ -1,28 +1,31 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { lastValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import * as bcrypt from 'bcrypt';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { connectToNEARContract, createVC } from '../utils/utils';
 import { NEARContract } from '../types/types';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as ed25519 from '@stablelib/ed25519';
+import { StudentKeyPairEntity } from '../entity/student-key-pair.entity';
 const bs58 = require('bs58');
+const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class IssuerAPIService {
   constructor(
-    private httpService: HttpService,
+    @InjectRepository(StudentKeyPairEntity)
+    private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
     private readonly configService: ConfigService,
   ) {}
 
   createUserVC(dto: UserVCDto) {
-    const { stMajorCode, holderPubKey } = dto;
+    const { studentMajorCode, holderPubKey } = dto;
     const uuid = uuidv4();
-    const vc = createVC(uuid, stMajorCode, holderPubKey);
+    const vc = createVC(uuid, studentMajorCode, holderPubKey);
     return { uuid, vc };
   }
 
@@ -43,6 +46,17 @@ export class IssuerAPIService {
 
     console.log(`[+] hashed VCs from issuer '${issuerPubKey}': ${response}`);
     return;
+  }
+
+  // TODO: 학과 본부 DB라고 가정한 student-pair 테이블 구현 필요 (pk, email, student_number)
+  async verifyMatchMajor(email: string, studentNumber: string) {
+    const studentPair = await this.studentKeyPairRepository.findOne({
+      where: { email, studentNumber },
+    });
+    if (!studentPair) {
+      return { result: false };
+    }
+    return { result: true };
   }
 
   generateProofValue() {
