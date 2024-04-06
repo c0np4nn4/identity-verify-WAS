@@ -41,15 +41,11 @@ export class HolderAPIController {
 
   @Get('/v1/verify-email')
   @ApiOperation({
-    summary: '2차 회원가입 이메일 인증 코드 검증 및 학과 매칭 검증',
+    summary: '2차 회원가입 학과 매칭 검증',
   })
   @ApiQuery({
     name: 'email',
     description: '인증할 이메일 주소',
-  })
-  @ApiQuery({
-    name: 'code',
-    description: '이메일로 받은 인증 코드',
   })
   @ApiQuery({
     name: 'studentNumber',
@@ -57,18 +53,15 @@ export class HolderAPIController {
   })
   async verifyEmailCode(
     @Query('email') email: string,
-    @Query('code') code: string,
     @Query('studentNumber') studentNumber: string,
   ) {
-    const isEmailVerified = await this.holderAPIService.verfiyEmailCode(email, code);
-    if (!isEmailVerified.result) {
-      return { statusCode: 400, data: { message: isEmailVerified.message } };
-    }
-    const isMajorVerified = await this.holderAPIService.verifyMajorMatch(email, studentNumber)
+    const isMajorVerified = await this.holderAPIService.verifyMajorMatch(
+      email,
+      studentNumber,
+    );
     if (!isMajorVerified.result) {
-      return { statusCode: 400, data: { message: isMajorVerified.message } };
+      return { statusCode: 400, data: { message: 'Invalid student' } };
     }
     return { statusCode: 200 };
   }
 }
-

@@ -14,7 +14,7 @@ export class UserEntity {
   @Column({ type: 'varchar', name: 'password' })
   password: string;
 
-  @Column({ type: 'int', name: 'major_code' })
+  @Column({ type: 'int', name: 'major_code', default: 0 })
   major_code: number;
 
   @Column({ type: 'boolean', name: 'is_verified_user', default: false })

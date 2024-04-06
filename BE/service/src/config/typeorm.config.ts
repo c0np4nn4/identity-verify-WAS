@@ -13,5 +13,5 @@ export const TypeormConfig = (
   database: 'db',
   entities: [UserEntity],
   synchronize: false,
-  logging: false,
+  logging: true,
 });

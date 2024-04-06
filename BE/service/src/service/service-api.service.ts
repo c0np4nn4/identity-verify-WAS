@@ -10,18 +10,18 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
-import { EmailCodeEntity } from 'src/entity/email-code.entity';
 import { LoginUserDto } from 'src/dto/user-login.dto';
+import { compareSync, hashSync } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ServiceAPIService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-    @InjectRepository(EmailCodeEntity)
-    private emailCodeRepository: Repository<EmailCodeEntity>,
     private httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
   /* 
@@ -44,21 +44,28 @@ export class ServiceAPIService {
       return { statusCode: 400, data: { message: 'Nickname Duplicate' } };
     }
     const uuid = uuidv4();
-    await this.userRepository.save({ ...dto, pk: uuid });
+    const hashedPwd = hashSync(dto.password, 10);
+    await this.userRepository.save({ ...dto, pk: uuid, password: hashedPwd });
     return { statusCode: 200, data: { pk: uuid } };
   }
 
   async loginUser(dto: LoginUserDto) {
     const { id, password } = dto;
     const userRow = await this.userRepository.findOne({ where: { id } });
+    console.log(userRow);
     if (!userRow) {
       return { statusCode: 404, data: { message: 'User not exist' } };
     }
-    const isPasswordMatch = userRow.password === password;
+    const isPasswordMatch = compareSync(password, userRow.password);
+    console.log(isPasswordMatch);
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
-    return { statusCode: 200 };
+    const payload = { userId: userRow.pk };
+    console.log(payload);
+    const token = await this.jwtService.signAsync(payload);
+    console.log(token);
+    return { statusCode: 200, data: { token } };
   }
 
   /* 
