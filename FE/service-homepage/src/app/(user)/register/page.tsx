@@ -1,7 +1,7 @@
 'use client';
 
 import {SubmitHandler, useForm} from 'react-hook-form';
-import axios from 'axios';
+import {postRegister} from '@/api/Auth';
 import {ISignupForm} from '@/types/auth';
 
 
@@ -15,11 +15,7 @@ export default function Page() {
     }
 
     try {
-      const res = await axios.post(process.env.NEXT_PUBLIC_API_SERVICE + '/v1/register', {
-        nickname: data.nickname,
-        id: data.id,
-        password: data.password,
-      });
+      const res = await postRegister(data.nickname, data.id, data.password);
       console.log(res);
     } catch (e) {
       console.error(e);
