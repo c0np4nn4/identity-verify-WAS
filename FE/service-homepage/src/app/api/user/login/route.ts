@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     const session = await getSession();
     session.token = data.token;
     session.id = id;
+    session.nickname = 'kimcookieya';
     await session.save();
   } catch (error) {
     return NextResponse.json({result: false, message: '로그인 실패'}, {status: 400});

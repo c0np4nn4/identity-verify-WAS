@@ -19,3 +19,7 @@ export async function postRegister(nickname: string, id: string, password: strin
     password
   });
 }
+
+export async function getMe() {
+  return clientAxios.get('/api/user/me');
+}

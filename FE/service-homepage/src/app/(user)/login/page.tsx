@@ -3,7 +3,7 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {ISigninForm} from '@/types/auth';
 import {postLogin} from '@/api/Auth';
-import useUserStore from '@/api/stores/useUserStore';
+import useUserStore from '@/stores/useUserStore';
 import {useRouter} from 'next/navigation';
 
 
