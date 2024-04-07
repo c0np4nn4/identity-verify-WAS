@@ -12,6 +12,8 @@ export const TypeormConfig = (
   password: configService.get<string>('DB_PWD'),
   database: 'db',
   entities: [StudentKeyPairEntity],
-  synchronize: true,
+  synchronize: false,
   logging: true,
+  charset: 'utf8mb4_unicode_ci',
+  timezone: '+09:00',
 });

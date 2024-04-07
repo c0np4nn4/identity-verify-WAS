@@ -14,4 +14,6 @@ export const TypeormConfig = (
   entities: [UserEntity],
   synchronize: false,
   logging: true,
+  charset: 'utf8mb4_unicode_ci',
+  timezone: '+09:00',
 });
