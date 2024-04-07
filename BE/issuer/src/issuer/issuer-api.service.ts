@@ -45,7 +45,7 @@ export class IssuerAPIService {
     });
 
     console.log(`[+] hashed VCs from issuer '${issuerPubKey}': ${response}`);
-    return;
+    return response;
   }
 
   // TODO: 학과 본부 DB라고 가정한 student-pair 테이블 구현 필요 (pk, email, student_number)

@@ -3,7 +3,7 @@ import { ServiceAPIController } from './service-api.controller';
 import { ServiceAPIService } from './service-api.service';
 import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/entity/user.entity';
+import { UserEntity } from '../entity/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
@@ -18,15 +18,6 @@ import { ConfigService } from '@nestjs/config';
         global: true,
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: { expiresIn: '90d' },
-      }),
-    }),
-    JwtModule.registerAsync({
-      imports: [],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        global: true,
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '300s' },
       }),
     }),
   ],

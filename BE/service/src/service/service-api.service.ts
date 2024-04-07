@@ -5,7 +5,7 @@ import { lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/entity/user.entity';
+import { UserEntity } from '../entity/user.entity';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -52,19 +52,15 @@ export class ServiceAPIService {
   async loginUser(dto: LoginUserDto) {
     const { id, password } = dto;
     const userRow = await this.userRepository.findOne({ where: { id } });
-    console.log(userRow);
     if (!userRow) {
       return { statusCode: 404, data: { message: 'User not exist' } };
     }
     const isPasswordMatch = compareSync(password, userRow.password);
-    console.log(isPasswordMatch);
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
     const payload = { userId: userRow.pk };
-    console.log(payload);
     const token = await this.jwtService.signAsync(payload);
-    console.log(token);
     return { statusCode: 200, data: { token } };
   }
 
