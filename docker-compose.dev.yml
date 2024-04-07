@@ -64,7 +64,6 @@ services:
       TZ: Asia/Seoul
     volumes:
       - mysql-student-data:/var/lib/mysql
-      - mysql-data:/var/lib/mysql
 
   service-homepage:
     build: ./FE/service-homepage

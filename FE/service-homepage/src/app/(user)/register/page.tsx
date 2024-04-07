@@ -16,7 +16,7 @@ export default function Page() {
 
     try {
       const res = await postRegister(data.nickname, data.id, data.password);
-      console.log(res);
+      alert(res.data.message);
     } catch (e) {
       console.error(e);
     }

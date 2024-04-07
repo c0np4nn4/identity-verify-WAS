@@ -11,6 +11,7 @@ export default function Page() {
   const onSubmit: SubmitHandler<ISigninForm> = async (data) => {
     try {
       const res = await postLogin(data.id, data.password);
+      alert(res.data.message);
       console.log(res);
     } catch (e) {
       console.error(e);
