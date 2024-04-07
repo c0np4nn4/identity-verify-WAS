@@ -15,7 +15,8 @@
     "pino": "^8.20.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.51.2"
+    "react-hook-form": "^7.51.2",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",

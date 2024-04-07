@@ -3,16 +3,21 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {ISigninForm} from '@/types/auth';
 import {postLogin} from '@/api/Auth';
+import useUserStore from '@/api/stores/useUserStore';
+import {useRouter} from 'next/navigation';
 
 
 export default function Page() {
   const {register, handleSubmit, formState: {errors}} = useForm<ISigninForm>();
+  const {login}  = useUserStore();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<ISigninForm> = async (data) => {
     try {
       const res = await postLogin(data.id, data.password);
       alert(res.data.message);
-      console.log(res);
+      login(res.data.data, 'min49590');
+      router.push('/');
     } catch (e) {
       console.error(e);
     }
