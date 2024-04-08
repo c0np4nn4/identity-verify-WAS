@@ -1,26 +1,40 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { StudentKeyPairEntity } from '../src/entity/student-key-pair.entity';
 import { IssuerAPIService } from '../src/issuer/issuer-api.service';
 import { ConfigModule } from '@nestjs/config';
 
-const mockPostRepository = () => ({
-  save: jest.fn().mockResolvedValue(undefined),
-  query: jest.fn().mockResolvedValue(undefined),
-  findOne: jest.fn().mockResolvedValue(undefined),
-  delete: jest.fn().mockResolvedValue(undefined),
-});
-type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
+class MockRepository {
+  mockEmail = 'test@test.com';
+  mockStudentNumber = '123412345';
+  mockMajorCode = 12;
+
+  setMockData() {
+    const studentKeyPairReoisitory: StudentKeyPairEntity =
+      new StudentKeyPairEntity();
+    studentKeyPairReoisitory.email = this.mockEmail;
+    studentKeyPairReoisitory.studentNumber = this.mockStudentNumber;
+    studentKeyPairReoisitory.major_code = this.mockMajorCode;
+    return studentKeyPairReoisitory;
+  }
+
+  async findOne(object: any) {
+    const { email, studentNumber } = object?.where;
+    const mockData = this.setMockData();
+    if (mockData.email === email && mockData.studentNumber === studentNumber) {
+      return true;
+    }
+    return null;
+  }
+}
 
 describe('IssuerAPIController (e2e)', () => {
   // 블록체인 적재시 걸리는 시간 고려
   jest.setTimeout(100000);
 
   let issuerApiService: IssuerAPIService;
-  let studentKeyPairRepository: MockRepository<StudentKeyPairEntity>;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
@@ -32,15 +46,12 @@ describe('IssuerAPIController (e2e)', () => {
         IssuerAPIService,
         {
           provide: getRepositoryToken(StudentKeyPairEntity),
-          useValue: mockPostRepository(),
+          useClass: MockRepository,
         },
       ],
     }).compile();
 
     issuerApiService = moduleFixture.get<IssuerAPIService>(IssuerAPIService);
-    studentKeyPairRepository = moduleFixture.get<
-      MockRepository<StudentKeyPairEntity>
-    >(getRepositoryToken(StudentKeyPairEntity));
   });
 
   it('Create User VC: Success', () => {
@@ -61,18 +72,19 @@ describe('IssuerAPIController (e2e)', () => {
   it('Verify Match Major: Success', async () => {
     const email = 'test@test.com';
     const studentNumber = '123412345';
-    const args = {
-      email,
-      studentNumber,
-      major_code: 12,
-    };
-    await studentKeyPairRepository.save(args);
 
-    await issuerApiService.verifyMatchMajor(email, studentNumber);
+    const res = await issuerApiService.verifyMatchMajor(email, studentNumber);
 
-    expect(studentKeyPairRepository.save).toHaveBeenCalledTimes(1);
-    expect(studentKeyPairRepository.save).toHaveBeenCalledWith(args);
-    await studentKeyPairRepository.delete({ email });
+    expect(res.result).toEqual(true);
+  });
+
+  it('Verify Match Major: 404 Fail', async () => {
+    const email = '404@test.com';
+    const studentNumber = '000';
+
+    const res = await issuerApiService.verifyMatchMajor(email, studentNumber);
+
+    expect(res.result).toEqual(false);
   });
 
   it('Generate Proof Value: Success', () => {
