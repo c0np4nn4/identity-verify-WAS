@@ -1,8 +1,9 @@
-import { Controller, Get, Query, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseFilters } from '@nestjs/common';
 import { HolderAPIService } from './holder-api.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { CustomExceptionFilter } from '../filter/exception.filter';
+import { EmailSendCodeDto } from '../dto/email-send-code.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
 
 @Controller('api/holder')
@@ -11,16 +12,56 @@ import { CustomErrorException } from '../filter/custom-error.exception';
 export class HolderAPIController {
   constructor(private readonly holderAPIService: HolderAPIService) {}
 
-  @Get('/create-vc')
+  @Post('/create-vc')
   @ApiOperation({
-    summary: '사용자 유효성 검증 후 VC 생성',
+    summary: '사용자 VC 생성',
   })
-  async createUserVC(@Query() dto: UserVCDto) {
-    const stMajorCode: string = await this.holderAPIService.getUserMajor(dto);
-    if (!stMajorCode) {
-      throw new CustomErrorException('User Not Exist', 404);
+  async createUserVC(@Body() dto: UserVCDto) {
+    const { issuerPubKey, vc } = await this.holderAPIService.createUserVC(dto);
+    const { proofValue, message } = await this.holderAPIService.getProofValue();
+    const rawVC = JSON.parse(vc);
+    Object.assign(rawVC, { proofValue });
+    return {
+      statusCode: 200,
+      data: { issuerPubKey, vc: JSON.stringify(rawVC), message },
+    };
+  }
+
+  @Post('/v1/send-email')
+  @ApiOperation({
+    summary: '2차 회원가입 이메일 인증 코드 발송',
+  })
+  async sendEmailCode(@Body() dto: EmailSendCodeDto) {
+    try {
+      return await this.holderAPIService.sendEmailCode(dto);
+    } catch (error) {
+      throw new CustomErrorException('Send Email Failed', 500);
     }
-    const response = await this.holderAPIService.createUserVC(dto, stMajorCode);
-    return { statusCode: 200, data: response };
+  }
+
+  @Get('/v1/verify-email')
+  @ApiOperation({
+    summary: '2차 회원가입 학과 매칭 검증',
+  })
+  @ApiQuery({
+    name: 'email',
+    description: '인증할 이메일 주소',
+  })
+  @ApiQuery({
+    name: 'studentNumber',
+    description: '학번',
+  })
+  async verifyEmailCode(
+    @Query('email') email: string,
+    @Query('studentNumber') studentNumber: string,
+  ) {
+    const isMajorVerified = await this.holderAPIService.verifyMajorMatch(
+      email,
+      studentNumber,
+    );
+    if (!isMajorVerified.result) {
+      return { statusCode: 400, data: { message: 'Invalid student' } };
+    }
+    return { statusCode: 200 };
   }
 }

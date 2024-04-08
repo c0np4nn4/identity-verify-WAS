@@ -19,6 +19,8 @@ async function bootstrap() {
 
   app.useGlobalFilters(new CustomExceptionFilter());
 
-  await app.listen(4000);
+  await app.listen(4000, () => {
+    console.log('server listening on port 4000');
+  });
 }
 bootstrap();

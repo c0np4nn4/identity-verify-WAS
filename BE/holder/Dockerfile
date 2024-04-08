@@ -2,14 +2,12 @@ FROM node:20.11-alpine
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
-COPY . .
+# COPY . .
 
-RUN npm run build
-
-EXPOSE 8081
+# EXPOSE 8081
 
 CMD ["npm", "run", "start:prod"]

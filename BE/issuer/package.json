@@ -12,7 +12,7 @@
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=test nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "cross-env NODE_ENV=launch node dist/main",
+    "start:prod": "cross-env NODE_ENV=launch nest start --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "jest --watch",
@@ -29,15 +29,24 @@
     "@nestjs/typeorm": "^10.0.2",
     "@noble/ed25519": "^2.0.0",
     "@stablelib/ed25519": "^1.0.3",
+<<<<<<< HEAD
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "bs58": "^5.0.0",
     "crypto": "^1.0.1",
+=======
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
+    "bs58": "^5.0.0",
+    "crypto": "^1.0.1",
+    "mysql2": "^3.9.3",
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
     "near-api-js": "^3.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^5.0.0",
+    "typeorm": "^0.3.20",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
