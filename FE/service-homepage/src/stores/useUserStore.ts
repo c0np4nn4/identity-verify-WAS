@@ -1,4 +1,5 @@
-import create from 'zustand';
+import {create} from 'zustand';
+
 
 interface IUserStore {
   id: string | null;
@@ -10,8 +11,8 @@ interface IUserStore {
 const useUserStore = create<IUserStore>((set) => ({
   id: null,
   nickname: null,
-  login: (id: string, nickname: string) => set(() => ({ id, nickname })),
-  logout: () => set(() => ({ id: null, nickname: null })),
+  login: (id: string, nickname: string) => set(() => ({id, nickname})),
+  logout: () => set(() => ({id: null, nickname: null})),
 }));
 
 export default useUserStore;
