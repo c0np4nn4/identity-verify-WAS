@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Controller, Get, Query, UseFilters, Post } from '@nestjs/common';
-=======
 import { Controller, Get, Query, UseFilters, Post, Body } from '@nestjs/common';
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
 import { IssuerAPIService } from './issuer-api.service';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
@@ -13,7 +9,7 @@ import { CustomErrorException } from '../filter/custom-error.exception';
 @ApiTags('Issuer API')
 @UseFilters(CustomExceptionFilter)
 export class IssuerAPIController {
-  constructor(private readonly issuerAPIService: IssuerAPIService) {}
+  constructor(private readonly issuerAPIService: IssuerAPIService) { }
 
   // Holder에서 호출
   @Post('/create-vc')
