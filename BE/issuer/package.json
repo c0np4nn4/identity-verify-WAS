@@ -32,6 +32,7 @@
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "bs58": "^5.0.0",
+    "class-validator": "^0.14.1",
     "crypto": "^1.0.1",
     "mysql2": "^3.9.3",
     "near-api-js": "^3.0.3",

@@ -25,7 +25,7 @@ export class HolderAPIService {
   /*
     @ Use: Holder Controller - createUserVC()
     @ Intend: VC 생성 요청을 위한 FE - Issuer간의 proxy 
-    ? API Call: Issuer - createUserVC()
+    * API Call: Issuer - createUserVC()
   */
   async createUserVC(
     dto: UserVCDto,
@@ -42,7 +42,7 @@ export class HolderAPIService {
   /*
     @ Use: Holder Controller - createUserVC()
     @ Intend: VC에 담을 proof value를 Issuer에게 생성 요청
-    ? API Call: Issuer - generateProofValue()
+    * API Call: Issuer - generateProofValue()
   */
   async getProofValue(): Promise<{ proofValue: string; message: string }> {
     return lastValueFrom(
@@ -75,7 +75,7 @@ export class HolderAPIService {
   /*
     @ Use: Holder Controller - verifyEmailCode()
     @ Intend: Issuer에게 이메일 - 학번 매칭 여부를 검증
-    ? API Call: Issuer - verifyMatchMajor()
+    * API Call: Issuer - verifyMatchMajor()
   */
   async verifyMajorMatch(
     email: string,

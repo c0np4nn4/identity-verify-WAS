@@ -10,7 +10,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
 
     response.status(exception.getStatus()).json({
       statusCode: exception.getStatus(),
-      message: exception.getResponse(),
+      data: { message: exception.getResponse() },
     });
   }
 }
