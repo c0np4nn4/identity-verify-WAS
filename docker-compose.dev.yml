@@ -46,7 +46,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_ROOT_PASSWORD: ${MYSQL_WAS_PASSWORD}
       MYSQL_DATABASE: db
       TZ: Asia/Seoul
     volumes:
@@ -59,7 +59,7 @@ services:
     ports:
       - 3307:3306
     environment:
-      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_ROOT_PASSWORD: ${MYSQL_STUDENT_PASSWORD}
       MYSQL_DATABASE: db
       TZ: Asia/Seoul
     volumes:
