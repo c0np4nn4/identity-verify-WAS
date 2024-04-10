@@ -1,13 +1,11 @@
-import { Body, Controller, Get, Post, Query, UseFilters } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { VerifierAPIService } from './verifier-api.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProofDto } from '../dto/proof.dto';
-import { CustomExceptionFilter } from '../filter/exception.filter';
 import { CustomErrorException } from '../filter/custom-error.exception';
 
 @Controller('api/verifier')
 @ApiTags('VERIFIER API')
-@UseFilters(CustomExceptionFilter)
 export class VerifierAPIController {
   constructor(private readonly verifierAPIService: VerifierAPIService) {}
 
@@ -38,7 +36,7 @@ export class VerifierAPIController {
     );
     if (!verifyResult) return false;
     try {
-      await this.verifierAPIService.loadProofResult(HolderPubKey);
+      await this.verifierAPIService.loadProofResult(HolderPubKey, majorCode);
       return true;
     } catch (error) {
       throw new CustomErrorException('Verfiy Load Failed', 502);

@@ -5,143 +5,94 @@ import { lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-<<<<<<< HEAD
-import { StudentEntity } from 'src/entity/student.entity';
-import * as fs from 'fs/promises';
-import * as path from 'path';
-import { UserInfoDto } from 'src/dto/user-info.dto';
-=======
-import { UserEntity } from 'src/entity/user.entity';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { UserEntity } from '../entity/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { compareSync, hashSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
 
 @Injectable()
 export class ServiceAPIService {
   constructor(
-<<<<<<< HEAD
-    @InjectRepository(HolderVCEntity)
-    private holderVCRepository: Repository<HolderVCEntity>,
-    @InjectRepository(StudentEntity)
-    private studentRepository: Repository<StudentEntity>,
-=======
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
     private httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
 
-<<<<<<< HEAD
-=======
+  VERIFY_PROOF = this.configService.get<string>('API_VERIFY_PROOF');
+
   /* 
-    Web Application Service API
+    ! Web Application Service API
   */
 
+  /*
+    @ Use: Service Controller - registerUser()
+    @ Intend: 1차 회원가입
+  */
   async registerUser(dto: RegisterUserDto) {
+    // 중복 id 검사
     const isIdDuplicate = await this.userRepository.findOne({
       where: { id: dto.id },
     });
-    // 같은 id가 있는 경우
     if (isIdDuplicate) {
       return { statusCode: 400, data: { message: 'Id Duplicate' } };
     }
+
+    // 중복 nickname 검사
     const isNicknameDuplicate = await this.userRepository.findOne({
       where: { nickname: dto.nickname },
     });
-    // 같은 nickname이 있는 경우
     if (isNicknameDuplicate) {
       return { statusCode: 400, data: { message: 'Nickname Duplicate' } };
     }
+
     const uuid = uuidv4();
     const hashedPwd = hashSync(dto.password, 10);
     await this.userRepository.save({ ...dto, pk: uuid, password: hashedPwd });
     return { statusCode: 200, data: { pk: uuid } };
   }
 
+  /*
+    @ Use: Service Controller - loginUser()
+    @ Intend: 1차 로그인
+  */
   async loginUser(dto: LoginUserDto) {
     const { id, password } = dto;
+
+    // 미등록 id
     const userRow = await this.userRepository.findOne({ where: { id } });
-    console.log(userRow);
     if (!userRow) {
       return { statusCode: 404, data: { message: 'User not exist' } };
     }
+
+    // password 불일치
     const isPasswordMatch = compareSync(password, userRow.password);
-    console.log(isPasswordMatch);
     if (!isPasswordMatch) {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
+
     const payload = { userId: userRow.pk };
-    console.log(payload);
     const token = await this.jwtService.signAsync(payload);
-    console.log(token);
     return { statusCode: 200, data: { token } };
   }
 
   /* 
-    Protocol API
+    ! Protocol API
   */
 
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
-  // Verfier API 호출
+  /*
+    @ Use: Service Controller - verifyProof()
+    @ Intend: 2차 인증의 ZKP proof 검증을 Verifier에게 요청
+    * API Call: Verifier
+  */
   async verifyProof(dto: ProofDto): Promise<boolean> {
-    const url = this.configService.get<string>('API_VERIFY_PROOF');
     return lastValueFrom(
       this.httpService
-        .post(url, { params: { ...dto } })
+        .post(this.VERIFY_PROOF, { params: { ...dto } })
         .pipe(map((response) => response.data)),
     );
-  }
-
-<<<<<<< HEAD
-  async getUserMajor(dto: UserInfoDto): Promise<StudentEntity> {
-    const { stNum, stPwd } = dto;
-    return await this.studentRepository
-      .createQueryBuilder('student')
-      .where('student.number = :stNum', { stNum })
-      .andWhere('student.password = :stPwd', { stPwd })
-      .getOne();
-  }
-
-  async saveUserVC(uuid: string, vc: string) {
-    await this.holderVCRepository.save({ did: uuid, vc });
-    return;
-  }
-
-  // config 폴더의 mock data를 DB에 삽입
-  async initMock() {
-    const filePath = path.join(process.cwd(), './src/config/student.data.txt');
-    const fileContent = await fs.readFile(filePath, 'utf8');
-    const lines = fileContent.split('\n');
-    lines.map(async (line) => {
-      const [number, password, major_code] = line.split(' ');
-      await this.studentRepository.save({
-        number,
-        password,
-        major_code,
-      });
-    });
-=======
-  // config 폴더의 mock data를 DB에 삽입
-  async initMock() {
-    // const filePath = path.join(process.cwd(), './src/config/student.data.txt');
-    // const fileContent = await fs.readFile(filePath, 'utf8');
-    // const lines = fileContent.split('\n');
-    // lines.map(async (line) => {
-    //   const [number, password, major_code] = line.split(' ');
-    //   await this.userRepository.save({
-    //     number,
-    //     password,
-    //     major_code,
-    //   });
-    // });
-    return;
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
   }
 }

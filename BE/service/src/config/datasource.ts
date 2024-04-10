@@ -15,6 +15,7 @@ export default new DataSource({
   // synchronize: true,
   entities: [UserEntity],
   migrations: ['src/migrations/*.ts'],
-  charset: 'utf8mb4_unicode_ci',
   synchronize: false,
+  charset: 'utf8mb4_unicode_ci',
+  timezone: '+09:00',
 });

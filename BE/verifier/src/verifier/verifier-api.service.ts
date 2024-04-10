@@ -4,6 +4,10 @@ import { connectToNEARContract } from '../utils/utils';
 
 @Injectable()
 export class VerifierAPIService {
+  /*
+    @ Use: Verifier Controller - verifyProof()
+    @ Intend: 2차 인증 ZKP proof 검증을 wasm 파일로 수행
+  */
   verifyProof(
     proof: string,
     IssuerPubKey: string,
@@ -18,14 +22,18 @@ export class VerifierAPIService {
     return true;
   }
 
-  async loadProofResult(HolderPubKey: string) {
+  /*
+    @ Use: Verifier Controller - verifyProof()
+    @ Intend: ZKP 검증으로 생성된 proof를 Near 네트워크에 적재
+  */
+  async loadProofResult(HolderPubKey: string, majorCode: string) {
     // TODO: 내부 코드 변경 필요 (예상)
     const contract = await connectToNEARContract();
 
-    // { Holder Pub Key : 검증 결과 } 적재
+    // { Holder Pub Key : 학과 코드 } 적재
     await (contract as NEARVerfiyResult).load_verify_result({
       holder_public_key: HolderPubKey,
-      verify_result: true,
+      major_code: majorCode,
     });
 
     // 제대로 적재 되었는지 확인

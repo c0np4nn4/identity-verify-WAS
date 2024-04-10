@@ -12,6 +12,9 @@ export const TypeormConfig = (
   password: configService.get<string>('DB_PWD'),
   database: 'db',
   entities: [UserEntity],
+  migrations: ['src/migrations/*{.ts,.js}'],
   synchronize: false,
   logging: true,
+  charset: 'utf8mb4_unicode_ci',
+  timezone: '+09:00',
 });

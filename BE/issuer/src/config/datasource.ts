@@ -16,4 +16,5 @@ export default new DataSource({
   entities: [StudentKeyPairEntity],
   migrations: ['src/migrations/*.ts'],
   charset: 'utf8mb4_unicode_ci',
+  timezone: '+09:00',
 });
