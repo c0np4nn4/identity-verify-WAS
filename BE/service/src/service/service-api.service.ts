@@ -5,6 +5,12 @@ import { lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+<<<<<<< HEAD
+import { StudentEntity } from 'src/entity/student.entity';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import { UserInfoDto } from 'src/dto/user-info.dto';
+=======
 import { UserEntity } from 'src/entity/user.entity';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -13,17 +19,27 @@ import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { compareSync, hashSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
 
 @Injectable()
 export class ServiceAPIService {
   constructor(
+<<<<<<< HEAD
+    @InjectRepository(HolderVCEntity)
+    private holderVCRepository: Repository<HolderVCEntity>,
+    @InjectRepository(StudentEntity)
+    private studentRepository: Repository<StudentEntity>,
+=======
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
     private httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
 
+<<<<<<< HEAD
+=======
   /* 
     Web Application Service API
   */
@@ -72,6 +88,7 @@ export class ServiceAPIService {
     Protocol API
   */
 
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
   // Verfier API 호출
   async verifyProof(dto: ProofDto): Promise<boolean> {
     const url = this.configService.get<string>('API_VERIFY_PROOF');
@@ -82,6 +99,35 @@ export class ServiceAPIService {
     );
   }
 
+<<<<<<< HEAD
+  async getUserMajor(dto: UserInfoDto): Promise<StudentEntity> {
+    const { stNum, stPwd } = dto;
+    return await this.studentRepository
+      .createQueryBuilder('student')
+      .where('student.number = :stNum', { stNum })
+      .andWhere('student.password = :stPwd', { stPwd })
+      .getOne();
+  }
+
+  async saveUserVC(uuid: string, vc: string) {
+    await this.holderVCRepository.save({ did: uuid, vc });
+    return;
+  }
+
+  // config 폴더의 mock data를 DB에 삽입
+  async initMock() {
+    const filePath = path.join(process.cwd(), './src/config/student.data.txt');
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const lines = fileContent.split('\n');
+    lines.map(async (line) => {
+      const [number, password, major_code] = line.split(' ');
+      await this.studentRepository.save({
+        number,
+        password,
+        major_code,
+      });
+    });
+=======
   // config 폴더의 mock data를 DB에 삽입
   async initMock() {
     // const filePath = path.join(process.cwd(), './src/config/student.data.txt');
@@ -96,5 +142,6 @@ export class ServiceAPIService {
     //   });
     // });
     return;
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
   }
 }

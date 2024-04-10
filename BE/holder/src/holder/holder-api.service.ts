@@ -15,7 +15,7 @@ export class HolderAPIService {
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   // Issuer 호출
   async createUserVC(dto: UserVCDto) {

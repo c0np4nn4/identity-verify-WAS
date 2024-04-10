@@ -5,5 +5,8 @@
     "docker:up": "docker-compose -f docker-compose.dev.yml up -d",
     "docker:down": "docker-compose -f docker-compose.dev.yml down",
     "docker:clear": "docker-compose -f docker-compose.dev.yml down --rmi all"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5"
   }
 }

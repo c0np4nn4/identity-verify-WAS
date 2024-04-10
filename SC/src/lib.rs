@@ -33,7 +33,7 @@ struct DidContract {
     // Mapping: Holder DID --> Issuer DID
     pub map_holder_did_to_issuer_did: UnorderedMap<HolderDID, IssuerDID>,
 
-    // Mapping: Holder DID --> Issuer DID
+    // Mapping: Holder DID --> Validity
     pub map_holder_did_to_validity: UnorderedMap<HolderDID, Validity>,
 }
 
@@ -150,8 +150,6 @@ impl DidContract {
     ) {
         // TODO maybe need more logic to check the validity
         if self.get_total_did().contains(&holder_did) {
-            log!("good");
-
             self.map_holder_did_to_validity
                 .insert(&holder_did, &validity);
         }

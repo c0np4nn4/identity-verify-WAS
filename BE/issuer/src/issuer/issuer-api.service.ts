@@ -20,7 +20,7 @@ export class IssuerAPIService {
     @InjectRepository(StudentKeyPairEntity)
     private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   createUserVC(dto: UserVCDto) {
     const { studentMajorCode, holderPubKey } = dto;
@@ -58,7 +58,6 @@ export class IssuerAPIService {
     }
     return { result: true };
   }
-
   generateProofValue() {
     //! Key는 일단 env 파일로 관리
     // Issuer Key Pair 생성
