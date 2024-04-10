@@ -1,0 +1,8 @@
+[package]
+name = "halo2_example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+halo2_proofs = "0.3.0"
+rand_core = { version = "0.6", default-features = false }

@@ -34,6 +34,14 @@ services:
     image: service
     container_name: service
     ports:
+<<<<<<< HEAD
+      - "4000:4000"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+=======
       - 4000:4000
     depends_on:
       - mysql-was
@@ -43,11 +51,19 @@ services:
   mysql-was:
     image: mysql:8.0
     container_name: mysql-was
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_WAS_PASSWORD}
       MYSQL_DATABASE: db
+<<<<<<< HEAD
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+=======
       TZ: Asia/Seoul
     volumes:
       - mysql-data:/var/lib/mysql
@@ -64,6 +80,16 @@ services:
       TZ: Asia/Seoul
     volumes:
       - mysql-student-data:/var/lib/mysql
+
+  service-homepage:
+    build: ./FE/service-homepage
+    image: service-homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - ./FE/service-homepage:/usr/src/app
+
 volumes:
   mysql-data:
   mysql-student-data:
+>>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
