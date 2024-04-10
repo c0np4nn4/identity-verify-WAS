@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import useUserStore from '@/stores/useUserStore';
 import {useEffect} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
-import {getMe} from '@/api/Auth';
+import useUserStore from '@/stores/useUserStore';
 import useWalletStore from '@/stores/useWalletStore';
+import {getMe, postLogout} from '@/api/Auth';
 
 
 export default function Header() {
@@ -14,7 +14,22 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  useEffect(function getMyInfo() {
+  const onLogout = async () => {
+    try {
+      const res = await postLogout();
+      if (res.data.result) {
+        console.log(res.data.message);
+        logout();
+        router.push('/');
+      } else {
+        console.error(res.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(function getMeEffect() {
     const fetch = async () => {
       const res = await getMe();
       const data = res.data;
@@ -61,7 +76,7 @@ export default function Header() {
         {nickname ?
           (<>
               <p>{nickname}</p>
-              <button className={'p-2 bg-amber-200 rounded-2xl'} onClick={logout}>로그아웃</button>
+              <button className={'p-2 bg-amber-200 rounded-2xl'} onClick={onLogout}>로그아웃</button>
             </>
           )
           : (<>
