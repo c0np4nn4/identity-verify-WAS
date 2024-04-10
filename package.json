@@ -1,12 +1,21 @@
 {
-  "name": "your-project-name",
-  "version": "1.0.0",
-  "scripts": {
-    "docker:up": "docker-compose -f docker-compose.dev.yml up -d",
-    "docker:down": "docker-compose -f docker-compose.dev.yml down",
-    "docker:clear": "docker-compose -f docker-compose.dev.yml down --rmi all"
-  },
-  "dependencies": {
-    "circomlib": "^2.0.5"
-  }
+    "name": "your-project-name",
+    "version": "1.0.0",
+    "scripts": {
+        "docker:up": "docker-compose -f docker-compose.dev.yml up -d",
+        "docker:down": "docker-compose -f docker-compose.dev.yml down",
+        "docker:clear": "docker-compose -f docker-compose.dev.yml down --rmi all",
+        "prepare": "husky"
+    },
+    "dependencies": {
+        "circomlib": "^2.0.5"
+    },
+    "devDependencies": {
+        "husky": "^9.0.11",
+        "lint-staged": "^15.2.2",
+        "prettier": "^3.2.5"
+    },
+    "lint-staged": {
+        "**/*.{js,jsx,ts,tsx,json,css}": "prettier --write"
+    }
 }
