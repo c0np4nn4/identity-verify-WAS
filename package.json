@@ -16,6 +16,6 @@
         "prettier": "^3.2.5"
     },
     "lint-staged": {
-        "**/*.{js,jsx,ts,tsx,json,css}": "prettier --write"
+        "**/*.{js,jsx,ts,tsx,json,css}": "prettier --write --cache"
     }
 }
