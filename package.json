@@ -5,7 +5,8 @@
         "docker:up": "docker-compose -f docker-compose.dev.yml up -d",
         "docker:down": "docker-compose -f docker-compose.dev.yml down",
         "docker:clear": "docker-compose -f docker-compose.dev.yml down --rmi all",
-        "prepare": "husky"
+        "prepare": "husky",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
     },
     "dependencies": {
         "circomlib": "^2.0.5"

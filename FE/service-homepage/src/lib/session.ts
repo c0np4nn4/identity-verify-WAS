@@ -1,21 +1,20 @@
-import {cookies} from 'next/headers';
-import {getIronSession} from 'iron-session';
-
+import { cookies } from 'next/headers';
+import { getIronSession } from 'iron-session';
 
 interface IIronSession {
-  isLogin: boolean;
-  nickname: string;
-  id: string;
-  token: string;
+    isLogin: boolean;
+    nickname: string;
+    id: string;
+    token: string;
 }
 
 export default function getSession() {
-  return getIronSession<IIronSession>(cookies(), {
-    password: process.env.SECRET_COOKIE_PASSWORD || 'secret',
-    cookieName: '2024-pnu-cookie',
-    cookieOptions: {
-      secure: process.env.NODE_ENV === 'production',
-      httponly: true,
-    },
-  });
+    return getIronSession<IIronSession>(cookies(), {
+        password: process.env.SECRET_COOKIE_PASSWORD || 'secret',
+        cookieName: '2024-pnu-cookie',
+        cookieOptions: {
+            secure: process.env.NODE_ENV === 'production',
+            httponly: true,
+        },
+    });
 }

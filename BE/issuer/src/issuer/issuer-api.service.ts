@@ -18,7 +18,7 @@ export class IssuerAPIService {
     @InjectRepository(StudentKeyPairEntity)
     private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');

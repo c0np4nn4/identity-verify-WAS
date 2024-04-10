@@ -7,7 +7,7 @@ import { CustomErrorException } from '../filter/custom-error.exception';
 @Controller('api/issuer')
 @ApiTags('Issuer API')
 export class IssuerAPIController {
-  constructor(private readonly issuerAPIService: IssuerAPIService) { }
+  constructor(private readonly issuerAPIService: IssuerAPIService) {}
 
   // * Holder에서 호출
   @Post('/create-vc')
