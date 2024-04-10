@@ -1,0 +1,31 @@
+[package]
+name = "zkp_circuit"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+halo2_proofs = "0.3.0"
+rand_core = { version = "0.6", default-features = false }
+serde = { version = "1.0.138", features = ["derive"] }
+serde_json = "1.0.82"
+getrandom = { version = "0.2", features = ["js"]}
+console_error_panic_hook = "0.1.7"
+web-sys = { version = "0.3", features = ["Request", "Window", "Response"] }
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+wasm-bindgen = { version = "0.2.81", features = ["serde-serialize"]}
+sha2="0.9"
+
+
+[target.'cfg(target_family = "wasm")'.dependencies]
+getrandom = { version = "0.2", features = ["js"]}
+wasm-bindgen = { version = "0.2.81", features = ["serde-serialize"]}
+console_error_panic_hook = "0.1.7"
+rayon = "1.5"
+wasm-bindgen-rayon = { version = "1.0"}
+web-sys = { version = "0.3", features = ["Request", "Window", "Response"] }
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
