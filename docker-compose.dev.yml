@@ -6,6 +6,9 @@ services:
     container_name: holder
     ports:
       - 8081:8081
+    depends_on:
+      - mysql-was
+      - mysql-student
     volumes:
       - ./BE/holder:/usr/src/app
 
@@ -16,6 +19,7 @@ services:
     ports:
       - 8082:8082
     depends_on:
+      - mysql-was
       - mysql-student
     volumes:
       - ./BE/issuer:/usr/src/app
@@ -26,6 +30,9 @@ services:
     container_name: verifier
     ports:
       - 8083:8083
+    depends_on:
+      - mysql-was
+      - mysql-student
     volumes:
       - ./BE/verifier:/usr/src/app
 
@@ -34,36 +41,21 @@ services:
     image: service
     container_name: service
     ports:
-<<<<<<< HEAD
-      - "4000:4000"
-    depends_on:
-      - mysql
-
-  mysql:
-    image: mysql:8.0
-=======
       - 4000:4000
     depends_on:
       - mysql-was
+      - mysql-student
     volumes:
       - ./BE/service:/usr/src/app
 
   mysql-was:
     image: mysql:8.0
     container_name: mysql-was
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_WAS_PASSWORD}
       MYSQL_DATABASE: db
-<<<<<<< HEAD
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
-=======
       TZ: Asia/Seoul
     volumes:
       - mysql-data:/var/lib/mysql
@@ -92,4 +84,3 @@ volumes:
 volumes:
   mysql-data:
   mysql-student-data:
->>>>>>> 4b9006879fd1399d99ee374d3863f97aff149b04

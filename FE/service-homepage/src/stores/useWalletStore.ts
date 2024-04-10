@@ -1,14 +1,13 @@
-import {create} from 'zustand';
-
+import { create } from 'zustand';
 
 interface IWalletStore {
-  isInstalled: boolean;
-  setInstalled: (isInstalled: boolean) => void;
+    isInstalled: boolean;
+    setInstalled: (isInstalled: boolean) => void;
 }
 
 const useUserStore = create<IWalletStore>((set) => ({
-  isInstalled: false,
-  setInstalled: (isInstalled: boolean) => set(() => ({isInstalled})),
+    isInstalled: false,
+    setInstalled: (isInstalled: boolean) => set(() => ({ isInstalled })),
 }));
 
 export default useUserStore;

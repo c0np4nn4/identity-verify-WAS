@@ -16,9 +16,8 @@ export class HolderAPIController {
   })
   async createUserVC(@Body() dto: UserVCDto) {
     try {
-      const { issuerPubKey, vc } = await this.holderAPIService.createUserVC(
-        dto,
-      );
+      const { issuerPubKey, vc } =
+        await this.holderAPIService.createUserVC(dto);
       const { proofValue, message } =
         await this.holderAPIService.getProofValue();
       const rawVC = JSON.parse(vc);
