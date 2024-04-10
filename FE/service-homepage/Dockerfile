@@ -2,14 +2,13 @@ FROM node:20-alpine3.17 as base
 
 WORKDIR /app
 RUN apk add --no-cache curl
-RUN npm install -g pnpm
 
 FROM base AS local
-COPY package.json pnpm-lock.yaml /app/
-RUN pnpm i --frozen-lockfile
+COPY package.json package-lock.json /app/
+RUN npm ci
 COPY . /app
-COPY .env.local .env.local
+COPY .env.local .env
 RUN echo "local"
-RUN pnpm run build
+RUN npm run build
 EXPOSE 3000
-CMD ["pnpm", "run", "start"]
+CMD ["npm", "run", "start"]
