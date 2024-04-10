@@ -6,6 +6,9 @@ services:
     container_name: holder
     ports:
       - 8081:8081
+    depends_on:
+      - mysql-was
+      - mysql-student
     volumes:
       - ./BE/holder:/usr/src/app
 
@@ -16,6 +19,7 @@ services:
     ports:
       - 8082:8082
     depends_on:
+      - mysql-was
       - mysql-student
     volumes:
       - ./BE/issuer:/usr/src/app
@@ -26,6 +30,9 @@ services:
     container_name: verifier
     ports:
       - 8083:8083
+    depends_on:
+      - mysql-was
+      - mysql-student
     volumes:
       - ./BE/verifier:/usr/src/app
 
@@ -37,6 +44,7 @@ services:
       - 4000:4000
     depends_on:
       - mysql-was
+      - mysql-student
     volumes:
       - ./BE/service:/usr/src/app
 
