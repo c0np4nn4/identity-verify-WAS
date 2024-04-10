@@ -3,8 +3,12 @@ const fs = require("fs");
 
 async function proof_generator() {
   const { proof, publicSignals } = await snarkjs.groth16.fullProve(
-    { a: 10, b: 21 },
-    "./circuit_compiled/circuit.wasm",
+    {
+      n1: 1,
+      n2: 2,
+      n3: 10,
+    },
+    "./circuit/circuit_js/circuit.wasm",
     "./keys/circuit_final.zkey"
   );
 

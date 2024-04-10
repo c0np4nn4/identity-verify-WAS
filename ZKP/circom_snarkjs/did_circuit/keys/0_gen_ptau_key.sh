@@ -6,3 +6,7 @@ snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="First con
 
 # 3. `circuit-specific` phase (a.k.a phase2)
 snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
+
+# 4. remove unnecessary files
+rm pot12_0000.ptau
+rm pot12_0001.ptau

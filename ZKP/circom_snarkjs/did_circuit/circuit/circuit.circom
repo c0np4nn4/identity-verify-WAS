@@ -1,8 +1,9 @@
- template Multiplier() {
-     signal private input a;
-     signal private input b;
-     signal output c;
+template Temp() {
+   signal input n1;
+   signal input n2;
+   signal input n3;
+   signal output o1;
 
-     c <== a*b;
- }
- component main = Multiplier();
+   o1 <== (n1 + n2) * n3;
+}
+component main{public [n3]} = Temp();

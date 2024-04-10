@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "gen": "node ./src/1_gen_key.js",
+    "prv": "node ./src/2_gen_prf.js",
+    "vrf": "node ./src/3_vrf_prf.js"
   },
   "keywords": [],
   "author": "",
