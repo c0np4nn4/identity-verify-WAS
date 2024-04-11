@@ -79,6 +79,24 @@ export class ServiceAPIService {
     return { statusCode: 200, data: { token } };
   }
 
+  /*
+    @ Use: Token Guard
+    @ Intend: 토큰으로 사용자 정보 추출
+  */
+  async getUserInfoByToken(token: string) {
+    const decodedToken = await this.jwtService.decode(token);
+    const pk = decodedToken?.pk;
+
+    const userInfo = await this.userRepository.findOne({
+      where: { pk },
+    });
+    if (!userInfo) {
+      return { result: false };
+    }
+
+    return { result: true, userInfo };
+  }
+
   /* 
     ! Protocol API
   */
