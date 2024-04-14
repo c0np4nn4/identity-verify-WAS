@@ -18,7 +18,7 @@ export class IssuerAPIService {
     @InjectRepository(StudentKeyPairEntity)
     private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
     private readonly configService: ConfigService,
-  ) { }
+  ) {}
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
@@ -86,22 +86,5 @@ export class IssuerAPIService {
   // TODO: env 파일에서 Issuer Pub Key 가져와서 반환
   getIssuerPubKey() {
     return 'quixotic-debt.testnet';
-  }
-
-  /*
-    @ Use: Issuer Controller - verifyMatchMajor()
-    @ Intend: 학과 본부 DB라 가정, 이메일 - 학번 매칭을 검증
-  */
-  async verifyMatchMajor(
-    email: string,
-    studentNumber: string,
-  ): Promise<{ result: boolean }> {
-    const studentPair = await this.studentKeyPairRepository.findOne({
-      where: { email, studentNumber },
-    });
-    if (!studentPair) {
-      return { result: false };
-    }
-    return { result: true };
   }
 }

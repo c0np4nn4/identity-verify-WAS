@@ -16,7 +16,7 @@ export class HolderAPIService {
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   CREATE_USER_VC = this.configService.get<string>('API_CREATE_USER_VC');
   GET_PROOF_VALUE = this.configService.get<string>('API_GET_PROOF_VALUE');
@@ -70,22 +70,6 @@ export class HolderAPIService {
     });
     const token = this.generateEmailCodeToken(email, code);
     return token;
-  }
-
-  /*
-    @ Use: Holder Controller - verifyEmailCode()
-    @ Intend: Issuer에게 이메일 - 학번 매칭 여부를 검증
-    * API Call: Issuer - verifyMatchMajor()
-  */
-  async verifyMajorMatch(
-    email: string,
-    studentNumber: string,
-  ): Promise<{ result: boolean }> {
-    return lastValueFrom(
-      this.httpService
-        .get(this.VERIFY_MAJOR_MATCH, { params: { email, studentNumber } })
-        .pipe(map((response) => response?.data)),
-    );
   }
 
   /*
