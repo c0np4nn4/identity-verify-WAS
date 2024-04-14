@@ -10,8 +10,8 @@ export class ProofDto {
   @ApiProperty({ description: 'Issuer pub key', example: 'ipubkey' })
   readonly IssuerPubKey: string;
 
-  @ApiProperty({ description: 'Major code', example: '12' })
-  readonly majorCode: string;
+  @ApiProperty({ description: 'user pk', example: 'pk' })
+  readonly pk: string;
 
   @ApiProperty({ description: 'Message', example: 'message' })
   readonly message: string;
@@ -25,10 +25,4 @@ export class ProofDto {
 
   @ApiProperty({ description: 'VKey(Uint8Array -> String)', example: 'vkey' })
   vkey: string;
-
-  @ApiProperty({
-    description: 'Strategy(Uint8Array -> String)',
-    example: 'strategy',
-  })
-  strategy: string;
 }
