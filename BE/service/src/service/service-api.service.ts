@@ -76,7 +76,8 @@ export class ServiceAPIService {
 
     const payload = { userId: userRow.pk };
     const token = await this.jwtService.signAsync(payload);
-    return { statusCode: 200, data: { token } };
+    const { nickname } = userRow;
+    return { statusCode: 200, data: { token, nickname } };
   }
 
   /*
