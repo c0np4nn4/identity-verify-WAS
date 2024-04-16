@@ -41,14 +41,16 @@ export default function Home() {
                 className={'flex gap-x-4 animate-fadeIn opacity-0 mt-48'}
                 style={{ animationDelay: '2.5s' }}
             >
-                <button
-                    className={
-                        'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
-                    }
-                    style={{ animationDelay: '2.5s' }}
-                >
-                    시작하기
-                </button>
+                <Link href="/register">
+                    <button
+                        className={
+                            'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
+                        }
+                        style={{ animationDelay: '3s' }}
+                    >
+                        시작하기
+                    </button>
+                </Link>
             </div>
         </main>
     );

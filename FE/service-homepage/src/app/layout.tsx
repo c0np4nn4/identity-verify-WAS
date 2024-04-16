@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import PaperBoatBackground from '/public/image/paper-boat-background.png';
-import Image from 'next/image';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -25,13 +23,6 @@ export default function RootLayout({
                         'relative w-380 h-full overflow-y-auto overflow-x-hidden'
                     }
                 >
-                    <Image
-                        src={PaperBoatBackground}
-                        alt="background"
-                        className="-z-[100]"
-                        layout={'fill'}
-                        objectFit={'cover'}
-                    />
                     {children}
                 </div>
             </body>
