@@ -74,9 +74,9 @@ export default function Header() {
     };
 
     return (
-        <header className="flex justify-between items-center p-4">
-            <h1 className="text-2xl font-bold">Service Homepage</h1>
-            <nav className={'flex gap-x-4 justify-center items-center'}>
+        <header className="flex flex-col justify-between items-center p-4">
+            <h1 className="text-3xl font-bold m-20">짝사랑 종이배</h1>
+            <nav className={'flex gap-x-4 w-full items-start'}>
                 {nickname ? (
                     <>
                         <p>{nickname}</p>
@@ -95,14 +95,16 @@ export default function Header() {
                 )}
                 {isInstalled ? (
                     <button
-                        className={'p-2 bg-black text-white rounded-2xl'}
+                        className={
+                            'p-2 bg-black text-white rounded-2xl ml-auto'
+                        }
                         onClick={onConnectWallet}
                     >
                         Connect Wallet
                     </button>
                 ) : (
                     <button
-                        className={'p-2 bg-gray-200 rounded-2xl'}
+                        className={'p-2 bg-gray-200 rounded-2xl ml-auto'}
                         onClick={onInstallWallet}
                     >
                         Install Wallet

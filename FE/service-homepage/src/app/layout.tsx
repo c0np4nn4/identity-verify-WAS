@@ -19,12 +19,12 @@ export default function RootLayout({
                     'relative w-screen h-screen flex flex-col items-center bg-gray-200'
                 }
             >
-                <Header />
                 <div
                     className={
                         'max-w-380 h-full bg-white overflow-y-auto overflow-x-hidden'
                     }
                 >
+                    <Header />
                     {children}
                 </div>
             </body>
