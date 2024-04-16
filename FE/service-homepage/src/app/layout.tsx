@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/common/header';
+import Header from '@/app/_component/header';
+import NavFooter from '@/app/_component/NavFooter';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -16,16 +17,17 @@ export default function RootLayout({
         <html lang="ko">
             <body
                 className={
-                    'relative w-screen h-screen flex flex-col items-center bg-gray-200'
+                    'w-screen h-screen flex flex-col items-center bg-gray-200'
                 }
             >
                 <div
                     className={
-                        'max-w-380 h-full bg-white overflow-y-auto overflow-x-hidden'
+                        'relative max-w-380 h-full bg-white overflow-y-auto overflow-x-hidden'
                     }
                 >
                     <Header />
                     {children}
+                    <NavFooter />
                 </div>
             </body>
         </html>
