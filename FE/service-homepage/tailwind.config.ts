@@ -42,6 +42,7 @@ const config: Config = {
             slideDown: 'slideDown 0.5s ease-in-out forwards',
             slideUp: 'slideUp 0.5s ease-in-out forwards',
             spring: 'spring 0.3s ease-out forwards',
+            springAlways: 'spring 1.5s ease-out infinite',
             fadeIn: 'fadeIn 1s ease-out forwards',
         },
         keyframes: {

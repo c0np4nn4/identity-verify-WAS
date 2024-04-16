@@ -24,15 +24,32 @@ export default function Home() {
     };
 
     return (
-        <main className="flex flex-col items-center justify-cetner p-24">
-            <h1 className="text-4xl font-bold">Welcome to Service Client</h1>
-            <p className="text-lg">This is a Home Page.</p>
-            <button
-                className="bg-blue-500 text-white p-2 rounded-md"
-                onClick={sendMessageToExtension}
+        <main className="flex flex-col w-full h-full text-white items-center justify-center p-24 gap-y-24">
+            <h1
+                className="text-4xl font-bold animate-fadeIn opacity-0"
+                style={{ animationDelay: '0.5s' }}
             >
-                크롬 지갑과 통신하기
-            </button>
+                짝사랑 종이배
+            </h1>
+            <p
+                className={'text-xl animate-fadeIn opacity-0'}
+                style={{ animationDelay: '1.5s' }}
+            >
+                당신의 마음 속 짝사랑을 찾아보세요
+            </p>
+            <div
+                className={'flex gap-x-4 animate-fadeIn opacity-0 mt-48'}
+                style={{ animationDelay: '2.5s' }}
+            >
+                <button
+                    className={
+                        'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
+                    }
+                    style={{ animationDelay: '2.5s' }}
+                >
+                    시작하기
+                </button>
+            </div>
         </main>
     );
 }

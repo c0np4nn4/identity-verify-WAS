@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/app/_component/header';
-import NavFooter from '@/app/_component/NavFooter';
+import PaperBoatBackground from '/public/image/paper-boat-background.png';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -22,12 +22,17 @@ export default function RootLayout({
             >
                 <div
                     className={
-                        'relative max-w-380 h-full bg-white overflow-y-auto overflow-x-hidden'
+                        'relative w-380 h-full overflow-y-auto overflow-x-hidden'
                     }
                 >
-                    <Header />
+                    <Image
+                        src={PaperBoatBackground}
+                        alt="background"
+                        className="-z-[100]"
+                        layout={'fill'}
+                        objectFit={'cover'}
+                    />
                     {children}
-                    <NavFooter />
                 </div>
             </body>
         </html>
