@@ -14,9 +14,19 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body>
+            <body
+                className={
+                    'relative w-screen h-screen flex flex-col items-center bg-gray-200'
+                }
+            >
                 <Header />
-                <div>{children}</div>
+                <div
+                    className={
+                        'max-w-380 h-full bg-white overflow-y-auto overflow-x-hidden'
+                    }
+                >
+                    {children}
+                </div>
             </body>
         </html>
     );
