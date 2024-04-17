@@ -9,7 +9,7 @@ import { getMe, postLogout } from '@/api/Auth';
 
 export default function Header() {
     const { nickname, login, logout } = useUserStore();
-    const { isInstalled, setInstalled } = useWalletStore();
+
     const pathname = usePathname();
     const router = useRouter();
 
@@ -48,68 +48,10 @@ export default function Header() {
         [pathname]
     );
 
-    useEffect(() => {
-        setTimeout(() => {
-            const element = document.getElementById(
-                process.env.NEXT_PUBLIC_WALLET_EXTENSION_ID as string
-            );
-            if (element) {
-                setInstalled(true);
-            }
-        }, 1000);
-    }, []);
-
-    useEffect(() => {
-        if (isInstalled) {
-            console.log('installed');
-        }
-    }, [isInstalled]);
-
-    const onConnectWallet = () => {
-        alert('지갑 연결!');
-    };
-
-    const onInstallWallet = () => {
-        alert('크롬 웹스토어로 이동합니다!');
-    };
-
     return (
-        <header className="flex flex-col justify-between items-center p-4">
-            <h1 className="text-3xl font-bold m-20">짝사랑 종이배</h1>
-            <nav className={'flex gap-x-4 w-full items-start'}>
-                {nickname ? (
-                    <>
-                        <p>{nickname}</p>
-                        <button
-                            className={'p-2 bg-amber-200 rounded-2xl'}
-                            onClick={onLogout}
-                        >
-                            로그아웃
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <Link href="/register">회원가입</Link>
-                        <Link href="/login">로그인</Link>
-                    </>
-                )}
-                {isInstalled ? (
-                    <button
-                        className={
-                            'p-2 bg-black text-white rounded-2xl ml-auto'
-                        }
-                        onClick={onConnectWallet}
-                    >
-                        Connect Wallet
-                    </button>
-                ) : (
-                    <button
-                        className={'p-2 bg-gray-200 rounded-2xl ml-auto'}
-                        onClick={onInstallWallet}
-                    >
-                        Install Wallet
-                    </button>
-                )}
+        <header className="flex flex-col w-full items-end p-4">
+            <nav className={'flex gap-x-4 items-end'}>
+                <p>안녕하세요, {nickname}님!</p>
             </nav>
         </header>
     );
