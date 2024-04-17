@@ -1,56 +1,57 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ISigninForm } from '@/types/auth';
+import type { IUserInfoForm } from '@/types/auth';
 import { postLogin } from '@/api/Auth';
 import useUserStore from '@/stores/useUserStore';
 import { useRouter } from 'next/navigation';
+import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
+import BoatButton from '@/app/_component/BoatButton';
 
 export default function Page() {
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<ISigninForm>();
+    } = useForm<IUserInfoForm>();
     const { login } = useUserStore();
     const router = useRouter();
 
-    const onSubmit: SubmitHandler<ISigninForm> = async (data) => {
-        try {
-            const res = await postLogin(data.id, data.password);
-            alert(res.data.message);
-            login(res.data.data, 'min49590');
-            router.push('/');
-        } catch (e) {
-            console.error(e);
-        }
+    const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
+        // try {
+        //     const res = await postLogin(data.id, data.password);
+        //     alert(res.data.message);
+        //     login(res.data.data, 'min49590');
+        //     router.push('/');
+        // } catch (e) {
+        //     console.error(e);
+        // }
+        router.push('/my-page');
     };
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-cetner p-24">
-            <h1 className="text-4xl font-bold">Welcome to Service Client</h1>
-            <p className="text-lg">This is a 로그인 Page.</p>
+        <main className="flex min-h-screen flex-col items-center justify-center p-24">
+            <h1 className="absolute top-100 text-4xl font-bold text-white">
+                로그인
+            </h1>
             <form
-                className="flex flex-col w-1/3 mt-8"
+                className="flex flex-col mt-80 gap-y-12"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <input
-                    type="text"
-                    placeholder="Id"
-                    className="p-2 border border-gray-300 rounded-md mb-4"
-                    defaultValue={'min49590'}
-                    {...register('id', { required: true })}
+                <UserInfoInput
+                    type={'text'}
+                    placeholder={'아이디'}
+                    name={'id'}
+                    register={register}
                 />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    className="p-2 border border-gray-300 rounded-md mb-4"
-                    defaultValue={'1234'}
-                    {...register('password', { required: true })}
+
+                <UserInfoInput
+                    type={'password'}
+                    placeholder={'비밀번호 입력'}
+                    name={'password'}
+                    register={register}
                 />
-                <button className="bg-blue-500 text-white p-2 rounded-md">
-                    로그인
-                </button>
+                <BoatButton>로그인</BoatButton>
             </form>
         </main>
     );

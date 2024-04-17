@@ -1,11 +1,6 @@
-export interface ISignupForm {
-    nickname: string;
+export interface IUserInfoForm {
+    nickname?: string;
     id: string;
     password: string;
-    passwordConfirm: string;
-}
-
-export interface ISigninForm {
-    id: string;
-    password: string;
+    passwordConfirm?: string;
 }

@@ -2,30 +2,36 @@
 
 import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
 import { postRegister } from '@/api/Auth';
-import { ISignupForm } from '@/types/auth';
+import { IUserInfoForm } from '@/types/auth';
+import { useRouter } from 'next/navigation';
+import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
+import BoatButton from '@/app/_component/BoatButton';
 
 export default function Page() {
     const {
+        register,
         handleSubmit,
         formState: { errors },
-    } = useForm<ISignupForm>();
+    } = useForm<IUserInfoForm>();
+    const router = useRouter();
 
-    const onSubmit: SubmitHandler<ISignupForm> = async (data) => {
+    const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
         if (data.password !== data.passwordConfirm) {
             alert('비밀번호가 다릅니다!');
             return;
         }
 
-        try {
-            const res = await postRegister(
-                data.nickname,
-                data.id,
-                data.password
-            );
-            alert(res.data.message);
-        } catch (e) {
-            console.error(e);
-        }
+        // try {
+        //     const res = await postRegister(
+        //         data.nickname,
+        //         data.id,
+        //         data.password
+        //     );
+        //     alert(res.data.message);
+        // } catch (e) {
+        //     console.error(e);
+        // }
+        router.push('/login');
     };
 
     return (
@@ -37,51 +43,32 @@ export default function Page() {
                 className="flex flex-col mt-80 gap-y-12"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <RegisterInput
+                <UserInfoInput
                     type={'text'}
                     placeholder={'닉네임'}
                     name={'nickname'}
+                    register={register}
                 />
-                <RegisterInput
+                <UserInfoInput
                     type={'text'}
                     placeholder={'아이디'}
                     name={'id'}
+                    register={register}
                 />
-                <RegisterInput
+                <UserInfoInput
                     type={'password'}
                     placeholder={'비밀번호 입력'}
                     name={'password'}
+                    register={register}
                 />
-                <RegisterInput
+                <UserInfoInput
                     type={'password'}
                     placeholder={'비밀번호 재확인'}
                     name={'passwordConfirm'}
+                    register={register}
                 />
-                <button className="bg-gray-800 text-white p-4 rounded-md">
-                    회원가입하기
-                </button>
+                <BoatButton>회원가입하기</BoatButton>
             </form>
         </main>
-    );
-}
-
-function RegisterInput({
-    type,
-    placeholder,
-    name,
-}: {
-    type: string;
-    placeholder: string;
-    name: 'nickname' | 'id' | 'password' | 'passwordConfirm';
-}) {
-    const { register } = useForm<ISignupForm>();
-
-    return (
-        <input
-            type={type}
-            placeholder={placeholder}
-            className="px-12 py-2 mb-4 rounded-full focus:outline-none"
-            {...register(name, { required: true })}
-        />
     );
 }
