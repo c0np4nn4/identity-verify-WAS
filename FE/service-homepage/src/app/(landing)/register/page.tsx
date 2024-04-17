@@ -40,29 +40,25 @@ export default function Page() {
                 <RegisterInput
                     type={'text'}
                     placeholder={'닉네임'}
-                    defaultValue={'kimcookieya'}
                     name={'nickname'}
                 />
                 <RegisterInput
                     type={'text'}
                     placeholder={'아이디'}
-                    defaultValue={'min49590'}
                     name={'id'}
                 />
                 <RegisterInput
                     type={'password'}
                     placeholder={'비밀번호 입력'}
-                    defaultValue={'1234'}
                     name={'password'}
                 />
                 <RegisterInput
                     type={'password'}
                     placeholder={'비밀번호 재확인'}
-                    defaultValue={'1234'}
                     name={'passwordConfirm'}
                 />
                 <button className="bg-gray-800 text-white p-4 rounded-md">
-                    회원가입
+                    회원가입하기
                 </button>
             </form>
         </main>
@@ -72,25 +68,20 @@ export default function Page() {
 function RegisterInput({
     type,
     placeholder,
-    defaultValue,
     name,
 }: {
     type: string;
     placeholder: string;
-    defaultValue: string;
     name: 'nickname' | 'id' | 'password' | 'passwordConfirm';
 }) {
     const { register } = useForm<ISignupForm>();
 
     return (
-        <div className={'px-12 py-2 rounded-full bg-white'}>
-            <input
-                type={type}
-                placeholder={placeholder}
-                className="p-2 rounded-md mb-4"
-                defaultValue={defaultValue}
-                {...register(name, { required: true })}
-            />
-        </div>
+        <input
+            type={type}
+            placeholder={placeholder}
+            className="px-12 py-2 mb-4 rounded-full focus:outline-none"
+            {...register(name, { required: true })}
+        />
     );
 }
