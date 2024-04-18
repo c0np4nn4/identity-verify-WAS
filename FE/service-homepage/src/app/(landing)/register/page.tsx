@@ -16,6 +16,16 @@ export default function Page() {
     const router = useRouter();
 
     const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
+        if (
+            !data.nickname ||
+            !data.id ||
+            !data.password ||
+            !data.passwordConfirm
+        ) {
+            alert('모든 항목을 입력해주세요!');
+            return;
+        }
+
         if (data.password !== data.passwordConfirm) {
             alert('비밀번호가 다릅니다!');
             return;

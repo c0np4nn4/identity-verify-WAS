@@ -17,7 +17,7 @@ export default function UserInfoInput({
             type={type}
             placeholder={placeholder}
             className="px-12 py-2 mb-4 rounded-full focus:outline-none"
-            {...register(name, { required: true })}
+            {...register(name)}
         />
     );
 }

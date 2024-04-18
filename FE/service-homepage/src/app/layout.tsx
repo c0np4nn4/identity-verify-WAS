@@ -20,7 +20,7 @@ export default function RootLayout({
             >
                 <div
                     className={
-                        'relative w-380 h-full overflow-y-auto overflow-x-hidden bg-white'
+                        'relative w-380 h-full overflow-y-auto overflow-x-hidden'
                     }
                 >
                     {children}
