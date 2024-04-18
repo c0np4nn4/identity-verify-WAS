@@ -87,21 +87,4 @@ export class IssuerAPIService {
   getIssuerPubKey() {
     return 'quixotic-debt.testnet';
   }
-
-  /*
-    @ Use: Issuer Controller - verifyMatchMajor()
-    @ Intend: 학과 본부 DB라 가정, 이메일 - 학번 매칭을 검증
-  */
-  async verifyMatchMajor(
-    email: string,
-    studentNumber: string,
-  ): Promise<{ result: boolean }> {
-    const studentPair = await this.studentKeyPairRepository.findOne({
-      where: { email, studentNumber },
-    });
-    if (!studentPair) {
-      return { result: false };
-    }
-    return { result: true };
-  }
 }

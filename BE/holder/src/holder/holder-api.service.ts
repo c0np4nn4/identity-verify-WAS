@@ -73,22 +73,6 @@ export class HolderAPIService {
   }
 
   /*
-    @ Use: Holder Controller - verifyEmailCode()
-    @ Intend: Issuer에게 이메일 - 학번 매칭 여부를 검증
-    * API Call: Issuer - verifyMatchMajor()
-  */
-  async verifyMajorMatch(
-    email: string,
-    studentNumber: string,
-  ): Promise<{ result: boolean }> {
-    return lastValueFrom(
-      this.httpService
-        .get(this.VERIFY_MAJOR_MATCH, { params: { email, studentNumber } })
-        .pipe(map((response) => response?.data)),
-    );
-  }
-
-  /*
     @ Use: Holder Service - sendEmailCode()
     @ Intend: FE에서 직접 이메일 유효 검증을 위한 JWT 토큰 생성
   */

@@ -48,36 +48,4 @@ export class HolderAPIController {
       throw new CustomErrorException('Send Email Failed', 500);
     }
   }
-
-  @Get('/v1/verify-email')
-  @ApiOperation({
-    summary: '2차 회원가입 학과 매칭 검증',
-  })
-  @ApiQuery({
-    name: 'email',
-    description: '인증할 이메일 주소',
-    example: 'test@test.com',
-  })
-  @ApiQuery({
-    name: 'studentNumber',
-    description: '학번',
-    example: '201812345',
-  })
-  async verifyEmailCode(
-    @Query('email') email: string,
-    @Query('studentNumber') studentNumber: string,
-  ) {
-    try {
-      const isMajorVerified = await this.holderAPIService.verifyMajorMatch(
-        email,
-        studentNumber,
-      );
-      if (!isMajorVerified.result) {
-        return { statusCode: 400, data: { message: 'Invalid student' } };
-      }
-      return { statusCode: 200, data: {} };
-    } catch (error) {
-      throw new CustomErrorException('Verifiy API Error', 500);
-    }
-  }
 }

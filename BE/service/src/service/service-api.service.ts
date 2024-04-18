@@ -76,7 +76,26 @@ export class ServiceAPIService {
 
     const payload = { userId: userRow.pk };
     const token = await this.jwtService.signAsync(payload);
-    return { statusCode: 200, data: { token } };
+    const { nickname } = userRow;
+    return { statusCode: 200, data: { token, nickname } };
+  }
+
+  /*
+    @ Use: Token Guard
+    @ Intend: 토큰으로 사용자 정보 추출
+  */
+  async getUserInfoByToken(token: string) {
+    const decodedToken = await this.jwtService.decode(token);
+    const pk = decodedToken?.pk;
+
+    const userInfo = await this.userRepository.findOne({
+      where: { pk },
+    });
+    if (!userInfo) {
+      return { result: false };
+    }
+
+    return { result: true, userInfo };
   }
 
   /* 
