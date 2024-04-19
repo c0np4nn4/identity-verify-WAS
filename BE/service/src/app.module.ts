@@ -4,11 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormConfig } from './config/typeorm.config';
 import { BoatAPIModule } from './api/boat/boat-api.module';
+import { MatchLogAPIModule } from './api/match-log/match-log-api.module';
 
 @Module({
   imports: [
     ServiceAPIModule,
     BoatAPIModule,
+    MatchLogAPIModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
