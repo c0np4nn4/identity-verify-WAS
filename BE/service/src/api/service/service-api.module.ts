@@ -23,5 +23,6 @@ import { ConfigService } from '@nestjs/config';
   ],
   controllers: [ServiceAPIController],
   providers: [ServiceAPIService],
+  exports: [ServiceAPIService],
 })
 export class ServiceAPIModule {}
