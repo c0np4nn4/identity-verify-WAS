@@ -24,7 +24,7 @@ export class MatchLogAPIService {
 
   /*
     @ Use: Match Log Controller - sendMyLabel()
-    @ Intend: 
+    @ Intend: 내 라벨 전송
   */
   async sendMyLabel(
     userPk: string,
@@ -39,7 +39,7 @@ export class MatchLogAPIService {
 
   /*
     @ Use: Match Log Controller - sendWrongPerson()
-    @ Intend: 
+    @ Intend: 사람 잘못 봤습니다 요청 (종료)
   */
   async sendWrongPerson(userPk: string, targetPk: string, status: string) {
     return;
@@ -47,7 +47,7 @@ export class MatchLogAPIService {
 
   /*
     @ Use: Match Log Controller - sendRealName()
-    @ Intend: 
+    @ Intend: 진짜 이름 전송 요청
   */
   async sendRealName(
     userPk: string,
@@ -60,7 +60,7 @@ export class MatchLogAPIService {
 
   /*
     @ Use: Match Log Controller - sendRejectSign()
-    @ Intend: 
+    @ Intend: 거절 요청 (종료)
   */
   async sendRejectSign(userPk: string, targetPk: string, status: string) {
     return;
@@ -68,7 +68,7 @@ export class MatchLogAPIService {
 
   /*
     @ Use: Match Log Controller - sendCorrectSign()
-    @ Intend: 
+    @ Intend: 매칭 성공 요청 (종료)
   */
   async sendCorrectSign(
     userPk: string,
