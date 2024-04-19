@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { ProofDto } from '../dto/proof.dto';
+import { ProofDto } from '../../dto/proof.dto';
 import { lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../entity/user.entity';
+import { UserEntity } from '../../entity/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';

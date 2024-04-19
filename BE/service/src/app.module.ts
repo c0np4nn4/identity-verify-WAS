@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ServiceAPIModule } from './service/service-api.module';
+import { ServiceAPIModule } from './api/service/service-api.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormConfig } from './config/typeorm.config';

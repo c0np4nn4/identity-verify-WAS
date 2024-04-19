@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../src/entity/user.entity';
-import { ServiceAPIService } from '../src/service/service-api.service';
+import { ServiceAPIService } from '../src/api/service/service-api.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
