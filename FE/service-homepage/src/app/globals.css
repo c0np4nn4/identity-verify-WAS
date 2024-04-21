@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'HumanBeomseok', sans-serif;
+}
+
+@font-face {
+    font-family: 'HumanBeomseok';
+    font-weight: 200;
+    src: url('/fonts/Human-beomseok.ttf') format('truetype');
+}
