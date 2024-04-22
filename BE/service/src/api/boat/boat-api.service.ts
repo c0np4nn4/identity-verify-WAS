@@ -16,7 +16,9 @@ export class BoatAPIService {
     @ Intend: 종이배 리스트 조회
   */
   async getBoatList(userPk: string) {
-    return await this.boatRepository.find({ where: { userPk: Not(userPk) } });
+    return await this.boatRepository.find({
+      where: { userPk: Not(userPk), isOccupied: false },
+    });
   }
 
   /*
@@ -35,6 +37,7 @@ export class BoatAPIService {
     const query = this.boatRepository.createQueryBuilder('boat');
 
     query.where('boat.user_pk != :userPk', { userPk });
+    query.andWhere('boat.is_occupied = false');
 
     if (filter1) query.andWhere('boat.label_1 = :filter1', { filter1 });
     if (filter2) query.andWhere('boat.label_2 = :filter2', { filter2 });
