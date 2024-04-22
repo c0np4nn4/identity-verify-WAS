@@ -90,23 +90,56 @@ export class MatchLogAPIController {
   async sendMyLabel(
     @Query('userPk') userPk: string,
     @Query('targetPk') targetPk: string,
-    @Query('status') status: string,
     @Query('label1') label1: string,
     @Query('label2') label2: string,
     @Query('label3') label3: string,
   ) {
-    try {
-      return await this.matchLogAPIService.sendMyLabel(
-        userPk,
-        targetPk,
-        status,
-        label1,
-        label2,
-        label3,
-      );
-    } catch (error) {
-      throw new CustomErrorException('Request Failed', 400);
-    }
+    return await this.entityManager.transaction(async (manager) => {
+      try {
+        // 유효한 사용자 검사
+        const sendUser = await this.userAPIService.getUserData(userPk, manager);
+        const targetUser = await this.userAPIService.getUserData(
+          targetPk,
+          manager,
+        );
+
+        if (sendUser.data.user === null || targetUser.data.user === null) {
+          return { statusCode: 404, message: 'User Not Found' };
+        }
+
+        // match log 기록
+        const { sendMatchLogPk, receiveMatchLogPk } =
+          await this.matchLogAPIService.sendMyLabel(
+            userPk,
+            targetPk,
+            label1,
+            label2,
+            label3,
+            manager,
+          );
+
+        // 알림 전송
+        // (userPk, matchLogPk, text)
+        const senderMessage = `${targetUser.data.user.nickname}에게 라벨 전송!`;
+        await this.alarmAPIService.addAlarm(
+          userPk,
+          sendMatchLogPk,
+          senderMessage,
+          manager,
+        );
+        const receiverMessage = `${sendUser.data.user.nickname}에게서 라벨이 도착!`;
+        await this.alarmAPIService.addAlarm(
+          targetPk,
+          receiveMatchLogPk,
+          receiverMessage,
+          manager,
+        );
+
+        return { statusCode: 200, message: 'Request Success' };
+      } catch (error) {
+        throw new CustomErrorException('Request Failed', 400);
+      }
+    });
   }
 
   @UseGuards(TokenGuard)

@@ -39,12 +39,31 @@ export class MatchLogAPIService {
   async sendMyLabel(
     userPk: string,
     targetPk: string,
-    status: string,
     label1: string,
     label2: string,
     label3: string,
+    manager: EntityManager,
   ) {
-    return;
+    const sendMatchLog = await manager.save(MatchLogEntity, {
+      userPk,
+      targetPk,
+      status: MATCH_STATUS['POST_LABEL_SEND'],
+      label1,
+      label2,
+      label3,
+    });
+    const receiveMatchLog = await manager.save(MatchLogEntity, {
+      userPk: targetPk,
+      targetPk: userPk,
+      status: MATCH_STATUS['POST_LABEL_RECEIVE'],
+      label1,
+      label2,
+      label3,
+    });
+    return {
+      sendMatchLogPk: sendMatchLog.pk,
+      receiveMatchLogPk: receiveMatchLog.pk,
+    };
   }
 
   /*
