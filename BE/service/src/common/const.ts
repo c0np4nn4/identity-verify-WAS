@@ -12,3 +12,8 @@ export const MATCH_STATUS = {
   ANSWER_SEND: 'ANSWER_SEND',
   ANSWER_RECEIVE: 'ANSWER_RECEIVE',
 };
+
+export const ANSWER = {
+  NO: 'NO',
+  YES: 'YES',
+};

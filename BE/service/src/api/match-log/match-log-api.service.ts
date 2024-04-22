@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
 import { MatchLogEntity } from '@entity/match-log.entity';
-import { MATCH_STATUS } from 'src/common/const';
+import { ANSWER, MATCH_STATUS } from 'src/common/const';
 
 @Injectable()
 export class MatchLogAPIService {
@@ -151,9 +151,24 @@ export class MatchLogAPIService {
   async sendCorrectSign(
     userPk: string,
     targetPk: string,
-    status: string,
     answer: string,
+    manager: EntityManager,
   ) {
-    return;
+    const sendMatchLog = await manager.save(MatchLogEntity, {
+      userPk,
+      targetPk,
+      status: MATCH_STATUS['ANSWER_SEND'],
+      answer: ANSWER[answer],
+    });
+    const receiveMatchLog = await manager.save(MatchLogEntity, {
+      userPk: targetPk,
+      targetPk: userPk,
+      status: MATCH_STATUS['ANSWER_RECEIVE'],
+      answer: ANSWER[answer],
+    });
+    return {
+      sendMatchLogPk: sendMatchLog.pk,
+      receiveMatchLogPk: receiveMatchLog.pk,
+    };
   }
 }
