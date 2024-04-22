@@ -29,19 +29,19 @@ export class MatchLogEntity {
   @Column({ type: 'varchar', name: 'status' })
   status: string;
 
-  @Column({ type: 'varchar', name: 'label_1' })
+  @Column({ type: 'varchar', name: 'label_1', nullable: true })
   label1: string;
 
-  @Column({ type: 'varchar', name: 'label_2' })
+  @Column({ type: 'varchar', name: 'label_2', nullable: true })
   label2: string;
 
-  @Column({ type: 'varchar', name: 'label_3' })
+  @Column({ type: 'varchar', name: 'label_3', nullable: true })
   label3: string;
 
-  @Column({ type: 'varchar', name: 'name' })
+  @Column({ type: 'varchar', name: 'name', nullable: true })
   name: string;
 
-  @Column({ type: 'varchar', name: 'answer' })
+  @Column({ type: 'varchar', name: 'answer', nullable: true })
   answer: string;
 
   @CreateDateColumn({
