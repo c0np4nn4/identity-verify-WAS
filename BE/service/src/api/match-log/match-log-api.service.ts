@@ -105,11 +105,13 @@ export class MatchLogAPIService {
       userPk,
       targetPk,
       status: MATCH_STATUS['NAME_SEND'],
+      name,
     });
     const receiveMatchLog = await manager.save(MatchLogEntity, {
       userPk: targetPk,
       targetPk: userPk,
       status: MATCH_STATUS['NAME_RECEIVE'],
+      name,
     });
     return {
       sendMatchLogPk: sendMatchLog.pk,
