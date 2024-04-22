@@ -253,17 +253,56 @@ export class MatchLogAPIController {
   async sendRejectSign(
     @Query('userPk') userPk: string,
     @Query('targetPk') targetPk: string,
-    @Query('status') status: string,
   ) {
-    try {
-      return await this.matchLogAPIService.sendRejectSign(
-        userPk,
-        targetPk,
-        status,
-      );
-    } catch (error) {
-      throw new CustomErrorException('Request Failed', 400);
-    }
+    return await this.entityManager.transaction(async (manager) => {
+      try {
+        // 유효한 사용자 검사
+        const sendUser = await this.userAPIService.getUserData(userPk, manager);
+        const targetUser = await this.userAPIService.getUserData(
+          targetPk,
+          manager,
+        );
+
+        if (sendUser.data.user === null || targetUser.data.user === null) {
+          return { statusCode: 404, message: 'User Not Found' };
+        }
+
+        // match log 기록
+        const { sendMatchLogPk, receiveMatchLogPk } =
+          await this.matchLogAPIService.sendRejectSign(
+            userPk,
+            targetPk,
+            manager,
+          );
+
+        // 알림 전송
+        // (userPk, matchLogPk, text)
+        const message = `${targetUser.data.user.nickname}에게, ${sendUser.data.user.nickname}가`;
+        await this.alarmAPIService.addMatchAlarm(
+          userPk,
+          targetPk,
+          sendMatchLogPk,
+          receiveMatchLogPk,
+          message,
+          manager,
+        );
+
+        // 하트 차감
+        await this.userAPIService.handleHeartOfUser(targetPk, 5, manager);
+
+        // boat 선점 해제
+        await this.boatAPIService.handleMatchBoatOccupiedStatus(
+          sendUser.data.boat.pk,
+          targetUser.data.boat.pk,
+          false,
+          manager,
+        );
+
+        return { statusCode: 200, message: 'Request Success' };
+      } catch (error) {
+        throw new CustomErrorException('Request Failed', 400);
+      }
+    });
   }
 
   @UseGuards(TokenGuard)

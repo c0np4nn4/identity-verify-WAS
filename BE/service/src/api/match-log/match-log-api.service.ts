@@ -123,8 +123,25 @@ export class MatchLogAPIService {
     @ Use: Match Log Controller - sendRejectSign()
     @ Intend: 거절 요청 (종료)
   */
-  async sendRejectSign(userPk: string, targetPk: string, status: string) {
-    return;
+  async sendRejectSign(
+    userPk: string,
+    targetPk: string,
+    manager: EntityManager,
+  ) {
+    const sendMatchLog = await manager.save(MatchLogEntity, {
+      userPk,
+      targetPk,
+      status: MATCH_STATUS['REJECT_SEND'],
+    });
+    const receiveMatchLog = await manager.save(MatchLogEntity, {
+      userPk: targetPk,
+      targetPk: userPk,
+      status: MATCH_STATUS['REJECT_RECEIVE'],
+    });
+    return {
+      sendMatchLogPk: sendMatchLog.pk,
+      receiveMatchLogPk: receiveMatchLog.pk,
+    };
   }
 
   /*
