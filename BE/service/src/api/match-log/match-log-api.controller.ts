@@ -137,7 +137,7 @@ export class MatchLogAPIController {
     });
   }
 
-  // @UseGuards(TokenGuard)
+  @UseGuards(TokenGuard)
   @Get('/v1/send/wrong-person')
   @ApiOperation({
     summary: '사람 잘못 봤습니다 요청',
@@ -202,19 +202,47 @@ export class MatchLogAPIController {
   async sendRealName(
     @Query('userPk') userPk: string,
     @Query('targetPk') targetPk: string,
-    @Query('status') status: string,
     @Query('name') name: string,
   ) {
-    try {
-      return await this.matchLogAPIService.sendRealName(
-        userPk,
-        targetPk,
-        status,
-        name,
-      );
-    } catch (error) {
-      throw new CustomErrorException('Request Failed', 400);
-    }
+    return await this.entityManager.transaction(async (manager) => {
+      try {
+        // 유효한 사용자 검사
+        const sendUser = await this.userAPIService.getUserData(userPk, manager);
+        const targetUser = await this.userAPIService.getUserData(
+          targetPk,
+          manager,
+        );
+
+        if (sendUser.data.user === null || targetUser.data.user === null) {
+          return { statusCode: 404, message: 'User Not Found' };
+        }
+
+        // match log 기록
+        const { sendMatchLogPk, receiveMatchLogPk } =
+          await this.matchLogAPIService.sendRealName(
+            userPk,
+            targetPk,
+            name,
+            manager,
+          );
+
+        // 알림 전송
+        // (userPk, matchLogPk, text)
+        const message = `${targetUser.data.user.nickname}에게, ${sendUser.data.user.nickname}가`;
+        await this.alarmAPIService.addMatchAlarm(
+          userPk,
+          targetPk,
+          sendMatchLogPk,
+          receiveMatchLogPk,
+          message,
+          manager,
+        );
+
+        return { statusCode: 200, message: 'Request Success' };
+      } catch (error) {
+        throw new CustomErrorException('Request Failed', 400);
+      }
+    });
   }
 
   @UseGuards(TokenGuard)

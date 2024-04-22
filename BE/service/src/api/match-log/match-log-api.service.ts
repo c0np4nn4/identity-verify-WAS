@@ -98,10 +98,23 @@ export class MatchLogAPIService {
   async sendRealName(
     userPk: string,
     targetPk: string,
-    status: string,
     name: string,
+    manager: EntityManager,
   ) {
-    return;
+    const sendMatchLog = await manager.save(MatchLogEntity, {
+      userPk,
+      targetPk,
+      status: MATCH_STATUS['NAME_SEND'],
+    });
+    const receiveMatchLog = await manager.save(MatchLogEntity, {
+      userPk: targetPk,
+      targetPk: userPk,
+      status: MATCH_STATUS['NAME_RECEIVE'],
+    });
+    return {
+      sendMatchLogPk: sendMatchLog.pk,
+      receiveMatchLogPk: receiveMatchLog.pk,
+    };
   }
 
   /*
