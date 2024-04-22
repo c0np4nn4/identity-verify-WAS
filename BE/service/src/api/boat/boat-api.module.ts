@@ -10,5 +10,6 @@ import { ServiceAPIModule } from '../service/service-api.module';
   imports: [TypeOrmModule.forFeature([BoatEntity]), ServiceAPIModule],
   controllers: [BoatAPIController],
   providers: [BoatAPIService, TokenGuard],
+  exports: [BoatAPIService],
 })
 export class BoatAPIModule {}

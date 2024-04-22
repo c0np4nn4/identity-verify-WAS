@@ -5,9 +5,16 @@ import { ServiceAPIModule } from '../service/service-api.module';
 import { MatchLogEntity } from '@entity/match-log.entity';
 import { MatchLogAPIController } from './match-log-api.controller';
 import { MatchLogAPIService } from './match-log-api.service';
+import { AlarmAPIModule } from '../alarm/alarm-api.module';
+import { BoatAPIModule } from '../boat/boat-api.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MatchLogEntity]), ServiceAPIModule],
+  imports: [
+    TypeOrmModule.forFeature([MatchLogEntity]),
+    ServiceAPIModule,
+    AlarmAPIModule,
+    BoatAPIModule,
+  ],
   controllers: [MatchLogAPIController],
   providers: [MatchLogAPIService, TokenGuard],
 })

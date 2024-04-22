@@ -10,5 +10,6 @@ import { AlarmEntity } from '@entity/alarm.entity';
   imports: [TypeOrmModule.forFeature([AlarmEntity]), ServiceAPIModule],
   controllers: [AlarmAPIController],
   providers: [AlarmAPIService, TokenGuard],
+  exports: [AlarmAPIService],
 })
 export class AlarmAPIModule {}

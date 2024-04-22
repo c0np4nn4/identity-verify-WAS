@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { AlarmEntity } from '@entity/alarm.entity';
 
 @Injectable()
@@ -24,5 +24,41 @@ export class AlarmAPIService {
   */
   async getSingleAlarm(alarmPk: number) {
     return await this.alarmRepository.findOne({ where: { pk: alarmPk } });
+  }
+
+  // /*
+  //   @ Use: MatchLog Controller - sendIsItMe()
+  //   @ Intend: 알림 전송
+  // */
+  // async addAlarm(userPk: string, matchLogPk: number, text: string) {
+  //   return await this.alarmRepository.insert({
+  //     userPk,
+  //     matchLogPk,
+  //     text,
+  //   });
+  // }
+
+  /*
+    @ Use: MatchLog Controller - sendIsItMe()
+    @ Intend: match 알림 전송
+  */
+  async addMatchAlarm(
+    sendUserPk: string,
+    receiveUserPk: string,
+    sendMatchLogPk: number,
+    receiveMatchLogPk: number,
+    text: string,
+    manager: EntityManager,
+  ) {
+    await manager.insert(AlarmEntity, {
+      userPk: sendUserPk,
+      matchLogPk: sendMatchLogPk,
+      text,
+    });
+    await manager.insert(AlarmEntity, {
+      userPk: receiveUserPk,
+      matchLogPk: receiveMatchLogPk,
+      text,
+    });
   }
 }

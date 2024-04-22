@@ -1,25 +1,35 @@
-import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { MatchLogEntity } from '@entity/match-log.entity';
+import { MATCH_STATUS } from 'src/common/const';
 
 @Injectable()
 export class MatchLogAPIService {
   constructor(
     @InjectRepository(MatchLogEntity)
     private matchLogRepository: Repository<MatchLogEntity>,
-    private readonly configService: ConfigService,
   ) {}
-
-  // VERIFY_PROOF = this.configService.get<string>('API_VERIFY_PROOF');
 
   /*
     @ Use: Match Log Controller - sendIsItMe()
     @ Intend: 혹시 나야? 요청
   */
-  async sendIsItMe(userPk: string, targetPk: string, status: string) {
-    return;
+  async sendIsItMe(userPk: string, targetPk: string, manager: EntityManager) {
+    const sendMatchLog = await manager.save(MatchLogEntity, {
+      userPk,
+      targetPk,
+      status: MATCH_STATUS['IS_IT_ME_SEND'],
+    });
+    const receiveMatchLog = await manager.save(MatchLogEntity, {
+      userPk: targetPk,
+      targetPk: userPk,
+      status: MATCH_STATUS['IS_IT_ME_RECEIVE'],
+    });
+    return {
+      sendMatchLogPk: sendMatchLog.pk,
+      receiveMatchLogPk: receiveMatchLog.pk,
+    };
   }
 
   /*

@@ -3,11 +3,23 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { TokenGuard } from 'src/common/guard/token.guard';
 import { MatchLogAPIService } from './match-log-api.service';
+import { ServiceAPIService } from '../service/service-api.service';
+import { AlarmAPIService } from '../alarm/alarm-api.service';
+import { BoatAPIService } from '../boat/boat-api.service';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 
 @ApiTags('MATCH LOG API')
 @Controller('api/match-log')
 export class MatchLogAPIController {
-  constructor(private readonly matchLogAPIService: MatchLogAPIService) {}
+  constructor(
+    private readonly matchLogAPIService: MatchLogAPIService,
+    private readonly userAPIService: ServiceAPIService,
+    private readonly alarmAPIService: AlarmAPIService,
+    private readonly boatAPIService: BoatAPIService,
+    @InjectEntityManager()
+    private entityManager: EntityManager,
+  ) {}
 
   @UseGuards(TokenGuard)
   @Get('/v1/send/is-it-me')
@@ -17,13 +29,57 @@ export class MatchLogAPIController {
   async sendIsItMe(
     @Query('userPk') userPk: string,
     @Query('targetPk') targetPk: string,
-    @Query('status') status: string,
   ) {
-    try {
-      return await this.matchLogAPIService.sendIsItMe(userPk, targetPk, status);
-    } catch (error) {
-      throw new CustomErrorException('Request Failed', 400);
-    }
+    return await this.entityManager.transaction(async (manager) => {
+      try {
+        // 유효한 사용자 검사
+        const sendUser = await this.userAPIService.getUserData(userPk, manager);
+        const targetUser = await this.userAPIService.getUserData(
+          targetPk,
+          manager,
+        );
+
+        if (sendUser.data.user === null || targetUser.data.user === null) {
+          return { statusCode: 404, message: 'User Not Found' };
+        }
+
+        // 하트 수 검사
+        if (sendUser.data.user.heart < 5) {
+          return { statusCode: 400, message: 'Not Enough Heart' };
+        }
+
+        // 하트 차감
+        await this.userAPIService.handleHeartOfUser(userPk, -5, manager);
+
+        // match log 기록
+        const { sendMatchLogPk, receiveMatchLogPk } =
+          await this.matchLogAPIService.sendIsItMe(userPk, targetPk, manager);
+
+        // 알림 전송
+        // (userPk, matchLogPk, text)
+        const message = `${targetUser.data.user.nickname}아, 이거 혹시 나야?\n${sendUser.data.user.nickname} 보냄`;
+        await this.alarmAPIService.addMatchAlarm(
+          userPk,
+          targetPk,
+          sendMatchLogPk,
+          receiveMatchLogPk,
+          message,
+          manager,
+        );
+
+        // boat 선점하여 매칭 중지
+        await this.boatAPIService.handleMatchBoatOccupiedStatus(
+          sendUser.data.boat.pk,
+          targetUser.data.boat.pk,
+          true,
+          manager,
+        );
+
+        return { statusCode: 200, message: 'Request Success' };
+      } catch (error) {
+        throw new CustomErrorException('Transaction Failed', 400);
+      }
+    });
   }
 
   @UseGuards(TokenGuard)

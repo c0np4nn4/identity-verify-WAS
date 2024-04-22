@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { EntityManager, Not, Repository } from 'typeorm';
 import { BoatEntity } from '@entity/boat.entity';
 
 @Injectable()
@@ -55,5 +55,28 @@ export class BoatAPIService {
   */
   async getSingleBoat(boatPk: number) {
     return await this.boatRepository.findOne({ where: { pk: boatPk } });
+  }
+
+  // /*
+  //   @ Use: MatchLog Controller - isItMe()
+  //   @ Intend: 종이배 선점 상태 변경
+  // */
+  // async handleBoatOccupiedStatus(boatPk: number, status: boolean) {
+  //   return await this.boatRepository.update(boatPk, { isOccupied: status });
+  // }
+
+  /*
+    @ Use: MatchLog Controller - isItMe()
+    @ Intend: 종이배 선점 상태 변경
+  */
+  async handleMatchBoatOccupiedStatus(
+    sendBoatPk: number,
+    receiveBoatPk: number,
+    status: boolean,
+    manager: EntityManager,
+  ) {
+    await manager.update(BoatEntity, sendBoatPk, { isOccupied: status });
+    await manager.update(BoatEntity, receiveBoatPk, { isOccupied: status });
+    return;
   }
 }
