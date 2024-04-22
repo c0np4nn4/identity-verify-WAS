@@ -16,7 +16,8 @@ export class BoatAPIController {
   })
   async getBoatList(@Query('userPk') userPk: string) {
     try {
-      return await this.boatAPIService.getBoatList(userPk);
+      const boatList = await this.boatAPIService.getBoatList(userPk);
+      return { statusCode: 200, data: { boatList } };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
@@ -29,14 +30,14 @@ export class BoatAPIController {
   })
   async getFilteredBoatList(
     @Query('userPk') userPk: string,
-    @Query('filter1') filter1: string,
-    @Query('filter2') filter2: string,
-    @Query('filter3') filter3: string,
-    @Query('filter4') filter4: string = null,
-    @Query('filter5') filter5: string = null,
+    @Query('filter1') filter1?: string,
+    @Query('filter2') filter2?: string,
+    @Query('filter3') filter3?: string,
+    @Query('filter4') filter4?: string,
+    @Query('filter5') filter5?: string,
   ) {
     try {
-      return await this.boatAPIService.getFilteredBoatList(
+      const boatList = await this.boatAPIService.getFilteredBoatList(
         userPk,
         filter1,
         filter2,
@@ -44,6 +45,7 @@ export class BoatAPIController {
         filter4,
         filter5,
       );
+      return { statusCode: 200, data: { boatList } };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
@@ -54,9 +56,13 @@ export class BoatAPIController {
   @ApiOperation({
     summary: '단일 종이배 조회',
   })
-  async getSingleBoat(@Query('boatPk') boatPk: string) {
+  async getSingleBoat(@Query('boatPk') boatPk: number) {
     try {
-      return await this.boatAPIService.getSingleBoat(boatPk);
+      const boat = await this.boatAPIService.getSingleBoat(boatPk);
+      if (!boat) {
+        return { statusCode: 404, message: 'Not Found' };
+      }
+      return { statusCode: 200, data: { boat } };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
