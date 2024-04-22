@@ -16,7 +16,8 @@ export class AlarmAPIController {
   })
   async getAlarmList(@Query('userPk') userPk: string) {
     try {
-      return await this.alarmAPIService.getAlarmList(userPk);
+      const alarmList = await this.alarmAPIService.getAlarmList(userPk);
+      return { statusCode: 200, data: { alarmList } };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
@@ -29,7 +30,8 @@ export class AlarmAPIController {
   })
   async getSingleAlarm(@Query('alarmPk') alarmPk: number) {
     try {
-      return await this.alarmAPIService.getSingleAlarm(alarmPk);
+      const alarm = await this.alarmAPIService.getSingleAlarm(alarmPk);
+      return { statusCode: 200, data: { alarm } };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
