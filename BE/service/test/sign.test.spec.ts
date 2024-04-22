@@ -7,8 +7,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
 import { hashSync } from 'bcryptjs';
+import { BoatEntity } from '../src/entity/boat.entity';
 
-class MockRepository {
+class UserMockRepository {
   mockId = 'id';
   mockNickname = 'nickname';
   mockPassword = hashSync('pwd', 10);
@@ -39,6 +40,8 @@ class MockRepository {
   }
 }
 
+class BoatMockRepository {}
+
 describe('ServiceAPIController (e2e)', () => {
   let serviceApiService: ServiceAPIService;
 
@@ -64,7 +67,11 @@ describe('ServiceAPIController (e2e)', () => {
         ServiceAPIService,
         {
           provide: getRepositoryToken(UserEntity),
-          useClass: MockRepository,
+          useClass: UserMockRepository,
+        },
+        {
+          provide: getRepositoryToken(BoatEntity),
+          useClass: BoatMockRepository,
         },
       ],
     }).compile();

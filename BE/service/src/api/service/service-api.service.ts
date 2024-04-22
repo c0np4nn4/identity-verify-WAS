@@ -11,7 +11,7 @@ import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { compareSync, hashSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { BoatEntity } from '@entity/boat.entity';
+import { BoatEntity } from '../../entity/boat.entity';
 
 @Injectable()
 export class ServiceAPIService {
