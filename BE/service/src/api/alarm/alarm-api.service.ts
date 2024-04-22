@@ -26,22 +26,22 @@ export class AlarmAPIService {
     return await this.alarmRepository.findOne({ where: { pk: alarmPk } });
   }
 
-  /*
-    @ Use: MatchLog Controller - sendIsItMe()
-    @ Intend: 알림 전송
-  */
-  async addAlarm(
-    userPk: string,
-    matchLogPk: number,
-    text: string,
-    manager: EntityManager,
-  ) {
-    return await manager.insert(AlarmEntity, {
-      userPk,
-      matchLogPk,
-      text,
-    });
-  }
+  // /*
+  //   @ Use: MatchLog Controller - sendIsItMe()
+  //   @ Intend: 알림 전송
+  // */
+  // async addAlarm(
+  //   userPk: string,
+  //   matchLogPk: number,
+  //   text: string,
+  //   manager: EntityManager,
+  // ) {
+  //   return await manager.insert(AlarmEntity, {
+  //     userPk,
+  //     matchLogPk,
+  //     text,
+  //   });
+  // }
 
   /*
     @ Use: MatchLog Controller - sendIsItMe()
