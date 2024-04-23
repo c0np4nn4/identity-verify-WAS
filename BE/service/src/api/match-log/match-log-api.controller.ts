@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { TokenGuard } from 'src/common/guard/token.guard';
@@ -8,6 +8,10 @@ import { AlarmAPIService } from '../alarm/alarm-api.service';
 import { BoatAPIService } from '../boat/boat-api.service';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
+import { MatchLogSendDto } from 'src/dto/matchlog-send.dto';
+import { MatchLogLabelDto } from 'src/dto/matchlog-label.dto';
+import { MatchLogNameDto } from 'src/dto/matchlog-name.dto';
+import { MatchLogAnswerDto } from 'src/dto/matchlog.answer.dto';
 
 @ApiTags('MATCH LOG API')
 @Controller('api/match-log')
@@ -22,16 +26,14 @@ export class MatchLogAPIController {
   ) {}
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/is-it-me')
+  @Post('/v1/send/is-it-me')
   @ApiOperation({
     summary: '혹시 나야? 요청',
   })
-  async sendIsItMe(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-  ) {
+  async sendIsItMe(@Body() dto: MatchLogSendDto) {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        const { userPk, targetPk } = dto;
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
         const targetUser = await this.userAPIService.getUserData(
@@ -83,18 +85,13 @@ export class MatchLogAPIController {
   }
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/my-label')
+  @Post('/v1/send/my-label')
   @ApiOperation({
     summary: '내 라벨 전송',
   })
-  async sendMyLabel(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-    @Query('label1') label1: string,
-    @Query('label2') label2: string,
-    @Query('label3') label3: string,
-  ) {
+  async sendMyLabel(@Body() dto: MatchLogLabelDto) {
     return await this.entityManager.transaction(async (manager) => {
+      const { userPk, targetPk, label1, label2, label3 } = dto;
       try {
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
@@ -138,16 +135,14 @@ export class MatchLogAPIController {
   }
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/wrong-person')
+  @Post('/v1/send/wrong-person')
   @ApiOperation({
     summary: '사람 잘못 봤습니다 요청',
   })
-  async sendWrongPerson(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-  ) {
+  async sendWrongPerson(@Body() dto: MatchLogSendDto) {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        const { userPk, targetPk } = dto;
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
         const targetUser = await this.userAPIService.getUserData(
@@ -195,17 +190,14 @@ export class MatchLogAPIController {
   }
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/real-name')
+  @Post('/v1/send/real-name')
   @ApiOperation({
     summary: '진짜 이름 전송 요청',
   })
-  async sendRealName(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-    @Query('name') name: string,
-  ) {
+  async sendRealName(@Body() dto: MatchLogNameDto) {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        const { userPk, targetPk, name } = dto;
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
         const targetUser = await this.userAPIService.getUserData(
@@ -246,16 +238,14 @@ export class MatchLogAPIController {
   }
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/reject-sign')
+  @Post('/v1/send/reject-sign')
   @ApiOperation({
     summary: '거절 요청',
   })
-  async sendRejectSign(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-  ) {
+  async sendRejectSign(@Body() dto: MatchLogSendDto) {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        const { userPk, targetPk } = dto;
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
         const targetUser = await this.userAPIService.getUserData(
@@ -306,17 +296,14 @@ export class MatchLogAPIController {
   }
 
   @UseGuards(TokenGuard)
-  @Get('/v1/send/correct-sign')
+  @Post('/v1/send/correct-sign')
   @ApiOperation({
     summary: '매칭 성공 요청',
   })
-  async sendCorrectSign(
-    @Query('userPk') userPk: string,
-    @Query('targetPk') targetPk: string,
-    @Query('answer') answer: string,
-  ) {
+  async sendCorrectSign(@Body() dto: MatchLogAnswerDto) {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        const { userPk, targetPk, answer } = dto;
         // 유효한 사용자 검사
         const sendUser = await this.userAPIService.getUserData(userPk, manager);
         const targetUser = await this.userAPIService.getUserData(
