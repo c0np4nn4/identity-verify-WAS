@@ -31,17 +31,17 @@ export default function Page() {
             return;
         }
 
-        // try {
-        //     const res = await postRegister(
-        //         data.nickname,
-        //         data.id,
-        //         data.password
-        //     );
-        //     alert(res.data.message);
-        // } catch (e) {
-        //     console.error(e);
-        // }
-        router.push('/login');
+        try {
+            const res = await postRegister(
+                data.nickname,
+                data.id,
+                data.password
+            );
+            alert(res.data.message);
+            router.push('/login');
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     return (
