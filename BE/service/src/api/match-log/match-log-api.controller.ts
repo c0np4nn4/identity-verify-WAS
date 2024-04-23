@@ -28,21 +28,42 @@ export class MatchLogAPIController {
   // ! Test 용이므로 주의
   @Post('/v1/mock-create')
   @ApiOperation({
-    summary: 'a, b라는 사용자에 대해 각각 Boat 1개씩, Alarm 1개씩 생성',
+    summary: 'User, Boat, MatchLog, Alarm 데이터 생성',
   })
   async createMock() {
     return await this.entityManager.transaction(async (manager) => {
       try {
+        // 기존 데이터 삭제
+        // await manager.query('DELETE FROM boat;');
+        // await manager.query('DELETE FROM user;');
+        // await manager.query('DELETE FROM match_log;');
+        // await manager.query('DELETE FROM alarm;');
+
+        // 사용자 a, b 생성
+        const resultA = await this.userAPIService.registerUser({
+          nickname: 'aaa',
+          id: 'a',
+          password: 'a',
+        });
+        const userAPk = resultA.data.pk;
+
+        const resultB = await this.userAPIService.registerUser({
+          nickname: 'bbb',
+          id: 'b',
+          password: 'b',
+        });
+        const userBPk = resultB.data.pk;
+
         // boat 생성
         await this.boatAPIService.createBoat({
-          userPk: 'a',
+          userPk: userAPk,
           label1: 'l1',
           label2: 'l2',
           label3: 'l3',
           isOccupied: false,
         });
         await this.boatAPIService.createBoat({
-          userPk: 'b',
+          userPk: userBPk,
           label1: 'l1',
           label2: 'l2',
           label3: 'l3',
@@ -50,14 +71,19 @@ export class MatchLogAPIController {
         });
 
         // match log 생성
-        await this.matchLogAPIService.sendCorrectSign('a', 'b', 'YES', manager);
+        await this.matchLogAPIService.sendCorrectSign(
+          userAPk,
+          userBPk,
+          'YES',
+          manager,
+        );
 
         // alarm 전송
         // (userPk, matchLogPk, text)
         const message = `b에게, a가`;
         await this.alarmAPIService.addMatchAlarm(
-          'a',
-          'b',
+          userAPk,
+          userBPk,
           1,
           2,
           message,
