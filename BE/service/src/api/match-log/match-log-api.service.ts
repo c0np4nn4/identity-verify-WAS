@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { MatchLogEntity } from '@entity/match-log.entity';
-import { ANSWER, MATCH_STATUS } from 'src/common/const';
+import { MatchLogEntity } from '../../entity/match-log.entity';
+import { ANSWER, MATCH_STATUS } from '../../common/const';
 
 @Injectable()
 export class MatchLogAPIService {

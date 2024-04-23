@@ -1,8 +1,7 @@
-import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Not, Repository } from 'typeorm';
-import { BoatEntity } from '@entity/boat.entity';
+import { BoatEntity } from '../../entity/boat.entity';
 
 @Injectable()
 export class BoatAPIService {

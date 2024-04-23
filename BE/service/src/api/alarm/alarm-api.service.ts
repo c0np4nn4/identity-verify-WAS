@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { AlarmEntity } from '@entity/alarm.entity';
+import { AlarmEntity } from '../../entity/alarm.entity';
 
 @Injectable()
 export class AlarmAPIService {
