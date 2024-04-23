@@ -1,57 +1,80 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserEntity } from '../src/entity/user.entity';
 import { ServiceAPIService } from '../src/api/service/service-api.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
-import { hashSync } from 'bcryptjs';
 import { BoatEntity } from '../src/entity/boat.entity';
 import { AlarmAPIService } from '../src/api/alarm/alarm-api.service';
 import { MatchLogAPIService } from '../src/api/match-log/match-log-api.service';
 import { BoatAPIService } from '../src/api/boat/boat-api.service';
 import { MatchLogEntity } from '../src/entity/match-log.entity';
 import { AlarmEntity } from '../src/entity/alarm.entity';
+import { MatchLogAPIController } from '../src/api/match-log/match-log-api.controller';
 
-class UserMockRepository {
-  mockId = 'id';
-  mockNickname = 'nickname';
-  mockPassword = hashSync('pwd', 10);
+class UserMockRepository {}
 
-  setMockEntity() {
-    const userReoisitory: UserEntity = new UserEntity();
-    userReoisitory.id = this.mockId;
-    userReoisitory.nickname = this.mockNickname;
-    userReoisitory.password = this.mockPassword;
-    return userReoisitory;
+class BoatMockRepository {
+  setMockRepository() {
+    const boatReoisitory: BoatEntity[] = [];
+    let row: BoatEntity;
+
+    row = new BoatEntity();
+    row.pk = 1;
+    row.userPk = 'a';
+    row.label1 = '고양이';
+    row.label2 = '시크룩';
+    row.label3 = '저녁';
+    row.isOccupied = false;
+    boatReoisitory.push(row);
+
+    row = new BoatEntity();
+    row.pk = 2;
+    row.userPk = 'b';
+    row.label1 = '토끼';
+    row.label2 = '하늘하늘';
+    row.label3 = '낮';
+    row.isOccupied = false;
+    boatReoisitory.push(row);
+
+    return boatReoisitory;
+  }
+
+  async find(object: any) {
+    const userPk = object?.where?.userPk;
+    const isOccupied = object?.where?.isOccupied;
+
+    const mockRepository = this.setMockRepository();
+    const result: BoatEntity[] = [];
+    mockRepository.map((row) => {
+      if (row.userPk === userPk._value && row.isOccupied === isOccupied) {
+        result.push(row);
+      }
+    });
+    return result;
   }
 
   async findOne(object: any) {
-    const id = object?.where?.id;
-    const nickname = object?.where?.nickname;
-    const mockEntity = this.setMockEntity();
-    if (mockEntity.id === id) {
-      return mockEntity;
-    }
-    if (mockEntity.nickname === nickname) {
-      return mockEntity;
-    }
-    return false;
-  }
+    const boatPk = object?.where?.pk;
 
-  async save(object: any) {
-    return true;
+    const mockRepository = this.setMockRepository();
+    let result: BoatEntity;
+    mockRepository.map((row) => {
+      if (Number(row.pk) === Number(boatPk)) {
+        result = row;
+        return;
+      }
+    });
+    return result;
   }
 }
-
-class BoatMockRepository {}
 
 class MatchLogMockRepository {}
 
 class AlarmMockRepository {}
 
-describe('ServiceAPIController (e2e)', () => {
+describe('API Test (e2e)', () => {
   let serviceApiService: ServiceAPIService;
   let boatApiService: BoatAPIService;
   let matchLogApiService: MatchLogAPIService;
@@ -106,10 +129,15 @@ describe('ServiceAPIController (e2e)', () => {
     alarmApiService = moduleFixture.get<AlarmAPIService>(AlarmAPIService);
   });
 
-  it('Register User: Success', async () => {
-    // const [id, nickname, password] = ['new_id', 'new_nickname', 'pwd'];
-    // const dto = { nickname, id, password };
-    // const res = await serviceApiService.registerUser(dto);
-    // expect(res.statusCode).toEqual(200);
+  it('View Boat List: Except Me', async () => {
+    const userPk = 'a';
+    const res = await boatApiService.getBoatList(userPk);
+    expect(res.length).toEqual(1);
+  });
+
+  it('View Single Boat', async () => {
+    const boatPk = 1;
+    const res = await boatApiService.getSingleBoat(boatPk);
+    expect(res.pk).toEqual(1);
   });
 });
