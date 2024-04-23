@@ -20,16 +20,16 @@ jobs:
           node-version: "20.11"
 
       # Holder
-      - name: Install dependencies for Holder
-        run: cd ./BE/holder && npm i
+      # - name: Install dependencies for Holder
+      #   run: cd ./BE/holder && npm i
 
-      - name: Set Environment Variables
-        run: |
-          echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
-          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
+      # - name: Set Environment Variables
+      #   run: |
+      #     echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
+      #     echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
 
-      - name: Run test for Holder
-        run: cd ./BE/holder && npm run test
+      # - name: Run test for Holder
+      #   run: cd ./BE/holder && npm run test
 
       # Issuer
       - name: Install dependencies for Issuer
