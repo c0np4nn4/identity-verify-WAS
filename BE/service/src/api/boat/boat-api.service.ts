@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Not, Repository } from 'typeorm';
 import { BoatEntity } from '../../entity/boat.entity';
 import { CreateBoatDto } from 'src/dto/boat-create.dto';
+import { ModifyBoatDto } from 'src/dto/boat-modify.dto';
 
 @Injectable()
 export class BoatAPIService {
@@ -104,6 +105,14 @@ export class BoatAPIService {
   */
   async createBoat(dto: CreateBoatDto) {
     return await this.boatRepository.insert(dto);
+  }
+
+  /*
+    @ Use: Boat Controller - modifyBoat()
+    @ Intend: 종이배 수정
+  */
+  async modifyBoat(dto: ModifyBoatDto) {
+    return await this.boatRepository.save(dto);
   }
 
   // /*

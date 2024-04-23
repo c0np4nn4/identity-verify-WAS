@@ -25,6 +25,51 @@ export class MatchLogAPIController {
     private entityManager: EntityManager,
   ) {}
 
+  // ! Test 용이므로 주의
+  @Post('/v1/mock-create')
+  @ApiOperation({
+    summary: 'a, b라는 사용자에 대해 각각 Boat 1개씩, Alarm 1개씩 생성',
+  })
+  async createMock() {
+    return await this.entityManager.transaction(async (manager) => {
+      try {
+        // boat 생성
+        await this.boatAPIService.createBoat({
+          userPk: 'a',
+          label1: 'l1',
+          label2: 'l2',
+          label3: 'l3',
+          isOccupied: false,
+        });
+        await this.boatAPIService.createBoat({
+          userPk: 'b',
+          label1: 'l1',
+          label2: 'l2',
+          label3: 'l3',
+          isOccupied: false,
+        });
+
+        // match log 생성
+        await this.matchLogAPIService.sendCorrectSign('a', 'b', 'YES', manager);
+
+        // alarm 전송
+        // (userPk, matchLogPk, text)
+        const message = `b에게, a가`;
+        await this.alarmAPIService.addMatchAlarm(
+          'a',
+          'b',
+          1,
+          2,
+          message,
+          manager,
+        );
+        return true;
+      } catch (error) {
+        return false;
+      }
+    });
+  }
+
   @UseGuards(TokenGuard)
   @Post('/v1/send/is-it-me')
   @ApiOperation({

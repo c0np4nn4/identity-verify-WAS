@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -12,6 +13,7 @@ import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { TokenGuard } from 'src/common/guard/token.guard';
 import { BoatAPIService } from './boat-api.service';
 import { CreateBoatDto } from 'src/dto/boat-create.dto';
+import { ModifyBoatDto } from 'src/dto/boat-modify.dto';
 
 @ApiTags('BOAT API')
 @Controller('api/boat')
@@ -86,6 +88,20 @@ export class BoatAPIController {
     try {
       await this.boatAPIService.createBoat(dto);
       return { statusCode: 200, message: 'Create Boat Success' };
+    } catch (error) {
+      throw new CustomErrorException('Request Failed', 400);
+    }
+  }
+
+  @UseGuards(TokenGuard)
+  @Put('/v1/modify')
+  @ApiOperation({
+    summary: '종이배 수정',
+  })
+  async modifyBoat(@Body() dto: ModifyBoatDto) {
+    try {
+      await this.boatAPIService.modifyBoat(dto);
+      return { statusCode: 200, message: 'Modify Boat Success' };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
