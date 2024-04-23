@@ -1,6 +1,8 @@
 name: Auto Test (Service API only)
 
 on:
+  push:
+    branches: [main, dev]
   pull_request:
     branches: [main, dev]
 
@@ -21,11 +23,10 @@ jobs:
       - name: Install dependencies for Holder
         run: cd ./BE/holder && npm i
 
-        - name: Set Environment Variables
+      - name: Set Environment Variables
         run: |
           echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
-
 
       - name: Run test for Holder
         run: cd ./BE/holder && npm run test
