@@ -6,6 +6,7 @@ interface IIronSession {
     nickname: string;
     id: string;
     token: string;
+    userPk: string;
 }
 
 export default function getSession() {

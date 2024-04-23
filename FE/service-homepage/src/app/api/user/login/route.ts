@@ -6,15 +6,20 @@ export async function POST(req: NextRequest) {
     const { id, password } = await req.json();
     let data;
     try {
-        const res = await serverAxios.post('/login', { id, password });
+        const res = await serverAxios.post('/service/v1/login', {
+            id,
+            password,
+        });
         if (res.data.statusCode >= 400) {
             console.error(res.data.data.message);
             throw new Error(res.data.data.message);
         }
         data = res.data.data;
+        console.log(data);
         const session = await getSession();
         session.token = data.token;
         session.id = id;
+        session.userPk = data.userPk;
         session.nickname = 'kimcookieya';
         await session.save();
     } catch (error) {

@@ -1,8 +1,22 @@
+'use client';
+
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import PaperBoatCard from '@/app/(home)/pond/_component/PaperBoatCard';
 import { BoatData } from '@/datas/paperboat';
+import { useEffect } from 'react';
+import { getBoatList } from '@/api/Pond';
 
 export default function PonePage() {
+    useEffect(function getBoatListEffect() {
+        const fetchBoatList = async () => {
+            const res = await getBoatList();
+            if (res.status === 200) {
+                console.log(res.data);
+            }
+        };
+        fetchBoatList();
+    }, []);
+
     return (
         <main className="flex flex-col p-24">
             <div className={'flex'}>

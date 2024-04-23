@@ -22,11 +22,10 @@ export default function Page() {
             const res = await postLogin(data.id, data.password);
             alert(res.data.message);
             login(res.data.data, 'min49590');
-            router.push('/');
+            router.push('/pond');
         } catch (e) {
             console.error(e);
         }
-        router.push('/my-page');
     };
 
     return (

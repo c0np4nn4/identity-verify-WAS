@@ -11,7 +11,6 @@ const serverAxios = axios.create({
 serverAxios.interceptors.request.use(
     async (config) => {
         const session = await getSession();
-        console.log(config.url, session.token);
         if (
             !session.token &&
             config.url !== '/logout' &&
