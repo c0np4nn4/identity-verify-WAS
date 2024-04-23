@@ -16,9 +16,50 @@ export class BoatAPIService {
     @ Intend: 종이배 리스트 조회
   */
   async getBoatList(userPk: string) {
-    return await this.boatRepository.find({
-      where: { userPk: Not(userPk), isOccupied: false },
-    });
+    const boatList = await this.boatRepository
+      .createQueryBuilder('boat')
+      .leftJoinAndSelect('boat.user', 'user')
+      .where('boat.userPk != :userPk', { userPk })
+      .andWhere('boat.isOccupied = :isOccupied', { isOccupied: false })
+      .select([
+        'boat.pk',
+        'boat.label1',
+        'boat.label2',
+        'boat.label3',
+        'boat.label4',
+        'boat.label5',
+        'boat.label6',
+        'boat.label7',
+        'boat.label8',
+        'boat.label9',
+        'boat.label10',
+        'boat.secrete1',
+        'boat.secrete2',
+        'boat.isOccupied',
+        'boat.createdAt',
+        'user.nickname',
+      ])
+      .getMany();
+
+    return boatList.map((boat) => ({
+      pk: boat.pk,
+      labels: [
+        boat.label1,
+        boat.label2,
+        boat.label3,
+        boat.label4,
+        boat.label5,
+        boat.label6,
+        boat.label7,
+        boat.label8,
+        boat.label9,
+        boat.label10,
+      ],
+      secreteLabels: [boat.secrete1, boat.secrete2],
+      isOccupied: boat.isOccupied,
+      createdAt: boat.createdAt,
+      userNickname: boat.user.nickname,
+    }));
   }
 
   /*
