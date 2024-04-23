@@ -16,7 +16,7 @@ export default function PaperBoatCard({
     onClick,
 }: IPaperBoatCardProps) {
     return (
-        <div className="flex flex-col w-144 h-16 bg-white rounded-6 shadow-2xl p-8 opacity-80">
+        <div className="flex flex-col w-144 h-168 bg-white rounded-6 shadow-2xl p-8 opacity-80">
             <div className="flex flex-wrap mt-2 gap-8">
                 {labels.map((label) => (
                     <LabelTag key={label} label={label} />
