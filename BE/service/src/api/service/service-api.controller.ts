@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ServiceAPIService } from './service-api.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ProofDto } from '../dto/proof.dto';
+import { ProofDto } from '../../dto/proof.dto';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
-import { ServiceAPIService } from 'src/service/service-api.service';
+import { ServiceAPIService } from 'src/api/service/service-api.service';
 
 @Injectable()
 export class TokenGuard implements CanActivate {

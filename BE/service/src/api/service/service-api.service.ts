@@ -1,22 +1,25 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { ProofDto } from '../dto/proof.dto';
+import { ProofDto } from '../../dto/proof.dto';
 import { lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../entity/user.entity';
+import { EntityManager, Repository } from 'typeorm';
+import { UserEntity } from '../../entity/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { compareSync, hashSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { BoatEntity } from '../../entity/boat.entity';
 
 @Injectable()
 export class ServiceAPIService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    @InjectRepository(BoatEntity)
+    private boatRepository: Repository<BoatEntity>,
     private httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
@@ -96,6 +99,55 @@ export class ServiceAPIService {
     }
 
     return { result: true, userInfo };
+  }
+
+  // /*
+  //   @ Use: MatchLog Controller - sendIsItMe()
+  //   @ Intend: 사용자의 현재 heart 수를 반환
+  // */
+  // async getHeartOfUser(userPk: string) {
+  //   const user = await this.userRepository.findOne({ where: { pk: userPk } });
+  //   if (!user) {
+  //     return { heart: null };
+  //   }
+  //   return { heart: user.heart };
+  // }
+
+  /*
+    @ Use: MatchLog Controller - sendIsItMe()
+    @ Intend: 사용자의 현재 heart 수를 변경
+  */
+  async handleHeartOfUser(
+    userPk: string,
+    heartAmount: number,
+    manager: EntityManager,
+  ) {
+    const user = await manager.findOne(UserEntity, { where: { pk: userPk } });
+    if (!user) {
+      return { heart: null };
+    }
+    user.heart += heartAmount;
+    await manager.save(UserEntity, user);
+    return { heart: user.heart };
+  }
+
+  /*
+    @ Use: MatchLog Controller - sendIsItMe()
+    @ Intend: 사용자의 정보를 반환
+  */
+  async getUserData(userPk: string, manager: EntityManager) {
+    const user = await manager.findOne(UserEntity, {
+      where: { pk: userPk },
+    });
+    if (!user) {
+      return { data: null };
+    }
+
+    // boat 정보도 반환
+    const boat = await manager.findOne(BoatEntity, {
+      where: { userPk },
+    });
+    return { data: { user, boat } };
   }
 
   /* 

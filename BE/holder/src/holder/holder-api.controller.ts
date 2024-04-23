@@ -37,7 +37,7 @@ export class HolderAPIController {
   })
   async sendEmailCode(@Body() dto: EmailSendCodeDto) {
     const { email } = dto;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gm;
     if (!emailRegex.test(email)) {
       throw new CustomErrorException('Invalid Email', 400);
     }

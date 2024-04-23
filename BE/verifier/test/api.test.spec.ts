@@ -15,13 +15,12 @@ describe('HolderAPIController (e2e)', () => {
   });
 
   it('Create User VC: Success', () => {
-    const [proof, IssuerPubKey, majorCode, message, params, vkey, strategy] = [
+    const [proof, IssuerPubKey, majorCode, message, params, vkey] = [
       'proof',
       'IssuerPubKey',
       '12',
       'message',
       {},
-      new Uint8Array(),
       new Uint8Array(),
     ];
     const res = verifierAPIService.verifyProof(
@@ -31,7 +30,6 @@ describe('HolderAPIController (e2e)', () => {
       message,
       params,
       vkey,
-      strategy,
     );
     expect(res).toBe(true);
   });

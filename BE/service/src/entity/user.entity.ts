@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  CreateDateColumn,
+  OneToOne,
+} from 'typeorm';
+import { BoatEntity } from './boat.entity';
 
-@Entity({ name: 'user' })
+@Entity({ name: 'user', schema: 'db' })
 export class UserEntity {
   @PrimaryColumn({ type: 'varchar', name: 'pk' })
   pk: string;
@@ -14,17 +21,20 @@ export class UserEntity {
   @Column({ type: 'varchar', name: 'password' })
   password: string;
 
-  @Column({ type: 'int', name: 'major_code', default: 0 })
-  major_code: number;
-
   @Column({ type: 'boolean', name: 'is_verified_user', default: false })
   isVerifiedUser: boolean;
 
+  @Column({ type: 'int', name: 'heart', default: 0 })
+  heart: number;
+
   @CreateDateColumn({
     type: 'timestamp',
-    precision: 0,
     name: 'created_at',
-    default: () => 'CURRENT_TIMESTAMP',
   })
-  created_at: Date;
+  createdAt: Date;
+
+  // fk
+
+  @OneToOne(() => BoatEntity, (boat) => boat.user)
+  boat: BoatEntity;
 }

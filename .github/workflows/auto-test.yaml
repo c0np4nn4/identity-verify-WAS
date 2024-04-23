@@ -17,11 +17,30 @@ jobs:
         with:
           node-version: "20.11"
 
-      - name: Install dependencies
+      # Holder
+      - name: Install dependencies for Holder
         run: cd ./BE/holder && npm i
 
-      - name: Install dependencies for issuer
+      - name: Run test for Holder
+        run: cd ./BE/holder && npm run test
+
+      # Issuer
+      - name: Install dependencies for Issuer
         run: cd ./BE/issuer && npm i
 
-      # - name: Run test
-      # run: cd ./BE/holder && npm run test
+      - name: Run test for Holder
+        run: cd ./BE/issuer && npm run test
+
+      # Service
+      - name: Install dependencies for Service
+        run: cd ./BE/service && npm i
+
+      - name: Run test for Service
+        run: cd ./BE/service && npm run test
+
+      # Verifier
+      - name: Install dependencies for Verifier
+        run: cd ./BE/verifier && npm i
+
+      - name: Run test for Verifier
+        run: cd ./BE/verifier && npm run test
