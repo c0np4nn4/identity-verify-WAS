@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { TokenGuard } from 'src/common/guard/token.guard';
 import { BoatAPIService } from './boat-api.service';
+import { CreateBoatDto } from 'src/dto/boat-create.dto';
 
 @ApiTags('BOAT API')
 @Controller('api/boat')
@@ -63,6 +72,20 @@ export class BoatAPIController {
         return { statusCode: 404, message: 'Not Found' };
       }
       return { statusCode: 200, data: { boat } };
+    } catch (error) {
+      throw new CustomErrorException('Request Failed', 400);
+    }
+  }
+
+  @UseGuards(TokenGuard)
+  @Post('/v1/create')
+  @ApiOperation({
+    summary: '종이배 생성',
+  })
+  async createBoat(@Body() dto: CreateBoatDto) {
+    try {
+      await this.boatAPIService.createBoat(dto);
+      return { statusCode: 200, message: 'Create Boat Success' };
     } catch (error) {
       throw new CustomErrorException('Request Failed', 400);
     }
