@@ -1,22 +1,25 @@
 'use client';
 
-import { cls } from '@/utils/tailwind';
 import { generateColor } from '@/utils/color';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface IPaperBoatCardProps {
     labels: string[];
     authorNickname: string;
-    onClick?: () => void;
+    href: string;
 }
 
 export default function PaperBoatCard({
     labels,
     authorNickname,
-    onClick,
+    href,
 }: IPaperBoatCardProps) {
     return (
-        <div className="flex flex-col w-144 h-168 bg-white rounded-6 shadow-2xl p-8 opacity-80">
+        <Link
+            href={href}
+            className="flex flex-col w-144 h-168 bg-white rounded-6 shadow-2xl p-8 opacity-80 hover:animate-spring"
+        >
             <div className="flex flex-wrap mt-2 gap-8">
                 {labels.map((label) => (
                     <LabelTag key={label} label={label} />
@@ -25,7 +28,7 @@ export default function PaperBoatCard({
             <p className="text-sm ml-auto mt-auto font-sans px-4 rounded-8 bg-gray-200">
                 {authorNickname}
             </p>
-        </div>
+        </Link>
     );
 }
 

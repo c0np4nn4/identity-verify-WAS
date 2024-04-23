@@ -27,7 +27,7 @@ export default function RootLayout({
                 />
                 <div
                     className={
-                        'relative w-380 h-screen overflow-y-auto overflow-x-hidden p-24'
+                        'relative w-380 h-screen overflow-y-auto overflow-x-hidden'
                     }
                 >
                     {children}

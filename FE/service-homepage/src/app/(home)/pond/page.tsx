@@ -4,7 +4,7 @@ import { BoatData } from '@/datas/paperboat';
 
 export default function PonePage() {
     return (
-        <main className="flex flex-col">
+        <main className="flex flex-col p-24">
             <div className={'flex'}>
                 <h1 className="text-4xl font-bold text-white">연못</h1>
                 <label className={'ml-auto text-white'}>부산대</label>
@@ -16,6 +16,7 @@ export default function PonePage() {
                         key={index}
                         labels={['#해외여행', '#바다', '#여행']}
                         authorNickname={boat.authorNickname}
+                        href={`/pond/${index}`}
                     />
                 ))}
             </section>
