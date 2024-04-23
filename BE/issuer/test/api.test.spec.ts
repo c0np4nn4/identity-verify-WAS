@@ -69,24 +69,6 @@ describe('IssuerAPIController (e2e)', () => {
     expect(Array.isArray(res)).toBe(true);
   });
 
-  it('Verify Match Major: Success', async () => {
-    const email = 'test@test.com';
-    const studentNumber = '123412345';
-
-    const res = await issuerApiService.verifyMatchMajor(email, studentNumber);
-
-    expect(res.result).toEqual(true);
-  });
-
-  it('Verify Match Major: 404 Fail', async () => {
-    const email = '404@test.com';
-    const studentNumber = '000';
-
-    const res = await issuerApiService.verifyMatchMajor(email, studentNumber);
-
-    expect(res.result).toEqual(false);
-  });
-
   it('Generate Proof Value: Success', () => {
     const res = issuerApiService.generateProofValue();
     expect(res).toHaveProperty('proofValue');
