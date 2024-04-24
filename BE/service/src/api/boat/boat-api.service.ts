@@ -21,7 +21,7 @@ export class BoatAPIService {
       .createQueryBuilder('boat')
       .leftJoinAndSelect('boat.user', 'user')
       .where('boat.userPk != :userPk', { userPk })
-      .andWhere('boat.isOccupied = :isOccupied', { isOccupied: false })
+      // .andWhere('boat.isOccupied = :isOccupied', { isOccupied: false })
       .select([
         'boat.pk',
         'boat.label1',
@@ -36,7 +36,7 @@ export class BoatAPIService {
         'boat.label10',
         'boat.secrete1',
         'boat.secrete2',
-        'boat.isOccupied',
+        // 'boat.isOccupied',
         'boat.createdAt',
         'user.nickname',
       ])
@@ -57,7 +57,7 @@ export class BoatAPIService {
         boat.label10,
       ],
       secreteLabels: [boat.secrete1, boat.secrete2],
-      isOccupied: boat.isOccupied,
+      // isOccupied: boat.isOccupied,
       createdAt: boat.createdAt,
       userNickname: boat.user.nickname,
     }));
@@ -79,7 +79,7 @@ export class BoatAPIService {
     const query = this.boatRepository.createQueryBuilder('boat');
 
     query.where('boat.user_pk != :userPk', { userPk });
-    query.andWhere('boat.is_occupied = false');
+    // query.andWhere('boat.is_occupied = false');
 
     if (filter1) query.andWhere('boat.label_1 = :filter1', { filter1 });
     if (filter2) query.andWhere('boat.label_2 = :filter2', { filter2 });
@@ -123,18 +123,18 @@ export class BoatAPIService {
   //   return await this.boatRepository.update(boatPk, { isOccupied: status });
   // }
 
-  /*
-    @ Use: MatchLog Controller - isItMe()
-    @ Intend: 종이배 선점 상태 변경
-  */
-  async handleMatchBoatOccupiedStatus(
-    sendBoatPk: number,
-    receiveBoatPk: number,
-    status: boolean,
-    manager: EntityManager,
-  ) {
-    await manager.update(BoatEntity, sendBoatPk, { isOccupied: status });
-    await manager.update(BoatEntity, receiveBoatPk, { isOccupied: status });
-    return;
-  }
+  // /*
+  //   @ Use: MatchLog Controller - isItMe()
+  //   @ Intend: 종이배 선점 상태 변경
+  // */
+  // async handleMatchBoatOccupiedStatus(
+  //   sendBoatPk: number,
+  //   receiveBoatPk: number,
+  //   status: boolean,
+  //   manager: EntityManager,
+  // ) {
+  //   await manager.update(BoatEntity, sendBoatPk, { isOccupied: status });
+  //   await manager.update(BoatEntity, receiveBoatPk, { isOccupied: status });
+  //   return;
+  // }
 }

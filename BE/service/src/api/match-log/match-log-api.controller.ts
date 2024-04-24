@@ -60,14 +60,14 @@ export class MatchLogAPIController {
           label1: 'l1',
           label2: 'l2',
           label3: 'l3',
-          isOccupied: false,
+          // isOccupied: false,
         });
         await this.boatAPIService.createBoat({
           userPk: userBPk,
           label1: 'l1',
           label2: 'l2',
           label3: 'l3',
-          isOccupied: false,
+          // isOccupied: false,
         });
 
         // match log 생성
@@ -140,13 +140,13 @@ export class MatchLogAPIController {
           manager,
         );
 
-        // boat 선점하여 매칭 중지
-        await this.boatAPIService.handleMatchBoatOccupiedStatus(
-          sendUser.data.boat.pk,
-          targetUser.data.boat.pk,
-          true,
-          manager,
-        );
+        // // boat 선점하여 매칭 중지
+        // await this.boatAPIService.handleMatchBoatOccupiedStatus(
+        //   sendUser.data.boat.pk,
+        //   targetUser.data.boat.pk,
+        //   true,
+        //   manager,
+        // );
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
@@ -245,13 +245,13 @@ export class MatchLogAPIController {
           manager,
         );
 
-        // boat 선점 해제
-        await this.boatAPIService.handleMatchBoatOccupiedStatus(
-          sendUser.data.boat.pk,
-          targetUser.data.boat.pk,
-          false,
-          manager,
-        );
+        // // boat 선점 해제
+        // await this.boatAPIService.handleMatchBoatOccupiedStatus(
+        //   sendUser.data.boat.pk,
+        //   targetUser.data.boat.pk,
+        //   false,
+        //   manager,
+        // );
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
@@ -351,13 +351,13 @@ export class MatchLogAPIController {
         // 하트 차감
         await this.userAPIService.handleHeartOfUser(targetPk, 5, manager);
 
-        // boat 선점 해제
-        await this.boatAPIService.handleMatchBoatOccupiedStatus(
-          sendUser.data.boat.pk,
-          targetUser.data.boat.pk,
-          false,
-          manager,
-        );
+        // // boat 선점 해제
+        // await this.boatAPIService.handleMatchBoatOccupiedStatus(
+        //   sendUser.data.boat.pk,
+        //   targetUser.data.boat.pk,
+        //   false,
+        //   manager,
+        // );
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
@@ -407,13 +407,13 @@ export class MatchLogAPIController {
           manager,
         );
 
-        // boat 선점 해제
-        await this.boatAPIService.handleMatchBoatOccupiedStatus(
-          sendUser.data.boat.pk,
-          targetUser.data.boat.pk,
-          false,
-          manager,
-        );
+        // // boat 선점 해제
+        // await this.boatAPIService.handleMatchBoatOccupiedStatus(
+        //   sendUser.data.boat.pk,
+        //   targetUser.data.boat.pk,
+        //   false,
+        //   manager,
+        // );
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {

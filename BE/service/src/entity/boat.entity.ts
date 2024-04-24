@@ -57,8 +57,8 @@ export class BoatEntity {
   @Column({ type: 'varchar', name: 'secrete_2', nullable: true })
   secrete2: string;
 
-  @Column({ type: 'boolean', name: 'is_occupied', default: false })
-  isOccupied: boolean;
+  // @Column({ type: 'boolean', name: 'is_occupied', default: false })
+  // isOccupied: boolean;
 
   @CreateDateColumn({
     type: 'timestamp',
