@@ -15,7 +15,20 @@ export class AlarmAPIService {
     @ Intend: 알림 리스트 조회
   */
   async getAlarmList(userPk: string) {
-    return await this.alarmRepository.find({ where: { userPk } });
+    return await this.alarmRepository
+      .createQueryBuilder('alarm')
+      .leftJoinAndSelect('alarm.matchLog', 'matchLog')
+      .where('alarm.userPk = :userPk', { userPk })
+      .select([
+        'alarm.pk',
+        'alarm.userPk',
+        'alarm.matchLogPk',
+        'alarm.text',
+        'alarm.read',
+        'alarm.createdAt',
+        'matchLog.status',
+      ])
+      .getMany();
   }
 
   /*
@@ -23,7 +36,20 @@ export class AlarmAPIService {
     @ Intend: 단일 알림 조회
   */
   async getSingleAlarm(alarmPk: number) {
-    return await this.alarmRepository.findOne({ where: { pk: alarmPk } });
+    return await this.alarmRepository
+      .createQueryBuilder('alarm')
+      .leftJoinAndSelect('alarm.matchLog', 'matchLog')
+      .where('alarm.pk = :alarmPk', { alarmPk })
+      .select([
+        'alarm.pk',
+        'alarm.userPk',
+        'alarm.matchLogPk',
+        'alarm.text',
+        'alarm.read',
+        'alarm.createdAt',
+        'matchLog.status',
+      ])
+      .getOne();
   }
 
   // /*
