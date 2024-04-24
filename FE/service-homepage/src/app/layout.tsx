@@ -30,6 +30,7 @@ export default function RootLayout({
                         'relative w-380 h-screen overflow-y-auto overflow-x-hidden'
                     }
                 >
+                    <div id={'modal-root'} />
                     {children}
                 </div>
             </body>

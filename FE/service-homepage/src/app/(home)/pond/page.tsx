@@ -3,15 +3,18 @@
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import PaperBoatCard from '@/app/(home)/pond/_component/PaperBoatCard';
 import { BoatData } from '@/datas/paperboat';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getBoatList } from '@/api/Pond';
+import { IBoat } from '@/types/boat';
 
 export default function PonePage() {
+    const [boatList, setBoatList] = useState<IBoat[]>([]);
     useEffect(function getBoatListEffect() {
         const fetchBoatList = async () => {
             const res = await getBoatList();
             if (res.status === 200) {
-                console.log(res.data);
+                console.log(res.data.data);
+                setBoatList(res.data.data as IBoat[]);
             }
         };
         fetchBoatList();
@@ -31,6 +34,14 @@ export default function PonePage() {
                         labels={['#해외여행', '#바다', '#여행']}
                         authorNickname={boat.authorNickname}
                         href={`/pond/${index}`}
+                    />
+                ))}
+                {boatList.map((boat, index) => (
+                    <PaperBoatCard
+                        key={index}
+                        labels={boat.labels}
+                        authorNickname={boat.userNickname}
+                        href={`/pond/${boat.userPk}`}
                     />
                 ))}
             </section>
