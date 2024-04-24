@@ -26,7 +26,15 @@ export class AlarmAPIService {
         'alarm.text',
         'alarm.read',
         'alarm.createdAt',
+        'matchLog.pk',
         'matchLog.status',
+        'matchLog.targetPk',
+        'matchLog.label1',
+        'matchLog.label2',
+        'matchLog.label3',
+        'matchLog.name',
+        'matchLog.answer',
+        'matchLog.createdAt',
       ])
       .getMany();
   }
@@ -43,11 +51,18 @@ export class AlarmAPIService {
       .select([
         'alarm.pk',
         'alarm.userPk',
-        'alarm.matchLogPk',
         'alarm.text',
         'alarm.read',
         'alarm.createdAt',
+        'matchLog.pk',
         'matchLog.status',
+        'matchLog.targetPk',
+        'matchLog.label1',
+        'matchLog.label2',
+        'matchLog.label3',
+        'matchLog.name',
+        'matchLog.answer',
+        'matchLog.createdAt',
       ])
       .getOne();
   }
