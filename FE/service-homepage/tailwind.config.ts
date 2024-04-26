@@ -35,6 +35,8 @@ const config: Config = {
             colors: {
                 primary: '#FFE9E1',
                 secondary: '#3B5F6E',
+                mypink: '#fcc2d7',
+                myblue: '#a5d8ff',
             },
         },
         screens: {

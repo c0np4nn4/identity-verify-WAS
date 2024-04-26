@@ -33,7 +33,7 @@ export default function PonePage() {
                         key={index}
                         labels={['#해외여행', '#바다', '#여행']}
                         authorNickname={boat.authorNickname}
-                        href={`/pond/${index}`}
+                        href={`/pond/${boat.pk}`}
                     />
                 ))}
                 {boatList.map((boat, index) => (
@@ -41,7 +41,7 @@ export default function PonePage() {
                         key={index}
                         labels={boat.labels}
                         authorNickname={boat.userNickname}
-                        href={`/pond/${boat.userPk}`}
+                        href={`/pond/${boat.pk}`}
                     />
                 ))}
             </section>
