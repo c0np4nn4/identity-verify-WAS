@@ -10,15 +10,15 @@ const configService: ConfigService = new ConfigService();
 export default new DataSource({
   migrationsTableName: 'migrations',
   type: 'mysql',
-  host: 'localhost',
+  host: 'mysql-was',
   port: 3306,
   username: 'root',
   password: '1111',
   database: 'db',
-  // synchronize: true,
   entities: [UserEntity, BoatEntity, MatchLogEntity, AlarmEntity],
-  migrations: ['src/migrations/*.ts'],
+  migrations: ['src/migrations/*{.ts,.js}'],
   synchronize: true,
+  logging: true,
   charset: 'utf8mb4_unicode_ci',
   timezone: '+09:00',
 });
