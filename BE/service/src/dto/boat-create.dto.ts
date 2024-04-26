@@ -40,6 +40,6 @@ export class CreateBoatDto {
   @ApiProperty({ description: 'secrete2', example: 's2' })
   secrete2?: string;
 
-  @ApiProperty({ description: 'isOccupied', example: 'false' })
-  isOccupied: boolean;
+  // @ApiProperty({ description: 'isOccupied', example: 'false' })
+  // isOccupied: boolean;
 }
