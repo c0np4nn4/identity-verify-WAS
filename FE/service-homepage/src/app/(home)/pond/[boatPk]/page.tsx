@@ -51,10 +51,6 @@ export default function BoatMatchingPage({
                         <p className="text-s m ml-auto mt-auto font-sans px-4 rounded-8 bg-gray-200">
                             {boat.userNickname}
                         </p>
-                        <LabelTag label={boat.label1} />
-                        <LabelTag label={boat.label1} />
-                        <LabelTag label={boat.label1} />
-                        <LabelTag label={boat.label1} />
                     </>
                 )}
             </section>
