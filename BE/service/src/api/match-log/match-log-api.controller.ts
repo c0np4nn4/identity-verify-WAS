@@ -57,16 +57,14 @@ export class MatchLogAPIController {
         // boat 생성
         await this.boatAPIService.createBoat({
           userPk: userAPk,
-          label1: 'l1',
-          label2: 'l2',
-          label3: 'l3',
+          labels: ['l1', 'l2', 'l3'],
+          secreteLabels: [],
           // isOccupied: false,
         });
         await this.boatAPIService.createBoat({
           userPk: userBPk,
-          label1: 'l1',
-          label2: 'l2',
-          label3: 'l3',
+          labels: ['l1', 'l2', 'l3'],
+          secreteLabels: [],
           // isOccupied: false,
         });
 

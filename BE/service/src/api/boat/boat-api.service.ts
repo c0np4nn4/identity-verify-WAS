@@ -135,7 +135,22 @@ export class BoatAPIService {
     @ Intend: 종이배 생성
   */
   async createBoat(dto: CreateBoatDto) {
-    return await this.boatRepository.insert(dto);
+    const newBoat = new BoatEntity();
+    newBoat.userPk = dto.userPk;
+
+    if (dto.labels) {
+      dto.labels.forEach((label, index) => {
+        newBoat[`label${index + 1}`] = label;
+      });
+    }
+
+    if (dto.secreteLabels) {
+      dto.secreteLabels.forEach((label, index) => {
+        newBoat[`secrete${index + 1}`] = label;
+      });
+    }
+
+    return await this.boatRepository.save(newBoat);
   }
 
   /*
@@ -143,7 +158,22 @@ export class BoatAPIService {
     @ Intend: 종이배 수정
   */
   async modifyBoat(dto: ModifyBoatDto) {
-    return await this.boatRepository.save(dto);
+    const boat = await this.boatRepository.findOneBy({ pk: dto.pk });
+    if (!boat) {
+      throw new Error('Boat not found');
+    }
+
+    dto.labels?.forEach((label, index) => {
+      boat[`label${index + 1}`] = label;
+    });
+
+    dto.secreteLabels?.forEach((label, index) => {
+      boat[`secrete${index + 1}`] = label;
+    });
+
+    boat.userPk = dto.userPk;
+
+    return await this.boatRepository.save(boat);
   }
 
   // /*
