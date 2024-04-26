@@ -4,17 +4,17 @@ import serverAxios from '@/lib/server-axios';
 
 export async function GET(req: NextRequest) {
     const session = await getSession();
-
+    console.log(session);
     try {
         const res = await serverAxios.get(
             `/boat/v1/list?userPk=${session.userPk}`,
             {
                 headers: {
-                    token: session.token,
+                    token: 'session.token',
                 },
             }
         );
-
+        console.log(res.data);
         if (res.data.statusCode >= 400) {
             console.error(res.data.data.message);
             throw new Error(res.data.data.message);

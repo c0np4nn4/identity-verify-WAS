@@ -7,6 +7,9 @@ import { generateColor } from '@/utils/color';
 import Link from 'next/link';
 import { useToast } from '@/stores/useToastStore';
 import Toast from '@/app/_component/Toast';
+import postSendIsItMe from '@/api/Matching';
+import { getMe } from '@/api/Auth';
+import { IUserInfo } from '@/types/auth';
 
 export default function BoatMatchingPage({
     params,
@@ -15,6 +18,7 @@ export default function BoatMatchingPage({
 }) {
     const boatPk = params.boatPk;
     const [boat, setBoat] = useState<IBoat | null>(null);
+    const [user, setUser] = useState<IUserInfo | null>(null);
     const toastState = useToast((state) => state);
 
     useEffect(() => {
@@ -25,15 +29,28 @@ export default function BoatMatchingPage({
             }
         };
         fetchBoat();
+
+        const fetchMe = async () => {
+            const res = await getMe();
+            if (res.status === 200) {
+                console.log(res.data);
+                setUser(res.data.data as IUserInfo);
+            }
+        };
+        fetchMe();
     }, []);
 
-    const onLikeMe = () => {
+    const onLikeMe = async () => {
         console.log('좋아요 보내기');
+        const res = await postSendIsItMe({ targetPk: boat?.userPk as string });
         toastState.openToast('좋아요를 보냈습니다!', 'success');
     };
 
     return (
         <main className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-[#162832] to-[#527784]">
+            <div className="w-full h-24 flex justify-center items-center">
+                나의 하트 수: {user?.heart}
+            </div>
             <h1 className="text-4xl font-bold text-white">배 매칭</h1>
             <section className="flex flex-col gap-y-8 justify-items-center mt-24 mb-48 w-full px-24">
                 {boat && (

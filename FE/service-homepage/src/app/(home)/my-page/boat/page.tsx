@@ -3,6 +3,8 @@
 import LabelSelectSection from '@/app/(home)/my-page/boat/_component/LabelSelectSection';
 import { useState } from 'react';
 import { LabelData } from '@/datas/label';
+import { postCreateBoat } from '@/api/Boat';
+import { useRouter } from 'next/navigation';
 
 const TOTAL_STEP = 3;
 
@@ -89,6 +91,14 @@ function SelectSection2() {
 }
 
 function SelectSection3() {
+    const router = useRouter();
+    const onCreateBoat = async () => {
+        // TODO: 종이배 생성 API 호출
+        // const res = await postCreateBoat({
+        //
+        // })
+        router.push('/notification');
+    };
     return (
         <section className={'flex-none flex flex-col gap-y-24'}>
             {LabelData.slice(6, 9).map((label, index) => {
@@ -101,6 +111,14 @@ function SelectSection3() {
                     />
                 );
             })}
+            <div className={'flex gap-x-8'}>
+                <button
+                    className={'w-full p-8 bg-blue-300'}
+                    onClick={onCreateBoat}
+                >
+                    띄우기
+                </button>
+            </div>
         </section>
     );
 }

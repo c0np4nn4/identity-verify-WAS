@@ -5,11 +5,13 @@ import serverAxios from '@/lib/server-axios';
 export async function POST(req: NextRequest) {
     const { id, password } = await req.json();
     let data;
+    console.log('로그인 요청');
     try {
         const res = await serverAxios.post('/service/v1/login', {
             id,
             password,
         });
+        console.log(res.data);
         if (res.data.statusCode >= 400) {
             console.error(res.data.data.message);
             throw new Error(res.data.data.message);
@@ -24,7 +26,7 @@ export async function POST(req: NextRequest) {
         await session.save();
     } catch (error) {
         return NextResponse.json(
-            { result: false, message: '로그인 실패' },
+            { result: false, message: '로그인 실패', data: error },
             { status: 400 }
         );
     }

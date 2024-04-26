@@ -11,12 +11,14 @@ const serverAxios = axios.create({
 serverAxios.interceptors.request.use(
     async (config) => {
         const session = await getSession();
+        console.log(config.url);
         if (
             !session.token &&
-            config.url !== '/logout' &&
-            config.url !== '/login' &&
-            config.url !== '/register'
+            config.url?.includes('/logout') &&
+            config.url?.includes('/login') &&
+            config.url?.includes('/register')
         ) {
+            console.log('세션이 만료되었습니다.');
             throw new Error('세션이 만료되었습니다.');
         }
         return config;
