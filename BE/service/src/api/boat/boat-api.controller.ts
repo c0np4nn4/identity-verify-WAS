@@ -8,7 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { TokenGuard } from 'src/common/guard/token.guard';
 import { BoatAPIService } from './boat-api.service';
@@ -39,6 +39,11 @@ export class BoatAPIController {
   @ApiOperation({
     summary: '종이배 리스트 조회 - 필터링',
   })
+  @ApiQuery({ name: 'filter1', required: false, description: 'filter5' })
+  @ApiQuery({ name: 'filter2', required: false, description: 'filter5' })
+  @ApiQuery({ name: 'filter3', required: false, description: 'filter5' })
+  @ApiQuery({ name: 'filter4', required: false, description: 'filter5' })
+  @ApiQuery({ name: 'filter5', required: false, description: 'filter5' })
   async getFilteredBoatList(
     @Query('userPk') userPk: string,
     @Query('filter1') filter1?: string,
