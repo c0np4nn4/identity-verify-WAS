@@ -8,7 +8,6 @@ services:
       - 8081:8081
     depends_on:
       - mysql-was
-      - mysql-student
     volumes:
       - ./BE/holder:/usr/src/app
 
@@ -20,7 +19,6 @@ services:
       - 8082:8082
     depends_on:
       - mysql-was
-      - mysql-student
     volumes:
       - ./BE/issuer:/usr/src/app
 
@@ -32,7 +30,6 @@ services:
       - 8083:8083
     depends_on:
       - mysql-was
-      - mysql-student
     volumes:
       - ./BE/verifier:/usr/src/app
 
@@ -44,7 +41,6 @@ services:
       - 4000:4000
     depends_on:
       - mysql-was
-      - mysql-student
     volumes:
       - ./BE/service:/usr/src/app
 
@@ -60,19 +56,6 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-  mysql-student:
-    image: mysql:8.0
-    container_name: mysql-student
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - 3307:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_STUDENT_PASSWORD}
-      MYSQL_DATABASE: db
-      TZ: Asia/Seoul
-    volumes:
-      - mysql-student-data:/var/lib/mysql
-
   service-homepage:
     build: ./FE/service-homepage
     image: service-homepage
@@ -83,4 +66,3 @@ services:
 
 volumes:
   mysql-data:
-  mysql-student-data:

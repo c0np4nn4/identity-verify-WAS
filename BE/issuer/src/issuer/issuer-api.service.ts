@@ -5,20 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { connectToNEARContract, createVC } from '../utils/utils';
 import { NEARContract } from '../types/types';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as ed25519 from '@stablelib/ed25519';
-import { StudentKeyPairEntity } from '../entity/student-key-pair.entity';
 const bs58 = require('bs58');
 const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class IssuerAPIService {
-  constructor(
-    @InjectRepository(StudentKeyPairEntity)
-    private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
