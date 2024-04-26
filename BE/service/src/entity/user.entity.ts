@@ -24,7 +24,7 @@ export class UserEntity {
   @Column({ type: 'boolean', name: 'is_verified_user', default: false })
   isVerifiedUser: boolean;
 
-  @Column({ type: 'int', name: 'heart', default: 0 })
+  @Column({ type: 'int', name: 'heart', default: 20 })
   heart: number;
 
   @CreateDateColumn({
