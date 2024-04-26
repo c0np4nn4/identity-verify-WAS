@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const data = await req.json();
 
     try {
-        const res = await serverAxios.post('/register', data);
+        const res = await serverAxios.post('/service/v1/register', data);
         if (res.data.statusCode >= 400) {
             console.error(res.data.data.message);
             throw new Error(res.data.data.message);

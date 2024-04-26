@@ -1,19 +1,13 @@
 import getSession from '@/lib/session';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import serverAxios from '@/lib/server-axios';
 
-export async function GET() {
+export async function POST(req: NextRequest) {
     const session = await getSession();
-    console.log(session);
-    if (!session.id) {
-        return NextResponse.json({
-            result: false,
-            message: '로그인한 유저가 없다.',
-        });
-    }
-    console.log('유저의 정보를 가져오기');
+    const { searchParams } = new URL(req.url);
+
     try {
-        const res = await serverAxios.get(`/service/v1/get-user-info`, {
+        const res = await serverAxios.get(`/boat/v1/create`, {
             headers: {
                 token: session.token,
             },
@@ -26,13 +20,13 @@ export async function GET() {
         console.log(res.data);
         return NextResponse.json({
             result: true,
-            message: '현재 로그인한 유저 정보 조회 성공!',
-            data: res.data.userInfo,
+            message: '종이배 생성 성공!',
+            data: true,
         });
     } catch (error) {
         console.log(error);
         return NextResponse.json(
-            { result: false, message: '현재 로그인한 유저 정보 조회 실패' },
+            { result: false, message: '종이배 생성 실패' },
             { status: 400 }
         );
     }

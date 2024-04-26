@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import PaperBoatBackground from '/public/image/paper-boat-background.png';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -18,12 +20,18 @@ export default function RootLayout({
                     'w-screen h-screen flex flex-col items-center bg-gray-200'
                 }
             >
+                <Image
+                    src={PaperBoatBackground}
+                    alt="background"
+                    className="-z-[100] fixed w-380 h-full"
+                />
                 <div
                     className={
-                        'relative w-380 h-full overflow-y-auto overflow-x-hidden'
+                        'relative w-380 h-screen overflow-y-auto overflow-x-hidden'
                     }
                 >
                     {children}
+                    <div id={'modal-root'} />
                 </div>
             </body>
         </html>

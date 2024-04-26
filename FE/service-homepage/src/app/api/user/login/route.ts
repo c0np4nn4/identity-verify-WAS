@@ -5,21 +5,28 @@ import serverAxios from '@/lib/server-axios';
 export async function POST(req: NextRequest) {
     const { id, password } = await req.json();
     let data;
+    console.log('로그인 요청');
     try {
-        const res = await serverAxios.post('/login', { id, password });
+        const res = await serverAxios.post('/service/v1/login', {
+            id,
+            password,
+        });
+        console.log(res.data);
         if (res.data.statusCode >= 400) {
             console.error(res.data.data.message);
             throw new Error(res.data.data.message);
         }
         data = res.data.data;
+        console.log(data);
         const session = await getSession();
         session.token = data.token;
         session.id = id;
+        session.userPk = data.userPk;
         session.nickname = 'kimcookieya';
         await session.save();
     } catch (error) {
         return NextResponse.json(
-            { result: false, message: '로그인 실패' },
+            { result: false, message: '로그인 실패', data: error },
             { status: 400 }
         );
     }

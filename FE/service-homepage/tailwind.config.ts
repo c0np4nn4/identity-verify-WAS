@@ -32,6 +32,12 @@ const config: Config = {
             width: px0_2000,
             height: px0_2000,
             inset: px0_2000,
+            colors: {
+                primary: '#FFE9E1',
+                secondary: '#3B5F6E',
+                mypink: '#fcc2d7',
+                myblue: '#a5d8ff',
+            },
         },
         screens: {
             xl: { max: '1279px' },
