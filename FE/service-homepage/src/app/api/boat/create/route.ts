@@ -3,12 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import serverAxios, { apiHandler } from '@/lib/server-axios';
 
 export const POST = apiHandler(async (req: NextRequest) => {
-    const session = await getSession();
-    const { searchParams } = new URL(req.url);
-
-    const res = await serverAxios.get(`/boat/v1/create`);
+    const data = await req.json();
+    console.log(data);
+    const res = await serverAxios.post(`/boat/v1/create`, data);
     return NextResponse.json({
-        result: true,
+        result: res.data.statusCode,
+        message: res.data.message,
         data: res.data.data,
     });
 });

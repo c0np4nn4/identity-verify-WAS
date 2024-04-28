@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserInfo, IUserInfoForm } from '@/types/auth';
 import { getMe, postLogin } from '@/api/Auth';
-import useUserStore from '@/stores/useUserStore';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 import { useRouter } from 'next/navigation';
 import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
 import BoatButton from '@/app/_component/BoatButton';
@@ -18,7 +18,7 @@ export default function Page() {
         getValues,
     } = useForm<IUserInfoForm>();
     const { openToast } = useToast();
-    const { login } = useUserStore();
+    const { login } = useUserInfoStore();
     const router = useRouter();
 
     const fetchMe = async () => {

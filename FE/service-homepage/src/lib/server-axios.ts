@@ -40,21 +40,10 @@ export function apiHandler(fn: (req: NextRequest, res: NextResponse) => void) {
             return await fn(req, res);
         } catch (error: any) {
             //logger.error({ err: error, responseData: error.response?.data });
-            console.log('Error');
-            console.log(JSON.stringify(error));
-            console.log('Response');
+            console.log('Error Response');
             console.log(error.message);
             console.log(error.code);
-            console.log(error.status);
-            console.log(error.headers);
-            if (error.response) {
-                return res.status(error.response.status).json({
-                    error,
-                    responseData: error.response.data,
-                }); //이 때 반환하는 json 은 error.response.data 로 들어갑니다.
-            } else {
-                return res.json;
-            }
+            return res.json;
         }
     };
 }

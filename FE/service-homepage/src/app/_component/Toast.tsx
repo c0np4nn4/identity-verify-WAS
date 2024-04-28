@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { cls } from '@/utils/tailwind';
 import { useToast } from '@/stores/useToastStore';
-import Portal from '@/app/_component/Portal';
 
 export default function Toast() {
     const { isOpen, type, message, closeToast } = useToast();

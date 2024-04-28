@@ -37,7 +37,7 @@ function CreateBoatModal() {
     const router = useRouter();
 
     const onCreateBoat = () => {
-        router.push('/my-page/boat');
+        router.push('/pond/boat');
         modalState.closeModal();
     };
 
