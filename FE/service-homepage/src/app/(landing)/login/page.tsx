@@ -1,12 +1,14 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import type { IUserInfoForm } from '@/types/auth';
-import { postLogin } from '@/api/Auth';
+import { IUserInfo, IUserInfoForm } from '@/types/auth';
+import { getMe, postLogin } from '@/api/Auth';
 import useUserStore from '@/stores/useUserStore';
 import { useRouter } from 'next/navigation';
 import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
 import BoatButton from '@/app/_component/BoatButton';
+import { useToast } from '@/stores/useToastStore';
+import Toast from '@/app/_component/Toast';
 
 export default function Page() {
     const {
@@ -15,15 +17,26 @@ export default function Page() {
         formState: { errors },
         getValues,
     } = useForm<IUserInfoForm>();
+    const { openToast } = useToast();
     const { login } = useUserStore();
     const router = useRouter();
+
+    const fetchMe = async () => {
+        const res = await getMe();
+        if (res.status <= 200) {
+            console.log(res.data.data);
+        }
+        return res.data.data.userInfo as IUserInfo;
+    };
 
     const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
         const res = await postLogin(data.id, data.password);
         if (res.data.result <= 300) {
-            alert('로그인 성공');
-            login(res.data.data, getValues('nickname') as string);
-            router.push('/pond');
+            openToast('로그인 성공', 'success', () => router.push('/pond'));
+            console.log(res.data);
+            const userInfo = await fetchMe();
+            console.log(userInfo);
+            login(userInfo);
         } else {
             alert('로그인 실패: ' + res.data.data.message);
         }
@@ -31,6 +44,7 @@ export default function Page() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
+            <Toast />
             <h1 className="absolute top-100 text-4xl font-bold text-white">
                 로그인
             </h1>

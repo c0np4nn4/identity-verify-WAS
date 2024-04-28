@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { generateColor } from '@/utils/color';
 import Link from 'next/link';
 import { useToast } from '@/stores/useToastStore';
-import Toast from '@/app/_component/Toast';
 import postSendIsItMe from '@/api/Matching';
 import { getMe } from '@/api/Auth';
 import { IUserInfo } from '@/types/auth';

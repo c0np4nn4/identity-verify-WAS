@@ -1,6 +1,6 @@
 'use client';
 
-import LabelSelectSection from '@/app/(home)/my-page/boat/_component/LabelSelectSection';
+import LabelSelectSection from '@/app/(home)/pond/boat/_component/LabelSelectSection';
 import { useState } from 'react';
 import { LabelData } from '@/datas/label';
 import { postCreateBoat } from '@/api/Boat';
