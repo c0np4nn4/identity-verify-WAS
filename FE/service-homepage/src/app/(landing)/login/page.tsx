@@ -38,7 +38,11 @@ export default function Page() {
             console.log(userInfo);
             login(userInfo);
         } else {
-            alert('로그인 실패: ' + res.data.data.message);
+            openToast(
+                `로그인 실패 - ${res.data.data.message}`,
+                'error',
+                () => {}
+            );
         }
     };
 
