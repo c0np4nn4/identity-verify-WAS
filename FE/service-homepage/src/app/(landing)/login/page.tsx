@@ -13,18 +13,19 @@ export default function Page() {
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
     } = useForm<IUserInfoForm>();
     const { login } = useUserStore();
     const router = useRouter();
 
     const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
-        try {
-            const res = await postLogin(data.id, data.password);
-            alert(res.data.message);
-            login(res.data.data, 'min49590');
+        const res = await postLogin(data.id, data.password);
+        if (res.data.result <= 300) {
+            alert('로그인 성공');
+            login(res.data.data, getValues('nickname') as string);
             router.push('/pond');
-        } catch (e) {
-            console.error(e);
+        } else {
+            alert('로그인 실패: ' + res.data.data.message);
         }
     };
 
@@ -43,7 +44,6 @@ export default function Page() {
                     name={'id'}
                     register={register}
                 />
-
                 <UserInfoInput
                     type={'password'}
                     placeholder={'비밀번호 입력'}

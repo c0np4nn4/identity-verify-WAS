@@ -24,7 +24,7 @@ export default function BoatMatchingPage({
     useEffect(() => {
         const fetchBoat = async () => {
             const res = await getBoatSingle(boatPk);
-            if (res.status === 200) {
+            if (res.status <= 300) {
                 setBoat(res.data.data as IBoat);
             }
         };
@@ -32,9 +32,9 @@ export default function BoatMatchingPage({
 
         const fetchMe = async () => {
             const res = await getMe();
-            if (res.status === 200) {
-                console.log(res.data);
-                setUser(res.data.data as IUserInfo);
+            if (res.status <= 200) {
+                console.log(res.data.data);
+                setUser(res.data.data.userInfo as IUserInfo);
             }
         };
         fetchMe();

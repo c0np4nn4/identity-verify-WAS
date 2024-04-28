@@ -12,9 +12,8 @@ export default function PonePage() {
     useEffect(function getBoatListEffect() {
         const fetchBoatList = async () => {
             const res = await getBoatList();
-            if (res.status === 200) {
-                console.log(res.data.data);
-                setBoatList(res.data.data as IBoat[]);
+            if (res.data.result <= 300) {
+                setBoatList(res.data.data.boatList as IBoat[]);
             }
         };
         fetchBoatList();
