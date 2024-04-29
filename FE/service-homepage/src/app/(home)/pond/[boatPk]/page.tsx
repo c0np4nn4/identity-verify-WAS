@@ -42,7 +42,7 @@ export default function BoatMatchingPage({
     const onLikeMe = async () => {
         console.log('좋아요 보내기');
         const res = await postSendIsItMe({ targetPk: boat?.userPk as string });
-        toastState.openToast('좋아요를 보냈습니다!', 'success');
+        toastState.openToast('좋아요를 보냈습니다!', 'success', () => {});
     };
 
     return (

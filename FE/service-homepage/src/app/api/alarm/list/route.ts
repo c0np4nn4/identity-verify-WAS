@@ -4,17 +4,11 @@ import serverAxios, { apiHandler } from '@/lib/server-axios';
 
 export const GET = apiHandler(async (req: NextRequest) => {
     const session = await getSession();
-    console.log('api call');
     const res = await serverAxios.get(
-        `/alarm/v1/list?userPk=${session.userPk}`,
-        {
-            headers: {
-                token: session.token,
-            },
-        }
+        `/alarm/v1/list?userPk=${session.userPk}`
     );
     return NextResponse.json({
-        result: true,
+        result: res.data.statusCode,
         data: res.data.data,
     });
 });
