@@ -34,16 +34,24 @@ serverAxios.interceptors.request.use(
 
 export default serverAxios;
 
-export function apiHandler(fn: (req: NextRequest, res: NextResponse) => void) {
+export function apiHandler(
+    fn: (req: NextRequest, res: NextResponse) => Promise<void | Response>
+) {
     return async function (req: NextRequest, res: NextResponse) {
         try {
             return await fn(req, res);
         } catch (error: any) {
-            //logger.error({ err: error, responseData: error.response?.data });
+            logger.error(
+                { err: error, responseData: error.message },
+                error.message
+            );
             console.log('Error Response');
             console.log(error.message);
             console.log(error.code);
-            return res.json;
+            return NextResponse.json({
+                result: error.code,
+                message: error.message,
+            });
         }
     };
 }

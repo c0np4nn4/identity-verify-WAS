@@ -23,6 +23,10 @@ export async function postRegister(
     });
 }
 
-export async function getMe() {
+export async function getUserInfo() {
+    return clientAxios.get('/api/user/info');
+}
+
+export async function getCheckLogin() {
     return clientAxios.get('/api/user/me');
 }

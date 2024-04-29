@@ -21,7 +21,7 @@ export default function PaperBoatCard({
             className="flex flex-col w-144 h-168 bg-white rounded-6 shadow-2xl p-8 opacity-80 hover:animate-spring"
         >
             <div className="flex flex-wrap mt-2 gap-8">
-                {labels.map((label, index) => (
+                {labels.slice(0, 4).map((label, index) => (
                     <LabelTag key={label + index} label={label} />
                 ))}
             </div>
@@ -43,7 +43,7 @@ function LabelTag({ label }: { label: string }) {
             className={`text-18 rounded-6 px-2 py-1`}
             style={{ color: textColor }}
         >
-            {label}
+            #{label}
         </span>
     );
 }

@@ -1,11 +1,24 @@
 import { NextResponse } from 'next/server';
-import serverAxios, { apiHandler } from '@/lib/server-axios';
+import { apiHandler } from '@/lib/server-axios';
+import getSession from '@/lib/session';
 
 export const GET = apiHandler(async () => {
-    const res = await serverAxios.get(`/service/v1/get-user-info`, {});
+    const session = await getSession();
+
+    // check if the user is logged in
+    if (!session.id) {
+        return NextResponse.json({
+            result: 401,
+            message: '로그인이 필요합니다.',
+        });
+    }
 
     return NextResponse.json({
-        result: true,
-        data: res.data,
+        result: 200,
+        message: '로그인이 되어있습니다.',
+        data: {
+            id: session.id,
+            nickname: session.nickname,
+        },
     });
 });
