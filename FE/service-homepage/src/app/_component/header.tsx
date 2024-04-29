@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import useUserInfoStore from '@/stores/useUserInfoStore';
-import { getMe, postLogout } from '@/api/Auth';
+import { getUserInfo, postLogout } from '@/api/Auth';
 
 export default function Header() {
     const { userInfo, logout } = useUserInfoStore();
@@ -29,7 +29,7 @@ export default function Header() {
     useEffect(
         function getMeEffect() {
             const fetch = async () => {
-                const res = await getMe();
+                const res = await getUserInfo();
                 const data = res.data;
                 if (data.result) {
                     console.log(data.data);

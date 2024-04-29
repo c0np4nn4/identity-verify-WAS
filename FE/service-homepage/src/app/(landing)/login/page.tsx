@@ -2,7 +2,7 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserInfo, IUserInfoForm } from '@/types/auth';
-import { getMe, postLogin } from '@/api/Auth';
+import { getUserInfo, postLogin } from '@/api/Auth';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import { useRouter } from 'next/navigation';
 import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
@@ -22,7 +22,7 @@ export default function Page() {
     const router = useRouter();
 
     const fetchMe = async () => {
-        const res = await getMe();
+        const res = await getUserInfo();
         if (res.status <= 200) {
             console.log(res.data.data);
         }

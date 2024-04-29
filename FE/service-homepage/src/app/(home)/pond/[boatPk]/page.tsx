@@ -7,7 +7,7 @@ import { generateColor } from '@/utils/color';
 import Link from 'next/link';
 import { useToast } from '@/stores/useToastStore';
 import postSendIsItMe from '@/api/Matching';
-import { getMe } from '@/api/Auth';
+import { getUserInfo } from '@/api/Auth';
 import { IUserInfo } from '@/types/auth';
 
 export default function BoatMatchingPage({
@@ -30,7 +30,7 @@ export default function BoatMatchingPage({
         fetchBoat();
 
         const fetchMe = async () => {
-            const res = await getMe();
+            const res = await getUserInfo();
             if (res.status <= 200) {
                 console.log(res.data.data);
                 setUser(res.data.data.userInfo as IUserInfo);
