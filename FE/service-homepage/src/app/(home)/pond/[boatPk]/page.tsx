@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { generateColor } from '@/utils/color';
 import Link from 'next/link';
 import { useToast } from '@/stores/useToastStore';
-import Toast from '@/app/_component/Toast';
 import postSendIsItMe from '@/api/Matching';
 import { getMe } from '@/api/Auth';
 import { IUserInfo } from '@/types/auth';
@@ -24,7 +23,7 @@ export default function BoatMatchingPage({
     useEffect(() => {
         const fetchBoat = async () => {
             const res = await getBoatSingle(boatPk);
-            if (res.status === 200) {
+            if (res.status <= 300) {
                 setBoat(res.data.data as IBoat);
             }
         };
@@ -32,9 +31,9 @@ export default function BoatMatchingPage({
 
         const fetchMe = async () => {
             const res = await getMe();
-            if (res.status === 200) {
-                console.log(res.data);
-                setUser(res.data.data as IUserInfo);
+            if (res.status <= 200) {
+                console.log(res.data.data);
+                setUser(res.data.data.userInfo as IUserInfo);
             }
         };
         fetchMe();

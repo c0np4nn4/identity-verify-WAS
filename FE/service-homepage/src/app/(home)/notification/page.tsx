@@ -11,15 +11,15 @@ export default function NotificationPage() {
     useEffect(function getAlarmListEffect() {
         const fetchAlarmList = async () => {
             const res = await getAlarmList();
-            if (res.status === 200) {
-                setAlarmList(res.data as IAlarm[]);
+            if (res.data.result <= 300) {
+                setAlarmList(res.data.data.alarmList as IAlarm[]);
             }
         };
         fetchAlarmList();
     }, []);
 
     return (
-        <main className="flex flex-col items-center justify-center p-24">
+        <main className="flex flex-col items-center justify-center p-24 text-white">
             <h1 className="text-40 mt-24">알림창</h1>
             <section className="flex flex-col gap-y-24 mt-80 w-full">
                 <NotificationItem

@@ -51,6 +51,16 @@ export default function Home() {
                         시작하기
                     </button>
                 </Link>
+                <Link href="/login">
+                    <button
+                        className={
+                            'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
+                        }
+                        style={{ animationDelay: '3.5s' }}
+                    >
+                        로그인하기
+                    </button>
+                </Link>
             </div>
         </main>
     );

@@ -5,9 +5,9 @@ interface IWalletStore {
     setInstalled: (isInstalled: boolean) => void;
 }
 
-const useUserStore = create<IWalletStore>((set) => ({
+const useWalletStore = create<IWalletStore>((set) => ({
     isInstalled: false,
     setInstalled: (isInstalled: boolean) => set(() => ({ isInstalled })),
 }));
 
-export default useUserStore;
+export default useWalletStore;

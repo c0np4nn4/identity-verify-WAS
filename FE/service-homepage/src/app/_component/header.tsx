@@ -1,14 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import useUserStore from '@/stores/useUserStore';
-import useWalletStore from '@/stores/useWalletStore';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 import { getMe, postLogout } from '@/api/Auth';
 
 export default function Header() {
-    const { nickname, login, logout } = useUserStore();
+    const { nickname, login, logout } = useUserInfoStore();
 
     const pathname = usePathname();
     const router = useRouter();
@@ -35,7 +33,6 @@ export default function Header() {
                 const data = res.data;
                 if (data.result) {
                     console.log(data.data);
-                    login(data.data.id, data.data.nickname);
                     if (pathname === '/login' || pathname === '/register') {
                         router.push('/');
                     }

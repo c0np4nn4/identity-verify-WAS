@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
             throw new Error(res.data.data.message);
         }
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { result: false, message: '회원가입 실패' },
             { status: 400 }

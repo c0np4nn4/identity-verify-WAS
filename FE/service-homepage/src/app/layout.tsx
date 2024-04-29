@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import PaperBoatBackground from '/public/image/paper-boat-background.png';
 import Image from 'next/image';
+import Toast from '@/app/_component/Toast';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -31,8 +32,8 @@ export default function RootLayout({
                     }
                 >
                     {children}
-                    <div id={'modal-root'} />
                 </div>
+                <div id={'modal-root'} />
             </body>
         </html>
     );
