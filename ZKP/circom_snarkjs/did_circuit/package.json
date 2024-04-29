@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "did_circuit",
     "version": "1.0.0",
     "description": "",
@@ -15,4 +16,23 @@
         "circomlib": "^2.0.5",
         "snarkjs": "^0.7.3"
     }
+=======
+  "name": "did_circuit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gen": "node ./src/1_gen_key.js",
+    "prv": "node ./src/2_gen_prf.js",
+    "vrf": "node ./src/3_vrf_prf.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
+    "snarkjs": "^0.7.3"
+  }
+>>>>>>> 5157c0fba6b3e9d632af053bd2693ebb7c53724f
 }
