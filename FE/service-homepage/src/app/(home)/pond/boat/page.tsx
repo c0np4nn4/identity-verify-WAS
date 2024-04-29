@@ -6,18 +6,20 @@ import { LabelData } from '@/datas/label';
 import { useRouter } from 'next/navigation';
 import { postCreateBoat } from '@/api/Boat';
 import useUserInfoStore from '@/stores/useUserInfoStore';
+import { useToast } from '@/stores/useToastStore';
 
 const TOTAL_STEP = 3;
 
 export default function BoatPage() {
     const router = useRouter();
     const userInfo = useUserInfoStore((state) => state.userInfo);
+    const toast = useToast((state) => state);
     const [step, setStep] = useState(0);
     const [labels, setLabels] = useState<string[]>(
         Array.from({ length: 9 }, () => '')
     );
     const [secreteLabels, setSecreteLabels] = useState<string[]>(
-        Array.from({ length: 3 }, () => '')
+        Array.from({ length: 2 }, () => '')
     );
     const handleNext = () => {
         setStep((prevStep) => Math.min(prevStep + 1, TOTAL_STEP - 1));
@@ -45,15 +47,20 @@ export default function BoatPage() {
     };
 
     const onCreateBoat = async () => {
-        console.log('배 만들기');
         const res = await postCreateBoat({
             userPk: userInfo!.pk,
             labels,
             secreteLabels,
         });
         console.log(res);
-        if (res.status <= 300) {
-            // router.push('/pond');
+        if (res.status <= 300 && res.data.result === 200) {
+            toast.openToast(
+                '배가 성공적으로 만들어졌습니다.',
+                'success',
+                () => {
+                    router.push('/pond');
+                }
+            );
         }
     };
 
@@ -160,7 +167,7 @@ function SecreteSelectSection({
             className={'flex-none flex flex-col gap-y-24 w-full h-full p-24'}
         >
             <h2 className={'text-24'}>시크릿 라벨 고르기</h2>
-            {LabelData.slice(6, 9).map((label, index) => {
+            {LabelData.slice(6, 8).map((label, index) => {
                 return (
                     <LabelSelectSection
                         key={index}
