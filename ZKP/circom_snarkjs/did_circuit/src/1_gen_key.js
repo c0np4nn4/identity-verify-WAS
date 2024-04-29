@@ -2,6 +2,7 @@ const snarkjs = require('snarkjs');
 const fs = require('fs');
 
 const generator = async (circuit) => {
+<<<<<<< HEAD
     console.info('Initializing ZKey process...');
 
     await snarkjs.zKey.newZKey(
@@ -34,6 +35,23 @@ const generator = async (circuit) => {
         console.error('Verification failed, something went wrong!');
         process.exit(1);
     }
+=======
+  console.info('Initializing ZKey process...')
+  await snarkjs.zKey.newZKey(`./circuit/${circuit}.r1cs`, "./keys/pot14_final.ptau", `./keys/${circuit}_00.zkey`)
+
+  console.info('First contribution...')
+  await snarkjs.zKey.contribute(`./keys/${circuit}_00.zkey`, `./keys/${circuit}_01.zkey`, 'cintribution#1', 'thisismycontribution')
+
+  console.info('Beacon phase...')
+  await snarkjs.zKey.beacon(`./keys/${circuit}_01.zkey`, `./keys/${circuit}_final.zkey`, 'beaconContribution', '0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f', 10)
+
+  console.info('Verifying the Zkey...')
+  const flag = await snarkjs.zKey.verifyFromR1cs(`./circuit/${circuit}.r1cs`, "./keys/pot14_final.ptau", `./keys/${circuit}_final.zkey`)
+  if (!flag) {
+    console.error('Verification failed, something went wrong!')
+    process.exit(1)
+  }
+>>>>>>> 5157c0fba6b3e9d632af053bd2693ebb7c53724f
 
     console.info('Verification done! \nExporting the Verification Key...');
     const Vk = await snarkjs.zKey.exportVerificationKey(
