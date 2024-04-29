@@ -1,27 +1,25 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { map } from 'rxjs/operators';
-import { lastValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { connectToNEARContract, createVC } from '../utils/utils';
 import { NEARContract } from '../types/types';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as ed25519 from '@stablelib/ed25519';
-import { StudentKeyPairEntity } from '../entity/student-key-pair.entity';
 const bs58 = require('bs58');
 const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class IssuerAPIService {
-  constructor(
-    @InjectRepository(StudentKeyPairEntity)
-    private studentKeyPairRepository: Repository<StudentKeyPairEntity>,
-    private readonly configService: ConfigService,
-  ) { }
+  constructor(private readonly configService: ConfigService) {}
 
+  ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
+  ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
+
+  /*
+    @ Use: Issuer Controller - createUserVC()
+    @ Intend: did 규격에 맞게 VC object 생성
+  */
   createUserVC(dto: UserVCDto) {
     const { studentMajorCode, holderPubKey } = dto;
     const uuid = uuidv4();
@@ -29,6 +27,10 @@ export class IssuerAPIService {
     return { uuid, vc };
   }
 
+  /*
+    @ Use: Issuer Controller - createUserVC()
+    @ Intend: hash한 VC를 Near 네트워크에 적재
+  */
   async loadKeyChain(issuerPubKey: string, vc: string) {
     const contract = await connectToNEARContract();
 
@@ -45,24 +47,17 @@ export class IssuerAPIService {
     });
 
     console.log(`[+] hashed VCs from issuer '${issuerPubKey}': ${response}`);
-    return;
+    return response;
   }
 
-  // TODO: 학과 본부 DB라고 가정한 student-pair 테이블 구현 필요 (pk, email, student_number)
-  async verifyMatchMajor(email: string, studentNumber: string) {
-    const studentPair = await this.studentKeyPairRepository.findOne({
-      where: { email, studentNumber },
-    });
-    if (!studentPair) {
-      return { result: false };
-    }
-    return { result: true };
-  }
+  /*
+    @ Use: Issuer Controller - generateProofValue()
+    @ Intend: VC에 sign하기 위해 Issuer Pri Key로 sign한 값을 반환
+    * Info: Key는 일단 env 파일로 관리
+  */
   generateProofValue() {
-    //! Key는 일단 env 파일로 관리
     // Issuer Key Pair 생성
     // => Public Key: 32자리 base58 / Private Key: 64자리 base58
-    // const { publicKey, secretKey } = ed25519.generateKeyPair();
 
     // VC sign 목적 proofValue 생성
     // Private Key로 msg를 sign함
@@ -70,17 +65,19 @@ export class IssuerAPIService {
     const message = `pnu_${uuidv4()}`;
     return {
       proofValue: bs58.encode(
-        ed25519.sign(
-          bs58.decode(this.configService.get<string>('ISSUER_PRI_KEY')),
-          Buffer.from(message),
-        ),
+        ed25519.sign(bs58.decode(this.ISSUER_PRI_KEY), Buffer.from(message)),
       ),
       message,
     };
   }
 
-  async getIssuerPubKey() {
-    // TODO: DB에서 Issuer Pub Key 가져와서 반환
+  /*
+    @ Use: Issuer Controller - createUserVC()
+    @ Intend: Issuer Pub Key를 반환
+    ? Issuer Pub Key는 이렇게 안생겼는데
+  */
+  // TODO: env 파일에서 Issuer Pub Key 가져와서 반환
+  getIssuerPubKey() {
     return 'quixotic-debt.testnet';
   }
 }

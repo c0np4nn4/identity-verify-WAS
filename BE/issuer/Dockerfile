@@ -1,13 +1,12 @@
-FROM node:20.11-alpine
+FROM node:20.11-alpine as base
 
-WORKDIR /usr/src/app
+WORKDIR /app
+RUN apk add --no-cache curl
 
-COPY package*.json ./
-
-RUN npm install
-
-# COPY . .
-
-# EXPOSE 8082
-
+FROM base AS container
+COPY package*.json /app/
+RUN npm ci
+COPY . /app
+RUN echo "issuer-container"
+EXPOSE 8082
 CMD ["npm", "run", "start:prod"]

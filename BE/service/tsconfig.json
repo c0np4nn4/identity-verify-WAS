@@ -16,7 +16,10 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@entity/*": ["src/entity/*"]
+    }
   },
   "watchOptions": {
     "watchFile": "priorityPollingInterval",
