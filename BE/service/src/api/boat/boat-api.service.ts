@@ -39,6 +39,7 @@ export class BoatAPIService {
         // 'boat.isOccupied',
         'boat.createdAt',
         'user.nickname',
+        'user.pk',
       ])
       .getMany();
 
@@ -88,6 +89,7 @@ export class BoatAPIService {
       'boat.secrete2',
       'boat.createdAt',
       'user.nickname',
+      'user.pk',
     ]);
 
     const boats = await query.getMany();
@@ -121,6 +123,7 @@ export class BoatAPIService {
         'boat.secrete2',
         'boat.createdAt',
         'user.nickname',
+        'user.pk',
       ])
       .getOne();
 
@@ -202,8 +205,8 @@ export class BoatAPIService {
   convertToBoatObject(boat: BoatEntity) {
     return {
       pk: boat.pk,
-      userPk: boat.userPk,
-      userNickname: boat.user.nickname,
+      userPk: boat.user?.pk,
+      userNickname: boat.user?.nickname,
       labels: [
         boat.label1,
         boat.label2,
