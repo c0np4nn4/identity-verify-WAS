@@ -2,17 +2,6 @@ const snarkjs = require('snarkjs');
 const fs = require('fs');
 
 async function proof_generator() {
-<<<<<<< HEAD
-    const { proof, publicSignals } = await snarkjs.groth16.fullProve(
-        {
-            n1: 1,
-            n2: 2,
-            n3: 10,
-        },
-        './circuit/circuit_js/circuit.wasm',
-        './keys/circuit_final.zkey'
-    );
-=======
   const { proof, publicSignals } = await snarkjs.groth16.fullProve(
     {
       isu_pub_key: [0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
@@ -27,16 +16,15 @@ async function proof_generator() {
   fs.writeFileSync("./proof.json", JSON.stringify(proof))
   fs.writeFileSync("./publicInputSignals.json", JSON.stringify(publicSignals))
   console.log("Proof & publicInput Generated!");
->>>>>>> 5157c0fba6b3e9d632af053bd2693ebb7c53724f
 
-    fs.writeFileSync('./proof.json', JSON.stringify(proof));
-    fs.writeFileSync(
-        './publicInputSignals.json',
-        JSON.stringify(publicSignals)
-    );
-    console.log('Proof & publicInput Generated!');
+  fs.writeFileSync('./proof.json', JSON.stringify(proof));
+  fs.writeFileSync(
+    './publicInputSignals.json',
+    JSON.stringify(publicSignals)
+  );
+  console.log('Proof & publicInput Generated!');
 }
 
 proof_generator().then(() => {
-    process.exit(0);
+  process.exit(0);
 });

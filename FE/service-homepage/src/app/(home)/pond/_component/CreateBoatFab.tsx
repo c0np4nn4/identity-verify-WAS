@@ -5,6 +5,7 @@ import Modal from '@/app/_component/Modal';
 import { useModalStore } from '@/stores/useModalStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 
 export default function CreateBoarFab() {
     const modalState = useModalStore();
@@ -14,7 +15,7 @@ export default function CreateBoarFab() {
     };
 
     return (
-        <div className={'absolute bottom-80 right-30 z-[1000]'}>
+        <div className={'fixed bottom-80 right-30 z-[1000]'}>
             <button
                 onClick={onFabClick}
                 className={
@@ -35,9 +36,10 @@ export default function CreateBoarFab() {
 function CreateBoatModal() {
     const modalState = useModalStore();
     const router = useRouter();
+    const userInfo = useUserInfoStore((state) => state.userInfo);
 
     const onCreateBoat = () => {
-        router.push('/my-page/boat');
+        router.push('/pond/boat');
         modalState.closeModal();
     };
 
@@ -54,10 +56,20 @@ function CreateBoatModal() {
             >
                 <h1>종이배를 띄우시겠습니까?</h1>
                 <p>20하트가 소모됩니다!</p>
+                <p className={'mt-40 text-12'}>
+                    {"'"} 종이배를 띄우면 다른 사람들이 당신의 마음을 볼 수
+                    있습니다.{"'"}
+                </p>
+                <p className={'text-14 mt-auto'}>
+                    하트:{' '}
+                    <span className={'text-red-400'}>{userInfo?.heart}</span>{' '}
+                    보유 중
+                </p>
                 <div className={'flex gap-4 ml-auto mt-auto'}>
                     <button
                         className={'bg-primary text-white rounded-10 px-8 py-4'}
                         onClick={onCreateBoat}
+                        disabled={userInfo?.heart! < 20}
                     >
                         띄우기
                     </button>

@@ -1,11 +1,26 @@
 import clientAxios from '@/lib/client-axios';
 
-export default async function postSendIsItMe({
-    targetPk,
-}: {
-    targetPk: string;
-}) {
+export async function postSendIsItMe({ targetPk }: { targetPk: string }) {
     return clientAxios.post('/api/matching/sendIsItMe', {
         targetPk,
+    });
+}
+
+export async function postSendMyLabel({
+    targetPk,
+    label1,
+    label2,
+    label3,
+}: {
+    targetPk: string;
+    label1: string;
+    label2: string;
+    label3: string;
+}) {
+    return clientAxios.post('/api/matching/sendMyLabel', {
+        targetPk,
+        label1,
+        label2,
+        label3,
     });
 }

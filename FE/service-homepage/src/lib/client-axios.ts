@@ -21,6 +21,7 @@ clientAxios.interceptors.response.use(
         return response;
     },
     (error) => {
+        console.log(error.response.data);
         if (error.response) {
             if (error.response.status === 401) {
                 alert('토큰이 존재하지 않습니다.');

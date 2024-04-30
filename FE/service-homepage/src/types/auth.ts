@@ -11,6 +11,7 @@ export interface IUserInfo {
     id: string;
     password: string;
     isVerifiedUser: boolean;
+    isOccupied: boolean;
     heart: number;
     createdAt: Date;
 }
