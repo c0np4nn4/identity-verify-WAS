@@ -21,9 +21,9 @@ export class IssuerAPIService {
     @ Intend: did 규격에 맞게 VC object 생성
   */
   createUserVC(dto: UserVCDto) {
-    const { studentMajorCode, holderPubKey } = dto;
+    const { holderPubKey } = dto;
     const uuid = uuidv4();
-    const vc = createVC(uuid, studentMajorCode, holderPubKey);
+    const vc = createVC(uuid, holderPubKey);
     return { uuid, vc };
   }
 
@@ -62,6 +62,7 @@ export class IssuerAPIService {
     // VC sign 목적 proofValue 생성
     // Private Key로 msg를 sign함
     // => Proof Value: 64자리 base58
+    // TODO: `VC_no_${자동_증가_값}`로 message 값 변경
     const message = `pnu_${uuidv4()}`;
     return {
       proofValue: bs58.encode(
