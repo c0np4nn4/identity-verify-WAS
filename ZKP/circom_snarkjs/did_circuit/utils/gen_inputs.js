@@ -32,21 +32,29 @@ let main = async () => {
   eddsa = await buildEddsa();
   babyJub = await buildBabyjub();
 
+  // VC_no_1337
   const msg = Buffer.from("00f1020304050607080900010203040506070809000102030405060708090011", "hex");
 
+  // NEAR Private Key
   const prvKey = Buffer.from("0001020304050607080900010203040506070809000102030405060708090001", "hex");
 
+  // deriv from prvKey
   const pubKey = eddsa.prv2pub(prvKey);
 
+  // drive from pubKey
   const pPubKey = babyJub.packPoint(pubKey);
 
+  // deriv from prvKey, msg
   const signature = eddsa.signPedersen(prvKey, msg);
 
+  // deriv from Signature
   const pSignature = eddsa.packSignature(signature);
   const uSignature = eddsa.unpackSignature(pSignature);
 
+  // check validity
   console.assert(eddsa.verifyPedersen(msg, uSignature, pubKey));
 
+  // output: {msg, pSignature, pPubKey}
   const msgBits = buffer2bits(msg);
   const r8Bits = buffer2bits(pSignature.slice(0, 32));
   const sBits = buffer2bits(pSignature.slice(32, 64));
