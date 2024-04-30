@@ -22,9 +22,10 @@ export async function connectToNEARContract(): Promise<Contract> {
 
   // NEAR 연결
   const nearConnection = await connect(connectionConfig);
+  // issuer
   const account = await nearConnection.account('shaggy-trade.testnet');
 
-  const contract = new Contract(account, 'cagey-mark.testnet', {
+  const contract = new Contract(account, 'goofy-stone.testnet', {
     viewMethods: [
       'get_document',
       'get_did_list',
@@ -48,6 +49,7 @@ export function createVC(uuid: string, holderPubKey: string) {
     context: ['https://www.w3.org/ns/credentials/v2'],
     id: `url:uuid:${uuid}`,
     credential_type: ['VerifiableCredential', 'MajorCredential'],
+    // 완성본 issuer
     issuer: 'did:near:pnu.testnet',
     validFrom: timeStamp,
     credentialSubject: {

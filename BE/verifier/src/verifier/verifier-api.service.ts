@@ -36,7 +36,6 @@ export class VerifierAPIService {
     @ Intend: ZKP 검증으로 생성된 proof를 Near 네트워크에 적재
   */
   async loadProofResult(HolderPubKey: string) {
-    // TODO: 내부 코드 변경 필요 (예상)
     const contract = await connectToNEARContract();
 
     // { Holder Pub Key : 서비스 이름 } 적재

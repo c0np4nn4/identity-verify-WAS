@@ -36,6 +36,7 @@ export class IssuerAPIService {
 
     // { Issuer Pub Key : Hash(VC) } 적재
     const hashVC = await bcrypt.hash(vc, 10);
+
     await (contract as NEARContract).load_hashed_vc({
       issuer_did: `did:near:${issuerPubKey}`,
       hashed_vc: hashVC,
@@ -75,10 +76,8 @@ export class IssuerAPIService {
   /*
     @ Use: Issuer Controller - createUserVC()
     @ Intend: Issuer Pub Key를 반환
-    ? Issuer Pub Key는 이렇게 안생겼는데
   */
-  // TODO: env 파일에서 Issuer Pub Key 가져와서 반환
   getIssuerPubKey() {
-    return 'quixotic-debt.testnet';
+    return 'goofy-stone.testnet';
   }
 }
