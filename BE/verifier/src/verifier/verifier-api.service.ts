@@ -25,10 +25,11 @@ export class VerifierAPIService {
 
     if (res === true) {
       console.log('Proof verified successfully');
+      return true;
     } else {
       console.log('Invalid proof');
+      return false;
     }
-    return true;
   }
 
   /*
