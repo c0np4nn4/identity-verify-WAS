@@ -69,6 +69,9 @@ describe('IssuerAPIController (e2e)', () => {
     expect(res).toHaveProperty('vc');
   });
 
+  // TODO
+  // - issuerPubKey 와 vc{ ... }의 `issuer` 를 통일해야함
+  // - `pnu.testnet` 에는 최종 완성된 스마트 컨트랙트를 배포할 예정임
   it('Load Key Chain: Success', async () => {
     const issuerPubKey = 'meaty-man.testnet';
     const vc = `{

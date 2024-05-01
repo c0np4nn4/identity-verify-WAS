@@ -3,6 +3,7 @@ use crate::DidContractExt;
 use crate::DidDocument;
 use crate::HolderDID;
 use crate::IssuerDID;
+use crate::ServiceName;
 use crate::DID;
 
 use near_sdk::AccountId;
@@ -30,6 +31,11 @@ impl DidContract {
 
     pub fn get_mapped_issuer_did(&self, holder_did: HolderDID) -> IssuerDID {
         self.map_holder_did_to_issuer_did.get(&holder_did).unwrap()
+    }
+
+    // for service
+    pub fn get_total_registered_services(&self) -> Vec<ServiceName> {
+        self.set_service_name.iter().collect()
     }
 
     pub fn get_mapped_holder_did_validity(
