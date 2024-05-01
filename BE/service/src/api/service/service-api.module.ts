@@ -7,6 +7,7 @@ import { UserEntity } from '../../entity/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { BoatEntity } from '@entity/boat.entity';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { BoatEntity } from '@entity/boat.entity';
     }),
   ],
   controllers: [ServiceAPIController],
-  providers: [ServiceAPIService],
+  providers: [ServiceAPIService, CustomLoggerService],
   exports: [ServiceAPIService],
 })
 export class ServiceAPIModule {}

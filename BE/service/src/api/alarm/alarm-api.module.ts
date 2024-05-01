@@ -5,11 +5,12 @@ import { ServiceAPIModule } from '../service/service-api.module';
 import { AlarmAPIController } from './alarm-api.controller';
 import { AlarmAPIService } from './alarm-api.service';
 import { AlarmEntity } from '@entity/alarm.entity';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AlarmEntity]), ServiceAPIModule],
   controllers: [AlarmAPIController],
-  providers: [AlarmAPIService, TokenGuard],
+  providers: [AlarmAPIService, TokenGuard, CustomLoggerService],
   exports: [AlarmAPIService],
 })
 export class AlarmAPIModule {}

@@ -7,6 +7,7 @@ import { MatchLogAPIController } from './match-log-api.controller';
 import { MatchLogAPIService } from './match-log-api.service';
 import { AlarmAPIModule } from '../alarm/alarm-api.module';
 import { BoatAPIModule } from '../boat/boat-api.module';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { BoatAPIModule } from '../boat/boat-api.module';
     BoatAPIModule,
   ],
   controllers: [MatchLogAPIController],
-  providers: [MatchLogAPIService, TokenGuard],
+  providers: [MatchLogAPIService, TokenGuard, CustomLoggerService],
 })
 export class MatchLogAPIModule {}

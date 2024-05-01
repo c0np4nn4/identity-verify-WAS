@@ -2,9 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { ServiceAppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CustomExceptionFilter } from './filter/exception.filter';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create(ServiceAppModule);
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   app.enableCors({
     origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],

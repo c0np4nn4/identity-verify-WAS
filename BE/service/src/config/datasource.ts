@@ -17,7 +17,7 @@ export default new DataSource({
   database: 'db',
   entities: [UserEntity, BoatEntity, MatchLogEntity, AlarmEntity],
   migrations: ['src/migrations/*{.ts,.js}'],
-  synchronize: true,
+  synchronize: false,
   logging: true,
   charset: 'utf8mb4_unicode_ci',
   timezone: '+09:00',

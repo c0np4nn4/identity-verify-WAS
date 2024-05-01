@@ -17,3 +17,19 @@ export const ANSWER = {
   NO: 'NO',
   YES: 'YES',
 };
+
+export const WHERE = {
+  ALARM: 'ALARM',
+  BOAT: 'BOAT',
+  SERVICE: 'SERVICE',
+  MATCH_LOG: 'MATCH_LOG',
+  TOKEN_GUARD: 'TOKEN_GUARD',
+};
+
+export const WHERE_LOG = {
+  ALARM: '🛎 ALARM 🛎',
+  BOAT: '⛵ BOAT ⛵',
+  SERVICE: '🎱 SERVICE 🎱',
+  MATCH_LOG: '🧩 MATCH_LOG 🧩',
+  TOKEN_GUARD: '🛡 TOKEN_GUARD 🛡',
+};
