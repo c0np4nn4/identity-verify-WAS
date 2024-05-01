@@ -10,6 +10,7 @@ export class ProofDto {
   @ApiProperty({ description: 'Issuer pub key', example: 'ipubkey' })
   readonly IssuerPubKey: string;
 
+  // TODO: might be deprecated
   @ApiProperty({ description: 'Major code', example: '12' })
   readonly majorCode: string;
 
