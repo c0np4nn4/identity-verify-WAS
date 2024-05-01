@@ -4,11 +4,15 @@ import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { EmailSendCodeDto } from '../dto/email-send-code.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Controller('api/holder')
 @ApiTags('HOLDER API')
 export class HolderAPIController {
-  constructor(private readonly holderAPIService: HolderAPIService) {}
+  constructor(
+    private readonly holderAPIService: HolderAPIService,
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   @Post('/create-vc')
   @ApiOperation({
@@ -31,6 +35,7 @@ export class HolderAPIController {
         data: { issuerPubKey, vc: JSON.stringify(newVC), message },
       };
     } catch (error) {
+      this.customLoggerService.error('/create-vc', '사용자 VC 생성 실패', dto);
       throw new CustomErrorException('User VC Create Failed', 500);
     }
   }
@@ -49,6 +54,7 @@ export class HolderAPIController {
       const token = await this.holderAPIService.sendEmailCode(dto);
       return { statusCode: 200, data: { token } };
     } catch (error) {
+      this.customLoggerService.error('/v1/send-email', '이메일 전송 에러', dto);
       throw new CustomErrorException('Send Email Failed', 500);
     }
   }
