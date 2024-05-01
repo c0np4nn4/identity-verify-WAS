@@ -7,7 +7,7 @@ export type NEARVerfiyResult = Contract & {
     depositAmount?: number,
   ) => Promise<any>;
   get_verify_result: (
-    args: { holder_public_key: string },
+    args: { holder_did: string },
     gas?: number,
     depositAmount?: number,
   ) => Promise<boolean>;
