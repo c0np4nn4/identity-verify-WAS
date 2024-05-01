@@ -6,6 +6,7 @@ mod did_document;
 mod test;
 mod utils;
 mod vc;
+mod zkp_verify;
 
 use did_document::*;
 use std::collections::HashSet;
@@ -13,6 +14,7 @@ use utils::convert_account_id_to_did;
 use vc::HashedVC;
 
 pub type Validity = bool;
+pub type ServiceName = String;
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize)]
@@ -26,6 +28,9 @@ struct DidContract {
     // Set: Issuer DID
     pub set_issuer_did: UnorderedSet<IssuerDID>,
 
+    // Set: Issuer DID
+    pub set_service_name: UnorderedSet<ServiceName>,
+
     // Mapping: Issuer DID --> Vec<HashedVc>
     pub map_issuer_did_to_hashed_vcs:
         UnorderedMap<IssuerDID, HashSet<HashedVC>>,
@@ -35,6 +40,10 @@ struct DidContract {
 
     // Mapping: Holder DID --> Validity
     pub map_holder_did_to_validity: UnorderedMap<HolderDID, Validity>,
+
+    // Mapping: ServiceName --> Holder DID --> Validity
+    pub map_servicename_to_holder_validity:
+        UnorderedMap<ServiceName, HashSet<HolderDID>>,
 }
 
 impl Default for DidContract {
@@ -43,9 +52,11 @@ impl Default for DidContract {
             map_account_to_did: UnorderedMap::new(b"l"),
             map_did_to_document: UnorderedMap::new(b"d"),
             set_issuer_did: UnorderedSet::new(b"s"),
+            set_service_name: UnorderedSet::new(b"n"),
             map_issuer_did_to_hashed_vcs: UnorderedMap::new(b"h"),
             map_holder_did_to_issuer_did: UnorderedMap::new(b"v"),
             map_holder_did_to_validity: UnorderedMap::new(b"y"),
+            map_servicename_to_holder_validity: UnorderedMap::new(b"y"),
         }
     }
 }
@@ -143,15 +154,8 @@ impl DidContract {
         }
     }
 
-    pub fn load_holder_did_validity_mapping(
-        &mut self,
-        holder_did: HolderDID,
-        validity: bool,
-    ) {
-        // TODO maybe need more logic to check the validity
-        if self.get_total_did().contains(&holder_did) {
-            self.map_holder_did_to_validity
-                .insert(&holder_did, &validity);
-        }
+    // TODO: need more strict logic
+    pub fn reg_service_name(&mut self, service_name: ServiceName) {
+        self.set_service_name.insert(&service_name);
     }
 }

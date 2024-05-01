@@ -41,6 +41,8 @@ impl DidContract {
             None => false,
         }
     }
+
+    // zkp_verify.rs has 2 more methods
 }
 
 pub fn convert_account_id_to_did(near_named_account: AccountId) -> DID {

@@ -70,7 +70,7 @@ describe('IssuerAPIController (e2e)', () => {
   });
 
   it('Load Key Chain: Success', async () => {
-    const issuerPubKey = 'goofy-stone.testnet';
+    const issuerPubKey = 'meaty-man.testnet';
     const vc = `{
         uuid: '505264c8-fea3-4ff0-8bb4-d5b49ea7936b',
         vc: {

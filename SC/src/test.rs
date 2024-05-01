@@ -189,10 +189,8 @@ mod tests {
         // 일단 did 등록 해둬야 함
         contract.reg_did_using_account(false);
 
-        contract.load_holder_did_validity_mapping(
-            "did:near:newbie.testnet".to_string(),
-            true,
-        );
+        contract
+            .load_verify_result("did:near:newbie.testnet".to_string(), true);
 
         println!(
             "<test> holder validity: {:?}",

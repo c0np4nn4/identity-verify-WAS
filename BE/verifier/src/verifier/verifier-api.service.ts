@@ -34,26 +34,28 @@ export class VerifierAPIService {
 
   /*
     @ Use: Verifier Controller - verifyProof()
-    @ Intend: ZKP 검증으로 생성된 proof를 Near 네트워크에 적재
+    @ Intend: ZKP 검증을 통해 인증받은 사용자를 Near 네트워크에 적재
   */
-  async loadProofResult(HolderPubKey: string) {
+  async loadProofResult(ServiceName: string, HolderPubKey: string) {
     const contract = await connectToNEARContract();
 
     // { Holder Pub Key : 서비스 이름 } 적재
     await (contract as NEARVerfiyResult).load_verify_result({
-      holder_public_key: HolderPubKey,
-      service_name: 'dot-dan-bea',
+      service_name: `${ServiceName}`,
+      holder_did: `did:near:${HolderPubKey}`,
     });
 
     // 제대로 적재 되었는지 확인
     const response = await (contract as NEARVerfiyResult).get_verify_result({
-      holder_public_key: HolderPubKey,
+      service_name: `${ServiceName}`,
+      holder_did: `did:near:${HolderPubKey}`,
     });
 
     console.log(
       `[+] Verify result by Holder pub key '${HolderPubKey}': ${response}`,
     );
-    return true;
+    // return true;
+    return response;
   }
 
   /*
