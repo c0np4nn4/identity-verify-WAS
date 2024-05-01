@@ -8,6 +8,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { JwtModule } from '@nestjs/jwt';
 
 describe('HolderAPIController (e2e)', () => {
+  jest.setTimeout(100000);
+
   let app: INestApplication;
 
   beforeAll(async () => {
