@@ -18,7 +18,7 @@ export class IssuerAPIService {
     private readonly configService: ConfigService,
     @InjectRepository(CounterEntity)
     private counterRepository: Repository<CounterEntity>,
-  ) {}
+  ) { }
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
@@ -85,7 +85,7 @@ export class IssuerAPIService {
     @ Intend: Issuer Pub Key를 반환
   */
   getIssuerPubKey() {
-    return 'goofy-stone.testnet';
+    return 'meaty-man.testnet';
   }
 
   /*

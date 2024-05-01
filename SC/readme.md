@@ -29,6 +29,12 @@ did:near:<named_account>
 ```
 
 # Contract 구성
+## Contract 초기 설정
+- `cargo-near...` 명령어로 테스트넷 계정을 만들고, 배포합니다.
+- `issuer` 를 등록합니다.
+- `service`를 등록합니다.
+
+## 구성
 - Smart contract 는 아래와 같이 총 6개의 state를 저장하고 있습니다.
 
 - map_account_to_did: UnorderedMap<AccountId, DID>

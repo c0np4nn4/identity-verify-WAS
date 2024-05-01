@@ -24,15 +24,21 @@ export async function connectToNEARContract(): Promise<Contract> {
   const nearConnection = await connect(connectionConfig);
   const account = await nearConnection.account('shaggy-trade.testnet');
 
-  const contract = new Contract(account, 'cagey-mark.testnet', {
+  const contract = new Contract(account, 'meaty-man.testnet', {
     viewMethods: [
       'get_document',
       'get_did_list',
       'get_did_document_list',
       'get_hashed_vcs',
       'get_issuer_list',
+      'get_veriy_result'
+
     ],
-    changeMethods: ['reg_did_using_account', 'load_hashed_vc'],
+    changeMethods: [
+      'reg_did_using_account',
+      'load_hashed_vc',
+      'load_verify_result'
+    ],
     useLocalViewExecution: false,
   });
 
