@@ -19,7 +19,6 @@ export class VerifierAPIService {
       IssuerPubKeyJson,
       vKeyJson,
     );
-
     // verify success
     const res = await groth16.verify(vKey, IssuerPubKey, proof);
 
