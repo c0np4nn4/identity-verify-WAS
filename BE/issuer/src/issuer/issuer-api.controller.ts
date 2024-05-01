@@ -31,7 +31,7 @@ export class IssuerAPIController {
   @ApiOperation({
     summary: 'HOLDER 호출) base58 string[64] 형태 Proof Value 생성',
   })
-  generateProofValue() {
-    return this.issuerAPIService.generateProofValue();
+  async generateProofValue() {
+    return await this.issuerAPIService.generateProofValue();
   }
 }

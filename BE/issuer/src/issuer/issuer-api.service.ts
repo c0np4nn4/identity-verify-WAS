@@ -6,12 +6,19 @@ import { UserVCDto } from '../dto/user-vc.dto';
 import { connectToNEARContract, createVC } from '../utils/utils';
 import { NEARContract } from '../types/types';
 import * as ed25519 from '@stablelib/ed25519';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CounterEntity } from '../entity/counter.entity';
+import { Repository } from 'typeorm';
 const bs58 = require('bs58');
 const bcrypt = require('bcryptjs');
 
 @Injectable()
 export class IssuerAPIService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRepository(CounterEntity)
+    private counterRepository: Repository<CounterEntity>,
+  ) {}
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
@@ -56,15 +63,15 @@ export class IssuerAPIService {
     @ Intend: VC에 sign하기 위해 Issuer Pri Key로 sign한 값을 반환
     * Info: Key는 일단 env 파일로 관리
   */
-  generateProofValue() {
+  async generateProofValue() {
     // Issuer Key Pair 생성
     // => Public Key: 32자리 base58 / Private Key: 64자리 base58
 
     // VC sign 목적 proofValue 생성
     // Private Key로 msg를 sign함
     // => Proof Value: 64자리 base58
-    // TODO: `VC_no_${자동_증가_값}`로 message 값 변경
-    const message = `pnu_${uuidv4()}`;
+    const thisCount = await this.getCountAndIncrement();
+    const message = `VC_no_${thisCount}`;
     return {
       proofValue: bs58.encode(
         ed25519.sign(bs58.decode(this.ISSUER_PRI_KEY), Buffer.from(message)),
@@ -79,5 +86,27 @@ export class IssuerAPIService {
   */
   getIssuerPubKey() {
     return 'goofy-stone.testnet';
+  }
+
+  /*
+    @ Use: main.ts (환경변수)
+    @ Intend: Counter를 초기화
+  */
+  async resetCounter() {
+    return await this.counterRepository.save({ id: 'counter', count: 0 });
+  }
+
+  /*
+    @ Use: generateProofValue()
+    @ Intend: Counter를 통해 현재 count 값을 반환
+  */
+  async getCountAndIncrement() {
+    const countRow = await this.counterRepository.findOne({
+      where: { id: 'counter' },
+    });
+    countRow.count += 1;
+    await this.counterRepository.save(countRow);
+
+    return countRow.count;
   }
 }
