@@ -34,6 +34,17 @@ did:near:<named_account>
 - `issuer` 를 등록합니다.
 - `service`를 등록합니다.
 
+### 예시
+```bash
+export CTRT="hello-world.testnet"
+near call $CTRT reg_did_using_account --useAccount $CTRT '{"is_issuer": true}' --deposit 5
+near call $CTRT reg_service_name '{"service_name": "kataomoi-boat"}' --useAccount $CTRT
+near view $CTRT get_total_registered_services
+# [ 'kataomoi-boat' ]
+near call $CTRT load_verify_result '{"service_name":"kataomoi-boat", "holder_did": "hpubkey"}' --useAccount $CTRT
+near view $CTRT get_servicename_values '{"service_name":"kataomoi-boat"}'
+```
+
 ## 구성
 - Smart contract 는 아래와 같이 총 6개의 state를 저장하고 있습니다.
 

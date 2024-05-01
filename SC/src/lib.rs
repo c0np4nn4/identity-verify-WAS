@@ -28,7 +28,7 @@ struct DidContract {
     // Set: Issuer DID
     pub set_issuer_did: UnorderedSet<IssuerDID>,
 
-    // Set: Issuer DID
+    // Set: Service Name
     pub set_service_name: UnorderedSet<ServiceName>,
 
     // Mapping: Issuer DID --> Vec<HashedVc>

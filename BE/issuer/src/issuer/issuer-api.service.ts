@@ -88,7 +88,7 @@ export class IssuerAPIService {
     @ Intend: Issuer Pub Key를 반환
   */
   getIssuerPubKey() {
-    return 'meaty-man.testnet';
+    return 'honorable-muscle.testnet';
   }
 
   /*
