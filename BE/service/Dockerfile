@@ -1,12 +1,12 @@
 FROM node:20.11-alpine as base
 
-WORKDIR /app
+WORKDIR /usr/src/app
 RUN apk add --no-cache curl
 
-FROM base AS container
-COPY package*.json /app/
-RUN npm ci
-COPY . /app
+COPY package*.json ./
+
+RUN npm i
+
 RUN echo "service-container"
-EXPOSE 4000
+
 CMD ["npm", "run", "start:prod"]
