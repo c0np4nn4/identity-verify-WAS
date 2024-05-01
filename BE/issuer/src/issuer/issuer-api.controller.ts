@@ -3,11 +3,15 @@ import { IssuerAPIService } from './issuer-api.service';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Controller('api/issuer')
 @ApiTags('Issuer API')
 export class IssuerAPIController {
-  constructor(private readonly issuerAPIService: IssuerAPIService) {}
+  constructor(
+    private readonly issuerAPIService: IssuerAPIService,
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   // * Holder에서 호출
   @Post('/create-vc')
@@ -18,10 +22,16 @@ export class IssuerAPIController {
     const { vc } = this.issuerAPIService.createUserVC(dto);
     const vcString = JSON.stringify(vc);
     const issuerPubKey = this.issuerAPIService.getIssuerPubKey();
+
     try {
       await this.issuerAPIService.loadKeyChain(issuerPubKey, vcString);
       return { issuerPubKey, vc: vcString };
     } catch (error) {
+      this.customLoggerService.error('/create-vc', '사용자 VC 생성 실패', {
+        ...dto,
+        vc,
+        issuerPubKey,
+      });
       throw new CustomErrorException('Block Chain Load Failed', 500);
     }
   }
@@ -32,6 +42,15 @@ export class IssuerAPIController {
     summary: 'HOLDER 호출) base58 string[64] 형태 Proof Value 생성',
   })
   async generateProofValue() {
-    return await this.issuerAPIService.generateProofValue();
+    try {
+      return await this.issuerAPIService.generateProofValue();
+    } catch (error) {
+      this.customLoggerService.error(
+        '/generate-proof-value',
+        'Proof Value 생성 실패',
+        {},
+      );
+      throw new CustomErrorException('Proof Value Generate Failed', 500);
+    }
   }
 }

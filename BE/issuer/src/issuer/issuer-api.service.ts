@@ -9,6 +9,8 @@ import * as ed25519 from '@stablelib/ed25519';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CounterEntity } from '../entity/counter.entity';
 import { Repository } from 'typeorm';
+import { CustomLoggerService } from 'src/module/custom.logger';
+import { CustomErrorException } from 'src/filter/custom-error.exception';
 const bs58 = require('bs58');
 const bcrypt = require('bcryptjs');
 
@@ -18,7 +20,8 @@ export class IssuerAPIService {
     private readonly configService: ConfigService,
     @InjectRepository(CounterEntity)
     private counterRepository: Repository<CounterEntity>,
-  ) { }
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   ISSUER_PUB_KEY = this.configService.get<string>('ISSUER_PUB_KEY');
   ISSUER_PRI_KEY = this.configService.get<string>('ISSUER_PRI_KEY');
@@ -101,12 +104,21 @@ export class IssuerAPIService {
     @ Intend: Counter를 통해 현재 count 값을 반환
   */
   async getCountAndIncrement() {
-    const countRow = await this.counterRepository.findOne({
-      where: { id: 'counter' },
-    });
-    countRow.count += 1;
-    await this.counterRepository.save(countRow);
+    try {
+      const countRow = await this.counterRepository.findOne({
+        where: { id: 'counter' },
+      });
+      countRow.count += 1;
+      await this.counterRepository.save(countRow);
 
-    return countRow.count;
+      return countRow.count;
+    } catch (error) {
+      this.customLoggerService.error(
+        '/generate-proof-value',
+        'count 자동 증가 실패',
+        {},
+      );
+      throw new CustomErrorException('Auto Increment Count Failed', 500);
+    }
   }
 }

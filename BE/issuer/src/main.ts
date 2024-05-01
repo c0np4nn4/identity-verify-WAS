@@ -3,9 +3,12 @@ import { IssuerAppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CustomExceptionFilter } from './filter/exception.filter';
 import { IssuerAPIService } from './issuer/issuer-api.service';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create(IssuerAppModule);
+
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   if (process.env.RESET_COUNTER === 'true') {
     const counterService = app.get(IssuerAPIService);

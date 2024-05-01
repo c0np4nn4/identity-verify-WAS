@@ -19,7 +19,7 @@ services:
       - 8082:8082
     environment:
     # count 초기화를 원하면 "true", 아니면 "false"
-      RESET_COUNTER: "true" 
+      RESET_COUNTER: "false" 
     depends_on:
       - mysql-was
     volumes:
