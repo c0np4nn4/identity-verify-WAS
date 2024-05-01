@@ -14,19 +14,15 @@ export class VerifierAPIController {
     summary: '생성된 Proof를 검증',
   })
   async verifyProof(@Body() dto: ProofDto): Promise<boolean> {
-    const { HolderPubKey, proof, IssuerPubKey, pk, message, params, vkey } =
-      dto;
-    const verifyResult = this.verifierAPIService.verifyProof(
+    const { HolderPubKey, proof, IssuerPubKey, vKey } = dto;
+    const verifyResult = await this.verifierAPIService.verifyProof(
       proof,
       IssuerPubKey,
-      pk,
-      message,
-      params,
-      // TODO: 잘 쪼개지는지 테스트 필요
-      Uint8Array.from(vkey.split('').map((letter) => letter.charCodeAt(0))),
+      vKey,
     );
     if (!verifyResult) return false;
     try {
+      // TODO: 로직 작성 by 승현
       await this.verifierAPIService.loadProofResult(HolderPubKey);
       return true;
     } catch (error) {

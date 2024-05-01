@@ -20,7 +20,6 @@ export class HolderAPIService {
 
   CREATE_USER_VC = this.configService.get<string>('API_CREATE_USER_VC');
   GET_PROOF_VALUE = this.configService.get<string>('API_GET_PROOF_VALUE');
-  VERIFY_MAJOR_MATCH = this.configService.get<string>('API_VERIFY_MAJOR_MATCH');
 
   /*
     @ Use: Holder Controller - createUserVC()

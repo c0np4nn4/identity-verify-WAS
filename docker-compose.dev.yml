@@ -17,6 +17,9 @@ services:
     container_name: issuer
     ports:
       - 8082:8082
+    environment:
+    # count 초기화를 원하면 "true", 아니면 "false"
+      RESET_COUNTER: "true" 
     depends_on:
       - mysql-was
     volumes:
@@ -29,7 +32,7 @@ services:
     ports:
       - 8083:8083
     depends_on:
-      - mysql-was
+      - mysql-counter
     volumes:
       - ./BE/verifier:/usr/src/app
 
@@ -56,6 +59,18 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
+  mysql-counter:
+    image: mysql:8.0
+    container_name: mysql-counter
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_COUNTER_PASSWORD}
+      MYSQL_DATABASE: db
+      TZ: Asia/Seoul
+    volumes:
+      - mysql-counter-data:/var/lib/mysql
+
   service-homepage:
     build: ./FE/service-homepage
     image: service-homepage
@@ -66,3 +81,4 @@ services:
 
 volumes:
   mysql-data:
+  mysql-counter-data:

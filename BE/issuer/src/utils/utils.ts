@@ -22,9 +22,10 @@ export async function connectToNEARContract(): Promise<Contract> {
 
   // NEAR 연결
   const nearConnection = await connect(connectionConfig);
+  // issuer
   const account = await nearConnection.account('shaggy-trade.testnet');
 
-  const contract = new Contract(account, 'cagey-mark.testnet', {
+  const contract = new Contract(account, 'goofy-stone.testnet', {
     viewMethods: [
       'get_document',
       'get_did_list',
@@ -39,11 +40,7 @@ export async function connectToNEARContract(): Promise<Contract> {
   return contract;
 }
 
-export function createVC(
-  uuid: string,
-  studentMajorCode: string,
-  holderPubKey: string,
-) {
+export function createVC(uuid: string, holderPubKey: string) {
   const timeStamp = getTimeStamp();
   // proofValue 는 현재 하드코딩  됨
   // - issuer 필드와 함께, 연산결과로 수정되어야 함
@@ -52,13 +49,13 @@ export function createVC(
     context: ['https://www.w3.org/ns/credentials/v2'],
     id: `url:uuid:${uuid}`,
     credential_type: ['VerifiableCredential', 'MajorCredential'],
+    // 완성본 issuer
     issuer: 'did:near:pnu.testnet',
     validFrom: timeStamp,
     credentialSubject: {
       id: `did:near:${holderPubKey}.testnet`,
       subject: {
         school_did: 'did:near:pnu.testnet',
-        major: studentMajorCode,
       },
     },
     proof: {
@@ -67,8 +64,7 @@ export function createVC(
       created: timeStamp,
       verificationMethod: 'CircRefVCSignatureVerificationMethod',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        '1B59B0290FEA0A7C8EB3308FA5AE87AFCC970D5C68AE651CE8E7A002E121A993F5EF3FCDEDC9C4A64E76A119F42259D2B4F2D24999469871CB2288A5E9C39402',
+      proofValue: '',
     },
   };
 }

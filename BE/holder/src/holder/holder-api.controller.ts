@@ -16,15 +16,19 @@ export class HolderAPIController {
   })
   async createUserVC(@Body() dto: UserVCDto) {
     try {
-      const { issuerPubKey, vc } =
-        await this.holderAPIService.createUserVC(dto);
+      const { issuerPubKey, vc } = await this.holderAPIService.createUserVC(
+        dto,
+      );
       const { proofValue, message } =
         await this.holderAPIService.getProofValue();
       const rawVC = JSON.parse(vc);
-      Object.assign(rawVC, { proofValue });
+
+      const newProof = { ...rawVC.proof, proofValue };
+      const newVC = { ...rawVC, proof: newProof };
+
       return {
         statusCode: 200,
-        data: { issuerPubKey, vc: JSON.stringify(rawVC), message },
+        data: { issuerPubKey, vc: JSON.stringify(newVC), message },
       };
     } catch (error) {
       throw new CustomErrorException('User VC Create Failed', 500);

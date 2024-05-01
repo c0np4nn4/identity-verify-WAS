@@ -29,6 +29,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "snarkjs": "^0.7.4",
+    "@types/snarkjs": "^0.7.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1"
   },
@@ -40,6 +42,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",
+    "@types/snarkjs": "^0.7.8",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
