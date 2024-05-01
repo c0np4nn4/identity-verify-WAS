@@ -2,7 +2,7 @@ import { Contract } from 'near-api-js';
 
 export type NEARVerfiyResult = Contract & {
   load_verify_result: (
-    args: { holder_public_key: string; service_name: string },
+    args: { holder_did: string; validity: boolean },
     gas?: number,
     depositAmount?: number,
   ) => Promise<any>;

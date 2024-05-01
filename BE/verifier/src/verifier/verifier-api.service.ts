@@ -40,13 +40,13 @@ export class VerifierAPIService {
 
     // { Holder Pub Key : 서비스 이름 } 적재
     await (contract as NEARVerfiyResult).load_verify_result({
-      holder_public_key: HolderPubKey,
-      service_name: 'dot-dan-bea',
+      holder_did: `did:near:${HolderPubKey}`,
+      validity: true,
     });
 
     // 제대로 적재 되었는지 확인
-    const response = await (contract as NEARVerfiyResult).get_verify_result({
-      holder_public_key: HolderPubKey,
+    const response = await (contract as NEARVerfiyResult).get_mapped_holder_did_validity({
+      holder_did: `did:near:${HolderPubKey}`,
     });
 
     console.log(

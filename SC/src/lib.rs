@@ -143,7 +143,8 @@ impl DidContract {
         }
     }
 
-    pub fn load_holder_did_validity_mapping(
+    // TODO
+    pub fn load_verify_result(
         &mut self,
         holder_did: HolderDID,
         validity: bool,
