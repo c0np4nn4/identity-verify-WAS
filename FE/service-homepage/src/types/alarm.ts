@@ -1,3 +1,5 @@
+import { EMatchingStatus } from '@/enumerates/matching';
+
 export interface IAlarm {
     pk: number;
     userPk: string;
@@ -12,7 +14,7 @@ export interface IAlarm {
         label2: string | null;
         label3: string | null;
         name: string | null;
-        status: 'IS_IT_ME_RECEIVE';
+        status: EMatchingStatus;
         targetPk: string;
     };
 }

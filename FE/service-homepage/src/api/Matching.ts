@@ -6,6 +6,12 @@ export async function postSendIsItMe({ targetPk }: { targetPk: string }) {
     });
 }
 
+export async function postSendRejectSign({ targetPk }: { targetPk: string }) {
+    return clientAxios.post('/api/matching/sendRejectSign', {
+        targetPk,
+    });
+}
+
 export async function postSendMyLabel({
     targetPk,
     label1,
