@@ -1,7 +1,7 @@
 # zkp_snark_example
 
-- halo2 를 이용합니다.
-
+- ~~halo2 를 이용합니다.~~
+- `circom` + `snarkjs` 를 이용합니다.
 ---
 
 ## ed25519_test
