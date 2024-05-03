@@ -30,14 +30,7 @@ export default function NotificationPage() {
             {alarmList.length > 0 ? (
                 <section className="flex flex-col gap-y-24 mt-80 w-full overflow-y-scroll h-full">
                     {alarmList.reverse().map((alarm, index) => (
-                        <NotificationItem
-                            key={index}
-                            type={alarm.matchLog.status}
-                            message={alarm.text}
-                            read={alarm.read}
-                            createdAt={alarm.createdAt}
-                            targetPk={alarm.userPk}
-                        />
+                        <NotificationItem key={index} alarm={alarm} />
                     ))}
                 </section>
             ) : (
@@ -49,24 +42,12 @@ export default function NotificationPage() {
     );
 }
 
-function NotificationItem({
-    type,
-    message,
-    read,
-    createdAt,
-    targetPk,
-}: {
-    type: EMatchingStatus;
-    message: string;
-    read: boolean;
-    createdAt: string;
-    targetPk: string;
-}) {
+function NotificationItem({ alarm }: { alarm: IAlarm }) {
     const { openToast } = useToast();
     let colorString = 'bg-gray-800 text-white';
     let title = '';
 
-    switch (type) {
+    switch (alarm.matchLog.status) {
         case EMatchingStatus.IS_IT_ME_SEND:
             colorString = 'bg-green-500 text-white';
             title = '혹시 나야?를 보냄';
@@ -86,7 +67,9 @@ function NotificationItem({
     }
 
     const onRejectMatching = async () => {
-        const res = await postSendRejectSign({ targetPk });
+        const res = await postSendRejectSign({
+            targetPk: alarm.matchLog.targetPk,
+        });
         if (res.data.result <= 300) {
             console.log(res.data.data);
             openToast('"혹시 나야?" 매칭을 거절했습니다!', 'success', () => {});
@@ -102,12 +85,12 @@ function NotificationItem({
                 <BsFillInfoCircleFill size={14} />
                 <h2 className="text-18">{title}</h2>
                 <label className="text-12 ml-auto">
-                    {new Date(createdAt).toLocaleString('ko-KR')}
+                    {new Date(alarm.createdAt).toLocaleString('ko-KR')}
                 </label>
             </div>
             <div className={'flex gap-x-8'}>
-                <p className="text-16 mt-12">{message}</p>
-                {type === EMatchingStatus.IS_IT_ME_RECEIVE && (
+                <p className="text-16 mt-12">{alarm.text}</p>
+                {alarm.matchLog.status === EMatchingStatus.IS_IT_ME_RECEIVE && (
                     <div className={'flex gap-x-4 ml-auto'}>
                         <Link
                             href={'/matching/send-label'}
