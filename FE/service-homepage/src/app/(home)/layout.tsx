@@ -36,6 +36,7 @@ export default function HomeLayout({
                     const res2 = await fetchMe();
                     console.log(res2);
                     if (res2) {
+                        console.log(res2);
                         userState.login(res2 as IUserInfo);
                     }
                 } else {
