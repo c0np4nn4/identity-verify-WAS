@@ -30,3 +30,16 @@ export async function postSendMyLabel({
         label3,
     });
 }
+
+export async function postSendRealName({
+    targetPk,
+    name,
+}: {
+    targetPk: string;
+    name: string;
+}) {
+    return clientAxios.post('/api/matching/sendRealName', {
+        targetPk,
+        name,
+    });
+}

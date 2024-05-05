@@ -55,6 +55,9 @@ function CreateBoatModal() {
                 }
             >
                 <h1>종이배를 띄우시겠습니까?</h1>
+                <p className={'mt-24 text-14'}>
+                    안녕하세요 {userInfo?.nickname}님!
+                </p>
                 <p>20하트가 소모됩니다!</p>
                 <p className={'mt-40 text-12'}>
                     {"'"} 종이배를 띄우면 다른 사람들이 당신의 마음을 볼 수

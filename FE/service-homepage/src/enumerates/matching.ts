@@ -5,6 +5,8 @@ export const EMatchingStatus = {
     REJECT_RECEIVE: 'REJECT_RECEIVE',
     POST_LABEL_RECEIVE: 'POST_LABEL_RECEIVE',
     POST_LABEL_SEND: 'POST_LABEL_SEND',
+    NAME_RECEIVE: 'NAME_RECEIVE',
+    NAME_SEND: 'NAME_SEND',
 };
 
 export type EMatchingStatus =
