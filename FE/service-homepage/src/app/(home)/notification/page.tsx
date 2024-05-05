@@ -71,6 +71,10 @@ function NotificationItem({ alarm }: { alarm: IAlarm }) {
         case EMatchingStatus.POST_LABEL_RECEIVE:
             return <ReceiveLabelAlarm alarm={alarm} />;
             break;
+        case EMatchingStatus.POST_LABEL_SEND:
+            colorString = 'bg-green-500 text-white';
+            title = '상대에게 특징 라벨을 보냄';
+            break;
     }
 
     const onRejectMatching = async () => {
