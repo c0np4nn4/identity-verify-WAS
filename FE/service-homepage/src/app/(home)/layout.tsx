@@ -6,7 +6,7 @@ import { useToast } from '@/stores/useToastStore';
 import { useRouter } from 'next/navigation';
 import Toast from '@/app/_component/Toast';
 import { useEffect } from 'react';
-import { getCheckLogin, getUserInfo } from '@/api/Auth';
+import { getCheckLogin, getUserInfo } from '@/api/User';
 import { IUserInfo } from '@/types/auth';
 
 export default function HomeLayout({
@@ -31,7 +31,7 @@ export default function HomeLayout({
 
             const fetchCheckLogin = async () => {
                 const res = await getCheckLogin();
-                if (res.status <= 300) {
+                if (res.data.result <= 300) {
                     console.log(res.data.data);
                     const res2 = await fetchMe();
                     console.log(res2);

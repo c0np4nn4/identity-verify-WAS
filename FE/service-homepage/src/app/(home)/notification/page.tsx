@@ -35,7 +35,7 @@ export default function NotificationPage() {
 
             <h1 className="text-40 mt-24">{userInfo?.nickname}의 내역</h1>
             {alarmList.length > 0 ? (
-                <section className="flex flex-col gap-y-24 mt-80 w-full overflow-y-scroll h-800">
+                <section className="flex flex-col gap-y-24 mt-80 w-full  h-800">
                     {alarmList.map((alarm, index) => (
                         <NotificationItem key={index} alarm={alarm} />
                     ))}

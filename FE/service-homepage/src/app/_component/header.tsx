@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import useUserInfoStore from '@/stores/useUserInfoStore';
-import { getUserInfo, postLogout } from '@/api/Auth';
+import { getUserInfo, postLogout } from '@/api/User';
 
 export default function Header() {
     const { userInfo, logout } = useUserInfoStore();

@@ -1,0 +1,9 @@
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:01 AM [33m[RoutesResolver][39m [32mVerifierAPIController {/api/verifier}:[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:01 AM [33m[RouterExplorer][39m [32mMapped {/api/verifier/verify-proof, POST} route[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:01 AM [33m[NestApplication][39m [32mNest application successfully started[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:03 AM [33m[RoutesResolver][39m [32mVerifierAPIController {/api/verifier}:[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:03 AM [33m[RouterExplorer][39m [32mMapped {/api/verifier/verify-proof, POST} route[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 8:05:03 AM [33m[NestApplication][39m [32mNest application successfully started[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 10:53:49 AM [33m[RoutesResolver][39m [32mVerifierAPIController {/api/verifier}:[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 10:53:49 AM [33m[RouterExplorer][39m [32mMapped {/api/verifier/verify-proof, POST} route[39m
+[32m[VERIFIER][39m [33mInfo[39m	5/6/2024, 10:53:49 AM [33m[NestApplication][39m [32mNest application successfully started[39m
