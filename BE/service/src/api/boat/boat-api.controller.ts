@@ -14,11 +14,16 @@ import { TokenGuard } from 'src/common/guard/token.guard';
 import { BoatAPIService } from './boat-api.service';
 import { CreateBoatDto } from 'src/dto/boat-create.dto';
 import { ModifyBoatDto } from 'src/dto/boat-modify.dto';
+import { CustomLoggerService } from 'src/module/custom.logger';
+import { WHERE } from 'src/common/const';
 
 @ApiTags('BOAT API')
 @Controller('api/boat')
 export class BoatAPIController {
-  constructor(private readonly boatAPIService: BoatAPIService) {}
+  constructor(
+    private readonly boatAPIService: BoatAPIService,
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   @UseGuards(TokenGuard)
   @Get('/v1/list')
@@ -30,6 +35,14 @@ export class BoatAPIController {
       const boatList = await this.boatAPIService.getBoatList(userPk);
       return { statusCode: 200, data: { boatList } };
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['BOAT'],
+        '/v1/list',
+        '종이배 리스트 조회 실패',
+        {
+          userPk,
+        },
+      );
       throw new CustomErrorException('Request Failed', 400);
     }
   }
@@ -63,6 +76,19 @@ export class BoatAPIController {
       );
       return { statusCode: 200, data: { boatList } };
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['BOAT'],
+        '/v1/list-filter',
+        '종이배 리스트 조회 실패',
+        {
+          userPk,
+          filter1,
+          filter2,
+          filter3,
+          filter4,
+          filter5,
+        },
+      );
       throw new CustomErrorException('Request Failed', 400);
     }
   }
@@ -80,6 +106,14 @@ export class BoatAPIController {
       }
       return { statusCode: 200, data: { boat } };
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['BOAT'],
+        '/v1/single',
+        '단일 종이배 조회 실패',
+        {
+          boatPk,
+        },
+      );
       throw new CustomErrorException('Request Failed', 400);
     }
   }
@@ -94,6 +128,14 @@ export class BoatAPIController {
       await this.boatAPIService.createBoat(dto);
       return { statusCode: 200, message: 'Create Boat Success' };
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['BOAT'],
+        '/v1/create',
+        '종이배 생성 실패',
+        {
+          ...dto,
+        },
+      );
       throw new CustomErrorException('Request Failed', 400);
     }
   }
@@ -108,6 +150,14 @@ export class BoatAPIController {
       await this.boatAPIService.modifyBoat(dto);
       return { statusCode: 200, message: 'Modify Boat Success' };
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['BOAT'],
+        '/v1/modify',
+        '종이배 수정 실패',
+        {
+          ...dto,
+        },
+      );
       throw new CustomErrorException('Request Failed', 400);
     }
   }
