@@ -6,9 +6,22 @@ export async function postSendIsItMe({ targetPk }: { targetPk: string }) {
     });
 }
 
+export async function postSendWrongPerson({ targetPk }: { targetPk: string }) {
+    return clientAxios.post('/api/matching/wrongPerson', {
+        targetPk,
+    });
+}
+
 export async function postSendRejectSign({ targetPk }: { targetPk: string }) {
     return clientAxios.post('/api/matching/sendRejectSign', {
         targetPk,
+    });
+}
+
+export async function postSendCorrectSign({ targetPk }: { targetPk: string }) {
+    return clientAxios.post('/api/matching/sendCorrectSign', {
+        targetPk,
+        answer: 'YES',
     });
 }
 

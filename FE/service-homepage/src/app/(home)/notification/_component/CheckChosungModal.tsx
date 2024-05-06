@@ -2,6 +2,8 @@ import { useModalStore } from '@/stores/useModalStore';
 import { useRouter } from 'next/navigation';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import Link from 'next/link';
+import { postSendCorrectSign, postSendRejectSign } from '@/api/Matching';
+import { useToast } from '@/stores/useToastStore';
 
 export function CheckChosungModal({
     name,
@@ -10,13 +12,42 @@ export function CheckChosungModal({
     name: string;
     targetPk: string;
 }) {
+    const toastStore = useToast();
     const modalState = useModalStore();
     const router = useRouter();
     const userInfo = useUserInfoStore((state) => state.userInfo);
     console.log(name, targetPk);
 
-    const onCreateBoat = () => {
-        modalState.closeModal();
+    const onYesMe = async () => {
+        const res = await postSendCorrectSign({ targetPk });
+        console.log(res);
+        if (res.data.result <= 300) {
+            toastStore.openToast('나맞어 를 보냈습니다.', 'success', () => {
+                modalState.closeModal();
+            });
+        } else {
+            toastStore.openToast(
+                '서버 오류가 발생했습니다.',
+                'error',
+                () => {}
+            );
+        }
+    };
+
+    const onNoMe = async () => {
+        const res = await postSendRejectSign({ targetPk });
+        console.log(res);
+        if (res.data.result <= 300) {
+            toastStore.openToast('나 아님을 보냈습니다.', 'success', () => {
+                modalState.closeModal();
+            });
+        } else {
+            toastStore.openToast(
+                '서버 오류가 발생했습니다.',
+                'error',
+                () => {}
+            );
+        }
     };
 
     return (
@@ -38,19 +69,19 @@ export function CheckChosungModal({
                     className={
                         'bg-primary text-white rounded-10 px-8 py-4 w-full'
                     }
-                    onClick={onCreateBoat}
+                    onClick={onYesMe}
                     disabled={userInfo?.heart! < 20}
                 >
                     나 맞어!
                 </button>
-                <Link
-                    href={'/matching/send-quiz?targetPk=' + targetPk}
+                <button
                     className={
                         'bg-secondary text-white rounded-10 px-8 py-4 w-full text-center'
                     }
+                    onClick={onNoMe}
                 >
                     나 아님 ㅎㅎ
-                </Link>
+                </button>
             </div>
         </article>
     );

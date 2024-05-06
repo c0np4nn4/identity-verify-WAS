@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 import { getAlarmList } from '@/api/Notification';
 import { IAlarm } from '@/types/alarm';
 import Link from 'next/link';
-import { postSendRejectSign } from '@/api/Matching';
+import { postSendWrongPerson } from '@/api/Matching';
 import { useToast } from '@/stores/useToastStore';
 import Toast from '@/app/_component/Toast';
 import { EMatchingStatus } from '@/enumerates/matching';
 import { ReceiveLabelAlarmItem } from '@/app/(home)/notification/_component/ReceiveLabelAlarmItem';
 import { ReceiveChosungAlarmItem } from '@/app/(home)/notification/_component/ReceiveChosungAlarmItem';
-import { CheckChosungModal } from '@/app/(home)/notification/_component/CheckChosungModal';
 import Modal from '@/app/_component/Modal';
 
 export default function NotificationPage() {
@@ -62,13 +61,20 @@ function NotificationItem({ alarm }: { alarm: IAlarm }) {
             colorString = 'bg-gray-800 text-white';
             title = '혹시 나야? 신청!';
             break;
+        case EMatchingStatus.WRONG_PERSON_RECEIVE:
+            colorString = 'bg-red-600 text-white';
+            title = '혹시 나야?에 대해 나 아님을 받음';
+            break;
+        case EMatchingStatus.WRONG_PERSON_SEND:
+            colorString = 'bg-red-600 text-white';
+            title = '혹시 나야?에 대해 나 아님을 보냄';
         case EMatchingStatus.REJECT_RECEIVE:
             colorString = 'bg-pink-500 text-white';
-            title = '혹시 나야?에 대해 거절받음';
+            title = '안타깝게도 다른 사람이었나봐요ㅠ';
             break;
         case EMatchingStatus.REJECT_SEND:
             colorString = 'bg-red-600 text-white';
-            title = '혹시 나야?에 대해 거절을 보냄';
+            title = '나아님을 보냄.';
             break;
         case EMatchingStatus.POST_LABEL_RECEIVE:
             return <ReceiveLabelAlarmItem alarm={alarm} />;
@@ -80,18 +86,32 @@ function NotificationItem({ alarm }: { alarm: IAlarm }) {
         case EMatchingStatus.NAME_RECEIVE:
             return <ReceiveChosungAlarmItem alarm={alarm} />;
             break;
+        case EMatchingStatus.NAME_SEND:
+            colorString = 'bg-green-400 text-white';
+            title = '상대에게 자기 이름을 보냄';
+            break;
+        case EMatchingStatus.ANSWER_RECEIVE:
+            colorString = 'bg-green-500 text-white';
+            title = '상대가 자기가 맞대요. 인연을 찾으신걸 축하드립니다!';
+            break;
+        case EMatchingStatus.ANSWER_SEND:
+            colorString = 'bg-green-500 text-white';
+            title = '나맞어를 보냄';
+            break;
+        default:
+            break;
     }
 
-    const onRejectMatching = async () => {
-        const res = await postSendRejectSign({
+    const onWrongPerson = async () => {
+        const res = await postSendWrongPerson({
             targetPk: alarm.matchLog.targetPk,
         });
         if (res.data.result <= 300) {
             console.log(res.data.data);
-            openToast('"혹시 나야?" 매칭을 거절했습니다!', 'success', () => {});
+            openToast('사람 잘못 보셨습니다!', 'success', () => {});
         } else {
             console.log(res.data.data);
-            openToast('거절 실패', 'error', () => {});
+            openToast(res.data.data.message, 'error', () => {});
         }
     };
 
@@ -118,7 +138,7 @@ function NotificationItem({ alarm }: { alarm: IAlarm }) {
                         </Link>
                         <button
                             className="bg-white text-black text-16 rounded-4 px-8 py-1"
-                            onClick={onRejectMatching}
+                            onClick={onWrongPerson}
                         >
                             거절하기
                         </button>
