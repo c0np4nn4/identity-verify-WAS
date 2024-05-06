@@ -77,7 +77,7 @@ export class ServiceAPIService {
       return { statusCode: 400, data: { message: 'Password is not match' } };
     }
 
-    const payload = { userId: userRow.pk };
+    const payload = { pk: userRow.pk };
     const token = await this.jwtService.signAsync(payload);
     const { pk, nickname } = userRow;
     return { statusCode: 200, data: { token, nickname, userPk: pk } };
