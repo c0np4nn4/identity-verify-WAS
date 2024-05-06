@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
@@ -8,6 +9,8 @@ import { JwtService } from '@nestjs/jwt';
 import { REGISTER_EMAIL_TEMPLATE } from '../common/const';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { EmailSendCodeDto } from '../dto/email-send-code.dto';
+import { connectToNEARContract } from 'src/utils/utils';
+import { NEARContract } from 'src/types/types';
 
 @Injectable()
 export class HolderAPIService {
@@ -77,5 +80,19 @@ export class HolderAPIService {
   */
   generateEmailCodeToken(email: string, code: string): string {
     return this.jwtService.sign({ email, code });
+  }
+
+  /*
+    @ Use: Holder Controller - createUserVC()
+    @ Intend: 사용자 계정 생성시 DID 등록
+  */
+  async loadDID() {
+    const contract = await connectToNEARContract();
+
+    await (contract as NEARContract).reg_did_using_account({
+      is_issuer: true,
+    });
+
+    return true;
   }
 }

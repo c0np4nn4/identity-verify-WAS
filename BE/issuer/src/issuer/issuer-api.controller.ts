@@ -19,6 +19,9 @@ export class IssuerAPIController {
     summary: 'HOLDER 호출) 사용자 VC 생성 후 블록체인에 키체인 적재',
   })
   async createUserVC(@Body() dto: UserVCDto) {
+    // 적재된 DID인지 확인: 아니라면 throw
+    // await this.checkIsLoadedDID(dto.holderPubKey);
+
     const { vc } = this.issuerAPIService.createUserVC(dto);
     const vcString = JSON.stringify(vc);
     const issuerPubKey = this.issuerAPIService.getIssuerPubKey();
@@ -51,6 +54,19 @@ export class IssuerAPIController {
         {},
       );
       throw new CustomErrorException('Proof Value Generate Failed', 500);
+    }
+  }
+
+  // createUserVC()에서 사용
+  async checkIsLoadedDID(hpubkey: string) {
+    try {
+      const response = await this.issuerAPIService.checkIsLoadedDID(hpubkey);
+      console.log(response);
+    } catch (error) {
+      this.customLoggerService.error('/create-vc', '적재되지 않은 DID', {
+        hpubkey,
+      });
+      throw new CustomErrorException('Loaded DID Check Failed', 500);
     }
   }
 }
