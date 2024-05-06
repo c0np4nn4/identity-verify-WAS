@@ -5,7 +5,7 @@ import { IUserInfo, IUserInfoForm } from '@/types/auth';
 import { getUserInfo, postLogin } from '@/api/Auth';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import { useRouter } from 'next/navigation';
-import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
+import UserInfoInput from '@/app/(sign)/_component/UserInfoInput';
 import BoatButton from '@/app/_component/BoatButton';
 import { useToast } from '@/stores/useToastStore';
 import Toast from '@/app/_component/Toast';

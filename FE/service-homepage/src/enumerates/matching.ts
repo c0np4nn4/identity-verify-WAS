@@ -1,0 +1,17 @@
+export const EMatchingStatus = {
+    IS_IT_ME_SEND: 'IS_IT_ME_SEND',
+    IS_IT_ME_RECEIVE: 'IS_IT_ME_RECEIVE',
+    WRONG_SEND: 'WRONG_SEND',
+    WRONG_RECEIVE: 'WRONG_RECEIVE',
+    POST_LABEL_RECEIVE: 'POST_LABEL_RECEIVE',
+    POST_LABEL_SEND: 'POST_LABEL_SEND',
+    NAME_RECEIVE: 'NAME_RECEIVE',
+    NAME_SEND: 'NAME_SEND',
+    ANSWER_RECEIVE: 'ANSWER_RECEIVE',
+    ANSWER_SEND: 'ANSWER_SEND',
+    REJECT_SEND: 'REJECT_SEND',
+    REJECT_RECEIVE: 'REJECT_RECEIVE',
+};
+
+export type EMatchingStatus =
+    (typeof EMatchingStatus)[keyof typeof EMatchingStatus];

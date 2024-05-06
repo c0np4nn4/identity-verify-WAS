@@ -2,12 +2,14 @@ import { create } from 'zustand';
 
 interface IModalStore {
     isModalOpen: boolean;
-    openModal: () => void;
+    content?: React.ReactNode;
+    openModal: (content: React.ReactNode) => void;
     closeModal: () => void;
 }
 
 export const useModalStore = create<IModalStore>((set) => ({
     isModalOpen: false,
-    openModal: () => set(() => ({ isModalOpen: true })),
+    content: undefined,
+    openModal: (content) => set(() => ({ isModalOpen: true, content })),
     closeModal: () => set(() => ({ isModalOpen: false })),
 }));
