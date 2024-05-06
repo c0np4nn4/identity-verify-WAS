@@ -6,11 +6,16 @@ import { CustomErrorException } from 'src/filter/custom-error.exception';
 import { RegisterUserDto } from 'src/dto/user-register.dto';
 import { LoginUserDto } from 'src/dto/user-login.dto';
 import { TokenGuard } from 'src/common/guard/token.guard';
+import { CustomLoggerService } from 'src/module/custom.logger';
+import { WHERE } from 'src/common/const';
 
 @ApiTags('SERVICE API')
 @Controller('api/service')
 export class ServiceAPIController {
-  constructor(private readonly serviceAPIService: ServiceAPIService) {}
+  constructor(
+    private readonly serviceAPIService: ServiceAPIService,
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   /* 
     ! Web Application Service API
@@ -24,6 +29,14 @@ export class ServiceAPIController {
     try {
       return await this.serviceAPIService.registerUser(dto);
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['SERVICE'],
+        '/v1/register',
+        '1차 회원가입 실패',
+        {
+          ...dto,
+        },
+      );
       throw new CustomErrorException('Register Failed', 500);
     }
   }
@@ -36,6 +49,14 @@ export class ServiceAPIController {
     try {
       return await this.serviceAPIService.loginUser(dto);
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['SERVICE'],
+        '/v1/login',
+        '1차 로그인 실패',
+        {
+          ...dto,
+        },
+      );
       throw new CustomErrorException('Login Failed', 500);
     }
   }
@@ -50,6 +71,14 @@ export class ServiceAPIController {
       const token = req.headers['token'];
       return await this.serviceAPIService.getUserInfoByToken(token);
     } catch (error) {
+      this.customLoggerService.error(
+        WHERE['SERVICE'],
+        '/v1/get-user-info',
+        '사용자 정보 조회 실패',
+        {
+          token: req?.headers['token'],
+        },
+      );
       throw new CustomErrorException('Get User Info Failed', 500);
     }
   }
