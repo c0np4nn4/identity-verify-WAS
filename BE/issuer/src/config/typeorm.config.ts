@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { CounterEntity } from '@entity/counter.entity';
+import { CounterEntity } from '../entity/counter.entity';
 
 export const TypeormConfig = (
   configService: ConfigService,

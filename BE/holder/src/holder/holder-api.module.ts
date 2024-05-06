@@ -5,7 +5,7 @@ import { HolderAPIService } from './holder-api.service';
 import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { JwtModule } from '@nestjs/jwt';
-import { CustomLoggerService } from 'src/module/custom.logger';
+import { CustomLoggerService } from '../module/custom.logger';
 
 @Module({
   imports: [

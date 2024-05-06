@@ -3,7 +3,7 @@ import { IssuerAPIService } from './issuer-api.service';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
-import { CustomLoggerService } from 'src/module/custom.logger';
+import { CustomLoggerService } from '../module/custom.logger';
 
 @Controller('api/issuer')
 @ApiTags('Issuer API')

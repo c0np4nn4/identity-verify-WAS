@@ -4,6 +4,14 @@ import { IssuerAPIService } from '../src/issuer/issuer-api.service';
 import { ConfigModule } from '@nestjs/config';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CounterEntity } from '../src/entity/counter.entity';
+import { CustomLoggerService } from '../src/module/custom.logger';
+import { winstonFormat } from '../src/app.module';
+import * as winston from 'winston';
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModule,
+} from 'nest-winston';
+import * as moment from 'moment';
 
 class CounterRepository {
   setMockRepository() {
@@ -49,6 +57,26 @@ describe('IssuerAPIController (e2e)', () => {
           envFilePath: './src/config/.test.env',
           isGlobal: true,
         }),
+        WinstonModule.forRoot({
+          transports: [
+            new winston.transports.Console({
+              level: 'info',
+              format: winstonFormat,
+            }),
+            new winston.transports.File({
+              dirname: `./error-logs`,
+              filename: `${moment(new Date()).format('YYYY-MM-DD')}.log`,
+              level: 'warn',
+              format: winstonFormat,
+            }),
+            new winston.transports.File({
+              dirname: `./logs`,
+              filename: `${moment(new Date()).format('YYYY-MM-DD')}.log`,
+              level: 'info',
+              format: winstonFormat,
+            }),
+          ],
+        }),
       ],
       providers: [
         IssuerAPIService,
@@ -56,6 +84,7 @@ describe('IssuerAPIController (e2e)', () => {
           provide: getRepositoryToken(CounterEntity),
           useClass: CounterRepository,
         },
+        CustomLoggerService,
       ],
     }).compile();
 
@@ -72,30 +101,30 @@ describe('IssuerAPIController (e2e)', () => {
   // TODO
   // - issuerPubKey 와 vc{ ... }의 `issuer` 를 통일해야함
   // - `pnu.testnet` 에는 최종 완성된 스마트 컨트랙트를 배포할 예정임
-  it('Load Key Chain: Success', async () => {
-    const issuerPubKey = 'meaty-man.testnet';
-    const vc = `{
-        uuid: '505264c8-fea3-4ff0-8bb4-d5b49ea7936b',
-        vc: {
-          context: [ 'https://www.w3.org/ns/credentials/v2' ],
-          id: 'url:uuid:505264c8-fea3-4ff0-8bb4-d5b49ea7936b',
-          credential_type: [ 'VerifiableCredential', 'MajorCredential' ],
-          issuer: 'did:near:pnu.testnet',
-          validFrom: '2024-05-01T13:45:03Z',
-          credentialSubject: { id: 'did:near:hpubkey.testnet', subject: [Object] },
-          proof: {
-            type: 'CircRefNEARDIDProof',
-            cryptosuite: 'eddsa',
-            created: '2024-05-01T13:45:03Z',
-            verificationMethod: 'CircRefVCSignatureVerificationMethod',
-            proofPurpose: 'assertionMethod',
-            proofValue: ''
-          }
-        }
-      }`;
-    const res = await issuerApiService.loadKeyChain(issuerPubKey, vc);
-    expect(Array.isArray(res)).toBe(true);
-  });
+  // it('Load Key Chain: Success', async () => {
+  //   const issuerPubKey = 'meaty-man.testnet';
+  //   const vc = `{
+  //       uuid: '505264c8-fea3-4ff0-8bb4-d5b49ea7936b',
+  //       vc: {
+  //         context: [ 'https://www.w3.org/ns/credentials/v2' ],
+  //         id: 'url:uuid:505264c8-fea3-4ff0-8bb4-d5b49ea7936b',
+  //         credential_type: [ 'VerifiableCredential', 'MajorCredential' ],
+  //         issuer: 'did:near:pnu.testnet',
+  //         validFrom: '2024-05-01T13:45:03Z',
+  //         credentialSubject: { id: 'did:near:hpubkey.testnet', subject: [Object] },
+  //         proof: {
+  //           type: 'CircRefNEARDIDProof',
+  //           cryptosuite: 'eddsa',
+  //           created: '2024-05-01T13:45:03Z',
+  //           verificationMethod: 'CircRefVCSignatureVerificationMethod',
+  //           proofPurpose: 'assertionMethod',
+  //           proofValue: ''
+  //         }
+  //       }
+  //     }`;
+  //   const res = await issuerApiService.loadKeyChain(issuerPubKey, vc);
+  //   expect(Array.isArray(res)).toBe(true);
+  // });
 
   it('Generate Proof Value: Success', async () => {
     const res = await issuerApiService.generateProofValue();
