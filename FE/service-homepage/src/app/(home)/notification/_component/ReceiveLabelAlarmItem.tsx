@@ -5,14 +5,22 @@ import { BsFillInfoCircleFill } from 'react-icons/bs';
 import { CheckLabelModal } from '@/app/(home)/notification/_component/CheckLabelModal';
 
 export function ReceiveLabelAlarmItem({ alarm }: { alarm: IAlarm }) {
-    const { openToast } = useToast();
     let colorString = 'bg-blue-400 text-white';
     let title = '상대의 특징 라벨을 받음!';
 
     const modalState = useModalStore();
 
     const onCheckLabelClick = () => {
-        modalState.openModal();
+        modalState.openModal(
+            <CheckLabelModal
+                labels={[
+                    alarm.matchLog.label1,
+                    alarm.matchLog.label2,
+                    alarm.matchLog.label3,
+                ]}
+                targetPk={alarm.matchLog.targetPk}
+            />
+        );
     };
 
     return (
@@ -37,14 +45,6 @@ export function ReceiveLabelAlarmItem({ alarm }: { alarm: IAlarm }) {
                     </button>
                 </div>
             </div>
-            <CheckLabelModal
-                labels={[
-                    alarm.matchLog.label1,
-                    alarm.matchLog.label2,
-                    alarm.matchLog.label3,
-                ]}
-                targetPk={alarm.matchLog.targetPk}
-            />
         </div>
     );
 }

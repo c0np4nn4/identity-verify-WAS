@@ -2,18 +2,22 @@ import { IAlarm } from '@/types/alarm';
 import { useToast } from '@/stores/useToastStore';
 import { useModalStore } from '@/stores/useModalStore';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
-import { CheckLabelModal } from '@/app/(home)/notification/_component/CheckLabelModal';
 import { CheckChosungModal } from '@/app/(home)/notification/_component/CheckChosungModal';
 
 export function ReceiveChosungAlarmItem({ alarm }: { alarm: IAlarm }) {
-    const { openToast } = useToast();
     let colorString = 'bg-blue-400 text-white';
     let title = '상대가 내 이름을 추측함!';
 
     const modalState = useModalStore();
 
     const onCheckLabelClick = () => {
-        modalState.openModal();
+        console.log(alarm.matchLog.name);
+        modalState.openModal(
+            <CheckChosungModal
+                name={alarm.matchLog.name as string}
+                targetPk={alarm.matchLog.targetPk}
+            />
+        );
     };
 
     return (
@@ -38,10 +42,6 @@ export function ReceiveChosungAlarmItem({ alarm }: { alarm: IAlarm }) {
                     </button>
                 </div>
             </div>
-            <CheckChosungModal
-                name={alarm.matchLog.name as string}
-                targetPk={alarm.matchLog.targetPk}
-            />
         </div>
     );
 }

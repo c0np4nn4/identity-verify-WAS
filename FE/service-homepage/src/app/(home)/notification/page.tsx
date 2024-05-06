@@ -11,6 +11,8 @@ import Toast from '@/app/_component/Toast';
 import { EMatchingStatus } from '@/enumerates/matching';
 import { ReceiveLabelAlarmItem } from '@/app/(home)/notification/_component/ReceiveLabelAlarmItem';
 import { ReceiveChosungAlarmItem } from '@/app/(home)/notification/_component/ReceiveChosungAlarmItem';
+import { CheckChosungModal } from '@/app/(home)/notification/_component/CheckChosungModal';
+import Modal from '@/app/_component/Modal';
 
 export default function NotificationPage() {
     const [alarmList, setAlarmList] = useState<IAlarm[]>([]);
@@ -28,6 +30,8 @@ export default function NotificationPage() {
     return (
         <main className="flex flex-col items-center justify-center p-24 text-white">
             <Toast />
+            <Modal />
+
             <h1 className="text-40 mt-24">내역</h1>
             {alarmList.length > 0 ? (
                 <section className="flex flex-col gap-y-24 mt-80 w-full overflow-y-scroll h-800">
