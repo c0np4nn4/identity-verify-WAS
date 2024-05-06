@@ -3,11 +3,15 @@ import { VerifierAPIService } from './verifier-api.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ProofDto } from '../dto/proof.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
+import { CustomLoggerService } from 'src/module/custom.logger';
 
 @Controller('api/verifier')
 @ApiTags('VERIFIER API')
 export class VerifierAPIController {
-  constructor(private readonly verifierAPIService: VerifierAPIService) {}
+  constructor(
+    private readonly verifierAPIService: VerifierAPIService,
+    private readonly customLoggerService: CustomLoggerService,
+  ) {}
 
   @Post('verify-proof')
   @ApiOperation({
@@ -30,12 +34,12 @@ export class VerifierAPIController {
         ServiceName,
         HolderPubKey,
       );
-      if (verifyResult) {
-        return true;
-      } else {
+      if (!verifyResult) {
         throw new CustomErrorException('Verify Load Failed', 502);
       }
+      return true;
     } catch (error) {
+      this.customLoggerService.error('/verify-proof', 'Proof 적재 실패', {});
       throw new CustomErrorException('Verfiy Load Failed', 502);
     }
   }
