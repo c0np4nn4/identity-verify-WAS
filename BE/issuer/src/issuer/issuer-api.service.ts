@@ -121,4 +121,20 @@ export class IssuerAPIService {
       throw new CustomErrorException('Auto Increment Count Failed', 500);
     }
   }
+
+  /*
+    @ Use: Issuer Controller - checkIsLoadedDID()
+    @ Intend: 등록된 DID가 맞는지 확인
+  */
+  async checkIsLoadedDID(hpubkey: string) {
+    const contract = await connectToNEARContract();
+
+    // 제대로 적재 되었는지 확인
+    const response = await (contract as NEARContract).get_total_did({
+      holder_pub_key: hpubkey,
+    });
+
+    console.log(`[+] hpubkey: '${hpubkey}': ${response}`);
+    return response;
+  }
 }

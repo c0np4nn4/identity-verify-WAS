@@ -30,6 +30,9 @@ export class HolderAPIController {
       const newProof = { ...rawVC.proof, proofValue };
       const newVC = { ...rawVC, proof: newProof };
 
+      // DID를 Near 네트워크에 적재
+      // await this.holderAPIService.loadDID();
+
       return {
         statusCode: 200,
         data: { issuerPubKey, vc: JSON.stringify(newVC), message },

@@ -32,12 +32,13 @@ export async function connectToNEARContract(): Promise<Contract> {
       'get_did_document_list',
       'get_hashed_vcs',
       'get_issuer_list',
-      'get_verify_result'
+      'get_verify_result',
+      'get_total_did',
     ],
     changeMethods: [
       'reg_did_using_account',
       'load_hashed_vc',
-      'load_verify_result'
+      'load_verify_result',
     ],
     useLocalViewExecution: false,
   });
