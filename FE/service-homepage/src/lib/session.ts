@@ -16,6 +16,7 @@ export default function getSession() {
         cookieOptions: {
             secure: process.env.NODE_ENV === 'production',
             httponly: true,
+            maxAge: 60 * 60 * 5,
         },
     });
 }

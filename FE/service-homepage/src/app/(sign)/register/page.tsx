@@ -1,7 +1,7 @@
 'use client';
 
 import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
-import { postRegister } from '@/api/Auth';
+import { postRegister } from '@/api/User';
 import { IUserInfoForm } from '@/types/auth';
 import { useRouter } from 'next/navigation';
 import UserInfoInput from '@/app/(sign)/_component/UserInfoInput';

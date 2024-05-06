@@ -2,7 +2,7 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserInfo, IUserInfoForm } from '@/types/auth';
-import { getUserInfo, postLogin } from '@/api/Auth';
+import { getUserInfo, postLogin } from '@/api/User';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import { useRouter } from 'next/navigation';
 import UserInfoInput from '@/app/(sign)/_component/UserInfoInput';
@@ -32,7 +32,6 @@ export default function Page() {
     const onSubmit: SubmitHandler<IUserInfoForm> = async (data) => {
         const res = await postLogin(data.id, data.password);
         if (res.data.result <= 300) {
-            openToast('로그인 성공', 'success', () => router.push('/pond'));
             console.log(res.data);
             const userInfo = await fetchMe();
             console.log(userInfo);

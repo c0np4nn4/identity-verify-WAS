@@ -1,11 +1,19 @@
 'use client';
 
 import useWalletStore from '@/stores/useWalletStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import useUserInfoStore from '@/stores/useUserInfoStore';
+import { useRouter } from 'next/navigation';
+import { postLogout } from '@/api/User';
+import { useToast } from '@/stores/useToastStore';
 
 export default function MyPagePage() {
+    const router = useRouter();
     const { isInstalled, setInstalled } = useWalletStore();
+    const toastStore = useToast();
+    const { userInfo, logout } = useUserInfoStore((state) => state);
+    const [proof, setProof] = useState<string>('');
 
     useEffect(() => {
         setTimeout(() => {
@@ -20,25 +28,66 @@ export default function MyPagePage() {
 
     useEffect(() => {
         if (isInstalled) {
-            console.log('installed');
+            console.log('wallet is installed');
+        } else {
+            console.log("wallet isn't installed");
         }
     }, [isInstalled]);
 
     const onConnectWallet = () => {
         alert('지갑 연결!');
+        sendMessageToExtension();
     };
 
     const onInstallWallet = () => {
         alert('크롬 웹스토어로 이동합니다!');
     };
 
+    useEffect(() => {
+        // 확장 앱으로부터 메시지를 받기 위한 이벤트 리스너
+        window.addEventListener('message', (event) => {
+            if (event.origin !== window.location.origin) return;
+
+            if (event.data.type === 'FROM_EXTENSION_TO_PAGE') {
+                console.log(JSON.parse(event.data.message));
+                alert(`Message from extension: ${event.data.message}`);
+                setProof(event.data.message);
+            }
+        });
+    }, []);
+
+    // 버튼 클릭시 메시지 보내기
+    const sendMessageToExtension = () => {
+        window.postMessage(
+            { type: 'FROM_PAGE', text: 'Hello, extension!' },
+            '*'
+        );
+    };
+
+    const onLogout = async () => {
+        logout();
+        await postLogout();
+        toastStore.openToast('로그아웃 되었습니다.', 'success', () => {
+            router.push('/');
+        });
+    };
+
     return (
         <main className="flex flex-col items-center justify-center p-24">
             <h1 className="text-40 mt-24">마이페이지</h1>
             <section className="flex flex-col gap-y-12 mt-80 w-full">
-                <ProfileInfo label={'닉네임'} value={'김쿠키야'} />
+                <ProfileInfo
+                    label={'닉네임'}
+                    value={userInfo?.nickname as string}
+                />
                 <ProfileInfo label={'대학교'} value={'부산대학교'} />
-                <ProfileInfo label={'2차 인증'} value={'미인증'} />
+                <ProfileInfo
+                    label={'2차 인증'}
+                    value={
+                        userInfo?.isVerifiedUser ? '2차 인증 완료' : '미인증'
+                    }
+                />
+                <div>proof: {proof}</div>
                 {/*    {isInstalled ? (*/}
                 {/*    <button*/}
                 {/*        className={*/}
@@ -84,6 +133,14 @@ export default function MyPagePage() {
                     </button>
                 </div>
             </section>
+            <div className="flex gap-x-4 mt-24">
+                <button
+                    className={'p-2 bg-gray-200 rounded-2xl'}
+                    onClick={onLogout}
+                >
+                    로그아웃
+                </button>
+            </div>
         </main>
     );
 }

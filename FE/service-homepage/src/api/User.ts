@@ -30,3 +30,9 @@ export async function getUserInfo() {
 export async function getCheckLogin() {
     return clientAxios.get('/api/user/me');
 }
+
+export async function postVerifyProof(proof: string) {
+    return clientAxios.post('/api/user/verify-proof', {
+        proof,
+    });
+}

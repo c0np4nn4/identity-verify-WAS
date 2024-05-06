@@ -17,17 +17,17 @@ export default function RootLayout({
         <html lang="ko">
             <body
                 className={
-                    'w-screen h-screen flex flex-col items-center bg-gray-200'
+                    'max-w-390 h-screen flex flex-col items-center bg-gray-200'
                 }
             >
                 <Image
                     src={PaperBoatBackground}
                     alt="background"
-                    className="-z-[100] fixed w-380 h-full"
+                    className="-z-[100] fixed max-w-390 h-full"
                 />
                 <div
                     className={
-                        'relative w-380 h-screen overflow-y-auto overflow-x-hidden'
+                        'relative w-full h-full overflow-y-auto overflow-x-hidden'
                     }
                 >
                     {children}
