@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { UserVCDto } from '../dto/user-vc.dto';
 import { EmailSendCodeDto } from '../dto/email-send-code.dto';
 import { CustomErrorException } from '../filter/custom-error.exception';
-import { CustomLoggerService } from 'src/module/custom.logger';
+import { CustomLoggerService } from '../module/custom.logger';
 
 @Controller('api/holder')
 @ApiTags('HOLDER API')

@@ -12,6 +12,8 @@ import { MatchLogSendDto } from 'src/dto/matchlog-send.dto';
 import { MatchLogLabelDto } from 'src/dto/matchlog-label.dto';
 import { MatchLogNameDto } from 'src/dto/matchlog-name.dto';
 import { MatchLogAnswerDto } from 'src/dto/matchlog.answer.dto';
+import { CustomLoggerService } from 'src/module/custom.logger';
+import { WHERE } from 'src/common/const';
 
 @ApiTags('MATCH LOG API')
 @Controller('api/match-log')
@@ -21,6 +23,7 @@ export class MatchLogAPIController {
     private readonly userAPIService: ServiceAPIService,
     private readonly alarmAPIService: AlarmAPIService,
     private readonly boatAPIService: BoatAPIService,
+    private readonly customLoggerService: CustomLoggerService,
     @InjectEntityManager()
     private entityManager: EntityManager,
   ) {}
@@ -148,6 +151,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/is-it-me',
+          '혹시 나야? 요청 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Transaction Failed', 400);
       }
     });
@@ -198,6 +209,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/my-label',
+          '내 라벨 전송 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Request Failed', 400);
       }
     });
@@ -253,6 +272,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/wrong-person',
+          '사람 잘못 봤습니다 요청 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Request Failed', 400);
       }
     });
@@ -301,6 +328,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/real-name',
+          '진짜 이름 전송 요청 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Request Failed', 400);
       }
     });
@@ -359,6 +394,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/reject-sign',
+          '거절 요청 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Request Failed', 400);
       }
     });
@@ -415,6 +458,14 @@ export class MatchLogAPIController {
 
         return { statusCode: 200, message: 'Request Success' };
       } catch (error) {
+        this.customLoggerService.error(
+          WHERE['MATCH_LOG'],
+          '/v1/send/correct-sign',
+          '매칭 성공 요청 실패',
+          {
+            ...dto,
+          },
+        );
         throw new CustomErrorException('Request Failed', 400);
       }
     });

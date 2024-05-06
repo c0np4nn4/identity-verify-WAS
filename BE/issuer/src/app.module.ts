@@ -11,7 +11,7 @@ import {
 import * as moment from 'moment';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 
-const winstonFormat = winston.format.combine(
+export const winstonFormat = winston.format.combine(
   winston.format.timestamp(),
   nestWinstonModuleUtilities.format.nestLike('ISSUER', {
     colors: true,

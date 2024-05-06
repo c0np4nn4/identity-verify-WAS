@@ -9,8 +9,8 @@ import * as ed25519 from '@stablelib/ed25519';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CounterEntity } from '../entity/counter.entity';
 import { Repository } from 'typeorm';
-import { CustomLoggerService } from 'src/module/custom.logger';
-import { CustomErrorException } from 'src/filter/custom-error.exception';
+import { CustomLoggerService } from '../module/custom.logger';
+import { CustomErrorException } from '../filter/custom-error.exception';
 const bs58 = require('bs58');
 const bcrypt = require('bcryptjs');
 
