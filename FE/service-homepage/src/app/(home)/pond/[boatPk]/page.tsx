@@ -43,7 +43,7 @@ export default function BoatMatchingPage({
     const onLikeMe = async () => {
         console.log('혹시 나야?');
         const res = await postSendIsItMe({
-            targetPk: 'dd62b508-aa4f-4f34-a16f-ed1e9858e10b', // boat?.userPk as string
+            targetPk: boat?.userPk as string,
         });
         if (res.status <= 300 && res.data.result === 200) {
             toastState.openToast('혹시나야를 보냈습니다!', 'success', () => {

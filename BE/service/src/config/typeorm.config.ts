@@ -16,7 +16,7 @@ export const TypeormConfig = (
   database: 'db',
   entities: [UserEntity, BoatEntity, MatchLogEntity, AlarmEntity],
   migrations: ['src/migrations/*{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   logging: true,
   charset: 'utf8mb4_unicode_ci',
   timezone: '+09:00',

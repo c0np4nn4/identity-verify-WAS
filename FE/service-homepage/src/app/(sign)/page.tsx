@@ -46,7 +46,7 @@ export default function Home() {
                         className={
                             'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
                         }
-                        style={{ animationDelay: '3s' }}
+                        style={{ animationDelay: '3.0s' }}
                     >
                         시작하기
                     </button>
@@ -56,9 +56,9 @@ export default function Home() {
                         className={
                             'bg-white text-black px-8 py-4 rounded-6 animate-springAlways duration-300 transform ease-in-out'
                         }
-                        style={{ animationDelay: '3.5s' }}
+                        style={{ animationDelay: '3.0s' }}
                     >
-                        로그인하기
+                        로그인
                     </button>
                 </Link>
             </div>

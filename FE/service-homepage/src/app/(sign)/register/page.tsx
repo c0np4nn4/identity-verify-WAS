@@ -4,7 +4,7 @@ import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
 import { postRegister } from '@/api/Auth';
 import { IUserInfoForm } from '@/types/auth';
 import { useRouter } from 'next/navigation';
-import UserInfoInput from '@/app/(landing)/_component/UserInfoInput';
+import UserInfoInput from '@/app/(sign)/_component/UserInfoInput';
 import BoatButton from '@/app/_component/BoatButton';
 
 export default function Page() {

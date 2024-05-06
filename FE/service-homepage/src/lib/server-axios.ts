@@ -23,6 +23,8 @@ serverAxios.interceptors.request.use(
             console.log('유저 토큰의 세션이 만료되었습니다.');
             throw new Error('유저 토큰의 세션이 만료되었습니다.');
         } else {
+            // console.log('유저 토큰의 세션이 유효합니다.');
+            // console.log(session.token);
             config.headers.token = session.token;
         }
         return config;

@@ -108,6 +108,10 @@ export class IssuerAPIService {
       const countRow = await this.counterRepository.findOne({
         where: { id: 'counter' },
       });
+      if (!countRow) {
+        await this.counterRepository.save({ id: 'counter', count: 1 });
+        return 1;
+      }
       countRow.count += 1;
       await this.counterRepository.save(countRow);
 
