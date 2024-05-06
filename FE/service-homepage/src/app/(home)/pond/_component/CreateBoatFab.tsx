@@ -16,6 +16,7 @@ export default function CreateBoarFab() {
 
     return (
         <div className={'fixed bottom-80 right-30 z-[1000]'}>
+            <Modal />
             <button
                 onClick={onFabClick}
                 className={

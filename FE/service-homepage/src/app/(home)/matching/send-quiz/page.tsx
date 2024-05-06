@@ -64,7 +64,7 @@ export default function SendQuizPage() {
                 name: chosung1 + chosung2 + chosung3,
             });
             console.log(res);
-            if (res.data.statusCode <= 200) {
+            if (res.data.status <= 200) {
                 console.log('이름 전송 성공');
             } else {
                 console.log('이름 전송 실패');

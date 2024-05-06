@@ -7,7 +7,7 @@ export async function postSendIsItMe({ targetPk }: { targetPk: string }) {
 }
 
 export async function postSendWrongPerson({ targetPk }: { targetPk: string }) {
-    return clientAxios.post('/api/matching/wrongPerson', {
+    return clientAxios.post('/api/matching/sendWrongPerson', {
         targetPk,
     });
 }

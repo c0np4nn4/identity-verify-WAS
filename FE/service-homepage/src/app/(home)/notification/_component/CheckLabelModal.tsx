@@ -2,6 +2,8 @@ import { useModalStore } from '@/stores/useModalStore';
 import { useRouter } from 'next/navigation';
 import useUserInfoStore from '@/stores/useUserInfoStore';
 import Link from 'next/link';
+import { postSendWrongPerson } from '@/api/Matching';
+import { useToast } from '@/stores/useToastStore';
 
 export function CheckLabelModal({
     labels,
@@ -10,12 +12,27 @@ export function CheckLabelModal({
     labels: Array<string | null>;
     targetPk: string;
 }) {
+    const toast = useToast();
     const modalState = useModalStore();
     const router = useRouter();
     const userInfo = useUserInfoStore((state) => state.userInfo);
 
     const onCreateBoat = () => {
         router.push('/pond/boat');
+        modalState.closeModal();
+    };
+
+    const onWrongPerson = async () => {
+        const res = await postSendWrongPerson({ targetPk });
+        console.log(res);
+        if (res.data.result <= 300) {
+            toast.openToast(
+                '사람 잘못 봤습니다..를 보냈습니다.',
+                'success',
+                () => {}
+            );
+        }
+
         modalState.closeModal();
     };
 
@@ -57,12 +74,12 @@ export function CheckLabelModal({
                     너 OOO이지?
                 </Link>
             </div>
-            <Link
-                href={'/pond'}
+            <button
+                onClick={onWrongPerson}
                 className={'w-full text-center underline mt-8'}
             >
                 사람 잘못 봤습니다...
-            </Link>
+            </button>
         </article>
     );
 }

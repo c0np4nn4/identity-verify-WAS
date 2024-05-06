@@ -12,15 +12,17 @@ import { EMatchingStatus } from '@/enumerates/matching';
 import { ReceiveLabelAlarmItem } from '@/app/(home)/notification/_component/ReceiveLabelAlarmItem';
 import { ReceiveChosungAlarmItem } from '@/app/(home)/notification/_component/ReceiveChosungAlarmItem';
 import Modal from '@/app/_component/Modal';
+import useUserInfoStore from '@/stores/useUserInfoStore';
 
 export default function NotificationPage() {
     const [alarmList, setAlarmList] = useState<IAlarm[]>([]);
+    const userInfo = useUserInfoStore((state) => state.userInfo);
     useEffect(function getAlarmListEffect() {
         const fetchAlarmList = async () => {
             const res = await getAlarmList();
             if (res.data.result <= 300) {
                 console.log(res.data.data);
-                setAlarmList(res.data.data.alarmList as IAlarm[]);
+                setAlarmList(res.data.data.alarmList.reverse() as IAlarm[]);
             }
         };
         fetchAlarmList();
@@ -31,10 +33,10 @@ export default function NotificationPage() {
             <Toast />
             <Modal />
 
-            <h1 className="text-40 mt-24">내역</h1>
+            <h1 className="text-40 mt-24">{userInfo?.nickname}의 내역</h1>
             {alarmList.length > 0 ? (
                 <section className="flex flex-col gap-y-24 mt-80 w-full overflow-y-scroll h-800">
-                    {alarmList.reverse().map((alarm, index) => (
+                    {alarmList.map((alarm, index) => (
                         <NotificationItem key={index} alarm={alarm} />
                     ))}
                 </section>
@@ -61,11 +63,11 @@ function NotificationItem({ alarm }: { alarm: IAlarm }) {
             colorString = 'bg-gray-800 text-white';
             title = '혹시 나야? 신청!';
             break;
-        case EMatchingStatus.WRONG_PERSON_RECEIVE:
+        case EMatchingStatus.WRONG_RECEIVE:
             colorString = 'bg-red-600 text-white';
             title = '혹시 나야?에 대해 나 아님을 받음';
             break;
-        case EMatchingStatus.WRONG_PERSON_SEND:
+        case EMatchingStatus.WRONG_SEND:
             colorString = 'bg-red-600 text-white';
             title = '혹시 나야?에 대해 나 아님을 보냄';
         case EMatchingStatus.REJECT_RECEIVE:
