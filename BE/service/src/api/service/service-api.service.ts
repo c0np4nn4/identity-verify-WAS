@@ -162,7 +162,7 @@ export class ServiceAPIService {
   async verifyProof(dto: ProofDto): Promise<boolean> {
     return lastValueFrom(
       this.httpService
-        .post(this.VERIFY_PROOF, { params: { ...dto } })
+        .post(this.VERIFY_PROOF, { ...dto })
         .pipe(map((response) => response.data)),
     );
   }

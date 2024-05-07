@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { NEARVerfiyResult } from '../types/types';
 import { connectToNEARContract } from '../utils/utils';
-import { groth16 } from 'snarkjs';
+import { Groth16Proof, groth16 } from 'snarkjs';
+import { vkey } from 'src/common/const';
 
 @Injectable()
 export class VerifierAPIService {
@@ -9,18 +10,8 @@ export class VerifierAPIService {
     @ Use: Verifier Controller - verifyProof()
     @ Intend: 2차 인증 ZKP proof 검증을 wasm 파일로 수행
   */
-  async verifyProof(
-    proofJson: string,
-    IssuerPubKeyJson: string,
-    vKeyJson: string,
-  ): Promise<boolean> {
-    const { proof, IssuerPubKey, vKey } = this.jsonConverter(
-      proofJson,
-      IssuerPubKeyJson,
-      vKeyJson,
-    );
-    // verify success
-    const res = await groth16.verify(vKey, IssuerPubKey, proof);
+  async verifyProof(publicSignals: string[], proof: Groth16Proof) {
+    const res = await groth16.verify(vkey, publicSignals, proof);
 
     if (res === true) {
       console.log('Proof verified successfully');
@@ -55,17 +46,5 @@ export class VerifierAPIService {
     );
     // return true;
     return response;
-  }
-
-  /*
-    @ Use: verifyProof()
-    @ Intend: json 파일로 변환
-  */
-  jsonConverter(proof: string, IssuerPubKey: string, vKey: string) {
-    return {
-      proof: JSON.parse(proof),
-      IssuerPubKey: JSON.parse(IssuerPubKey),
-      vKey: JSON.parse(vKey),
-    };
   }
 }
