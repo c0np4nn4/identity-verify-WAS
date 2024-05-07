@@ -18,10 +18,10 @@ export class HolderAPIController {
   @ApiOperation({
     summary: 'Holder DID 생성 및 적재',
   })
-  async registerDID() {
+  async registerDID(@Body() dto: UserVCDto) {
     try {
       // DID를 Near 네트워크에 적재
-      return await this.holderAPIService.loadDID();
+      return await this.holderAPIService.loadDID(dto.holderPubKey);
     } catch (error) {
       this.customLoggerService.error('/reg-did', 'Holder DID 생성 실패', {});
       throw new CustomErrorException('Register DID Failed', 500);

@@ -92,7 +92,7 @@ export class IssuerAPIService {
     @ Intend: Issuer Pub Key를 반환
   */
   getIssuerPubKey() {
-    return 'honorable-muscle.testnet';
+    return 'wakeful-cave.testnet';
   }
 
   /*
@@ -134,15 +134,11 @@ export class IssuerAPIService {
     @ Use: Issuer Controller - checkIsLoadedDID()
     @ Intend: 등록된 DID가 맞는지 확인
   */
-  async checkIsLoadedDID(hpubkey: string) {
+  async checkIsLoadedDID(): Promise<string[]> {
     const contract = await connectToNEARContract();
-
-    // 제대로 적재 되었는지 확인
-    const response = await (contract as NEARContract).get_total_did({
-      holder_pub_key: hpubkey,
-    });
-
-    console.log(`[+] hpubkey: '${hpubkey}': ${response}`);
+    const response: string[] = await (contract as NEARContract).get_total_did(
+      {},
+    );
     return response;
   }
 }

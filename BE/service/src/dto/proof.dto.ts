@@ -9,13 +9,13 @@ export class ProofDto {
 
   @ApiProperty({
     description: 'Holder pub key',
-    example: 'honorable-muscle.testnet',
+    example: 'wakeful-cave.testnet',
   })
   readonly HolderPubKey: string;
 
   @ApiProperty({ description: 'proof', example: '-' })
   readonly proof: string;
 
-  @ApiProperty({ description: 'publicSignals', example: '-' })
-  readonly publicSignals: string;
+  // @ApiProperty({ description: 'publicSignals', example: '-' })
+  // readonly publicSignals: string;
 }

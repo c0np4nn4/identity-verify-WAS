@@ -24,7 +24,7 @@ export async function connectToNEARContract(): Promise<Contract> {
   const nearConnection = await connect(connectionConfig);
   const account = await nearConnection.account('shaggy-trade.testnet');
 
-  const contract = new Contract(account, 'honorable-muscle.testnet', {
+  const contract = new Contract(account, 'wakeful-cave.testnet', {
     viewMethods: [
       'get_document',
       'get_did_list',

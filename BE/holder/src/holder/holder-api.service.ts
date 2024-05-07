@@ -34,7 +34,7 @@ export class HolderAPIService {
     return lastValueFrom(
       this.httpService
         .post(this.CREATE_USER_VC, {
-          params: { ...dto },
+          ...dto,
         })
         .pipe(map((response) => response?.data)),
     );
@@ -72,10 +72,11 @@ export class HolderAPIService {
     @ Use: Holder Controller - createUserVC()
     @ Intend: 사용자 계정 생성시 DID 등록
   */
-  async loadDID() {
+  async loadDID(holderPubKey: string) {
     const contract = await connectToNEARContract();
     await (contract as NEARContract).reg_did_using_account({
       is_issuer: false,
+      holder_pubkey: holderPubKey,
     });
     return true;
   }
