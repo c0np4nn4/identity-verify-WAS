@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import { IssuerAPIService } from './issuer-api.service';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
@@ -22,13 +23,13 @@ export class IssuerAPIController {
     // 적재된 DID인지 확인: 아니라면 throw
     // await this.checkIsLoadedDID(dto.holderPubKey);
 
-    const { vc } = this.issuerAPIService.createUserVC(dto);
+    const { vc, message } = await this.issuerAPIService.createUserVC(dto);
     const vcString = JSON.stringify(vc);
     const issuerPubKey = this.issuerAPIService.getIssuerPubKey();
 
     try {
       await this.issuerAPIService.loadKeyChain(issuerPubKey, vcString);
-      return { issuerPubKey, vc: vcString };
+      return { issuerPubKey, vc: vcString, message };
     } catch (error) {
       this.customLoggerService.error('/create-vc', '사용자 VC 생성 실패', {
         ...dto,

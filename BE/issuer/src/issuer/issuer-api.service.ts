@@ -30,11 +30,15 @@ export class IssuerAPIService {
     @ Use: Issuer Controller - createUserVC()
     @ Intend: did 규격에 맞게 VC object 생성
   */
-  createUserVC(dto: UserVCDto) {
+  async createUserVC(dto: UserVCDto) {
     const { holderPubKey } = dto;
     const uuid = uuidv4();
-    const vc = createVC(uuid, holderPubKey);
-    return { uuid, vc };
+
+    // proof value가 삽입된 VC 생성
+    const { proofValue, message } = await this.generateProofValue();
+
+    const vc = createVC(uuid, holderPubKey, proofValue);
+    return { uuid, vc, message };
   }
 
   /*

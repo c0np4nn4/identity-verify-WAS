@@ -46,7 +46,11 @@ export async function connectToNEARContract(): Promise<Contract> {
   return contract;
 }
 
-export function createVC(uuid: string, holderPubKey: string) {
+export function createVC(
+  uuid: string,
+  holderPubKey: string,
+  proofValue: string,
+) {
   const timeStamp = getTimeStamp();
   // proofValue 는 현재 하드코딩  됨
   // - issuer 필드와 함께, 연산결과로 수정되어야 함
@@ -54,7 +58,7 @@ export function createVC(uuid: string, holderPubKey: string) {
   return {
     context: ['https://www.w3.org/ns/credentials/v2'],
     id: `url:uuid:${uuid}`,
-    credential_type: ['VerifiableCredential', 'MajorCredential'],
+    credential_type: ['VerifiableCredential'],
     // 완성본 issuer
     issuer: 'did:near:pnu.testnet',
     validFrom: timeStamp,
@@ -70,7 +74,7 @@ export function createVC(uuid: string, holderPubKey: string) {
       created: timeStamp,
       verificationMethod: 'CircRefVCSignatureVerificationMethod',
       proofPurpose: 'assertionMethod',
-      proofValue: '',
+      proofValue,
     },
   };
 }
