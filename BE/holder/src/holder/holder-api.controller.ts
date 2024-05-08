@@ -21,7 +21,8 @@ export class HolderAPIController {
   async registerDID(@Body() dto: UserVCDto) {
     try {
       // DID를 Near 네트워크에 적재
-      return await this.holderAPIService.loadDID(dto.holderPubKey);
+      const result = await this.holderAPIService.loadDID(dto.holderPubKey);
+      return { statusCode: 200, data: { result } };
     } catch (error) {
       this.customLoggerService.error('/reg-did', 'Holder DID 생성 실패', {});
       throw new CustomErrorException('Register DID Failed', 500);

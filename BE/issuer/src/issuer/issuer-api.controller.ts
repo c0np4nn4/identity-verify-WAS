@@ -41,24 +41,6 @@ export class IssuerAPIController {
     }
   }
 
-  // * Holder에서 호출
-  @Post('/generate-proof-value')
-  @ApiOperation({
-    summary: 'HOLDER 호출) base58 string[64] 형태 Proof Value 생성',
-  })
-  async generateProofValue() {
-    try {
-      return await this.issuerAPIService.generateProofValue();
-    } catch (error) {
-      this.customLoggerService.error(
-        '/generate-proof-value',
-        'Proof Value 생성 실패',
-        {},
-      );
-      throw new CustomErrorException('Proof Value Generate Failed', 500);
-    }
-  }
-
   // createUserVC()에서 사용
   async checkIsLoadedDID(hpubkey: string) {
     try {

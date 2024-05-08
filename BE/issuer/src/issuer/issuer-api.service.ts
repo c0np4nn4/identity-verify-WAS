@@ -66,7 +66,7 @@ export class IssuerAPIService {
   }
 
   /*
-    @ Use: Issuer Controller - generateProofValue()
+    @ Use: createUserVC()
     @ Intend: VC에 sign하기 위해 Issuer Pri Key로 sign한 값을 반환
     * Info: Key는 일단 env 파일로 관리
   */
