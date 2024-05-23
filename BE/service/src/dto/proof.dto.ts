@@ -8,10 +8,10 @@ export class ProofDto {
   readonly ServiceName: string;
 
   @ApiProperty({
-    description: 'Holder pub key',
+    description: 'Issuer pub key',
     example: 'wakeful-cave.testnet',
   })
-  readonly HolderPubKey: string;
+  readonly IssuerPubKey: string;
 
   @ApiProperty({ description: 'proof', example: '-' })
   readonly proof: string;
