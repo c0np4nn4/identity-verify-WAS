@@ -160,10 +160,23 @@ export class ServiceAPIService {
     * API Call: Verifier
   */
   async verifyProof(dto: ProofDto): Promise<boolean> {
-    return lastValueFrom(
+    const result = lastValueFrom(
       this.httpService
         .post(this.VERIFY_PROOF, { ...dto })
         .pipe(map((response) => response.data)),
+    );
+    // 검증 성공시 2차 인증 허가
+    if (!result) return false;
+
+    const { userPk } = dto;
+    await this.checkToVerifiedUser(userPk);
+    return true;
+  }
+
+  async checkToVerifiedUser(userPk: string) {
+    return await this.userRepository.update(
+      { pk: userPk },
+      { isVerifiedUser: true },
     );
   }
 }

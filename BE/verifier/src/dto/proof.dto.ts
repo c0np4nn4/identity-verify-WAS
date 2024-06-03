@@ -16,6 +16,6 @@ export class ProofDto {
   @ApiProperty({ description: 'proof', example: '-' })
   readonly proof: string;
 
-  // @ApiProperty({ description: 'publicSignals', example: '-' })
-  // readonly publicSignals: string;
+  @ApiProperty({ description: 'userPk', example: '-' })
+  readonly userPk: string;
 }
