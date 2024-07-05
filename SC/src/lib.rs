@@ -38,9 +38,6 @@ struct DidContract {
     // Mapping: Holder DID --> Issuer DID
     pub map_holder_did_to_issuer_did: UnorderedMap<HolderDID, IssuerDID>,
 
-    // Mapping: Holder DID --> Validity
-    pub map_holder_did_to_validity: UnorderedMap<HolderDID, Validity>,
-
     // Mapping: ServiceName --> Holder DID --> Validity
     pub map_servicename_to_holder_validity:
         UnorderedMap<ServiceName, HashSet<HolderDID>>,
@@ -55,7 +52,6 @@ impl Default for DidContract {
             set_service_name: UnorderedSet::new(b"n"),
             map_issuer_did_to_hashed_vcs: UnorderedMap::new(b"h"),
             map_holder_did_to_issuer_did: UnorderedMap::new(b"v"),
-            map_holder_did_to_validity: UnorderedMap::new(b"y"),
             map_servicename_to_holder_validity: UnorderedMap::new(b"y"),
         }
     }

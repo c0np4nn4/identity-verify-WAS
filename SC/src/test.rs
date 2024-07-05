@@ -174,36 +174,36 @@ mod tests {
         assert_eq!(res_issuer_did, issuer_did);
     }
 
-    #[test]
-    fn test_load_holder_did_validity_mapping() {
-        use near_sdk::test_utils::VMContextBuilder;
-        use near_sdk::testing_env;
+    // #[test]
+    // fn test_load_holder_did_validity_mapping() {
+    //     use near_sdk::test_utils::VMContextBuilder;
+    //     use near_sdk::testing_env;
 
-        let mut builder = VMContextBuilder::new();
-        // "newbie.testnet"의 did 등록
-        builder.predecessor_account_id("newbie.testnet".parse().unwrap());
-        testing_env!(builder.build());
+    //     let mut builder = VMContextBuilder::new();
+    //     // "newbie.testnet"의 did 등록
+    //     builder.predecessor_account_id("newbie.testnet".parse().unwrap());
+    //     testing_env!(builder.build());
 
-        let mut contract = DidContract::default();
+    //     let mut contract = DidContract::default();
 
-        // 일단 did 등록 해둬야 함
-        contract.reg_did_using_account(false);
+    //     // 일단 did 등록 해둬야 함
+    //     contract.reg_did_using_account(false);
 
-        contract
-            .load_verify_result("did:near:newbie.testnet".to_string(), true);
+    //     contract
+    //         .load_verify_result("did:near:newbie.testnet".to_string(), true);
 
-        println!(
-            "<test> holder validity: {:?}",
-            contract.get_mapped_holder_did_validity(
-                "did:near:newbie.testnet".to_string()
-            )
-        );
+    //     println!(
+    //         "<test> holder validity: {:?}",
+    //         contract.get_mapped_holder_did_validity(
+    //             "did:near:newbie.testnet".to_string()
+    //         )
+    //     );
 
-        assert_eq!(
-            true,
-            contract.get_mapped_holder_did_validity(
-                "did:near:newbie.testnet".to_string()
-            )
-        )
-    }
+    //     assert_eq!(
+    //         true,
+    //         contract.get_mapped_holder_did_validity(
+    //             "did:near:newbie.testnet".to_string()
+    //         )
+    //     )
+    // }
 }

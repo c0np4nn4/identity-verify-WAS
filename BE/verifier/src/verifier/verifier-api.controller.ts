@@ -11,7 +11,7 @@ export class VerifierAPIController {
   constructor(
     private readonly verifierAPIService: VerifierAPIService,
     private readonly customLoggerService: CustomLoggerService,
-  ) {}
+  ) { }
 
   @Post('verify-proof')
   @ApiOperation({

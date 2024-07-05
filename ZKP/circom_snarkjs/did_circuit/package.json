@@ -12,8 +12,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bs58": "^5.0.0",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
+    "near-api-js": "^4.0.1",
     "snarkjs": "^0.7.3"
+  },
+  "devDependencies": {
+    "@stablelib/ed25519": "^1.0.3",
+    "@types/circomlibjs": "^0.1.6",
+    "@types/node": "^20.12.12"
   }
 }

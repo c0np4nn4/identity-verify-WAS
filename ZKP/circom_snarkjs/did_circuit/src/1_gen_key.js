@@ -3,13 +3,28 @@ const fs = require('fs');
 
 const generator = async (circuit) => {
   console.info('Initializing ZKey process...')
-  await snarkjs.zKey.newZKey(`./circuit/${circuit}.r1cs`, "./keys/pot14_final.ptau", `./keys/${circuit}_00.zkey`)
+  await snarkjs.zKey.newZKey(
+    `./circuit/${circuit}.r1cs`, 
+    "./keys/pot14_final.ptau", 
+    `./keys/${circuit}_00.zkey`
+  )
 
   console.info('First contribution...')
-  await snarkjs.zKey.contribute(`./keys/${circuit}_00.zkey`, `./keys/${circuit}_01.zkey`, 'cintribution#1', 'thisismycontribution')
+  await snarkjs.zKey.contribute(
+    `./keys/${circuit}_00.zkey`, 
+    `./keys/${circuit}_01.zkey`, 
+    'cintribution#1', 
+    'thisismycontribution'
+  )
 
   console.info('Beacon phase...')
-  await snarkjs.zKey.beacon(`./keys/${circuit}_01.zkey`, `./keys/${circuit}_final.zkey`, 'beaconContribution', '0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f', 10)
+  await snarkjs.zKey.beacon(
+    `./keys/${circuit}_01.zkey`, 
+    `./keys/${circuit}_final.zkey`, 
+    'beaconContribution', 
+    '0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f', 
+    10
+  )
 
   console.info('Verifying the Zkey...')
   const flag = await snarkjs.zKey.verifyFromR1cs(`./circuit/${circuit}.r1cs`, "./keys/pot14_final.ptau", `./keys/${circuit}_final.zkey`)
@@ -33,3 +48,8 @@ const generator = async (circuit) => {
 generator('circuit').then((circuit) => {
   process.exit(0);
 });
+
+
+
+
+

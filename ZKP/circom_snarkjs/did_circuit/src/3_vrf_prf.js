@@ -24,3 +24,9 @@ async function verifier(circuit) {
 verifier('circuit').then(() => {
     process.exit(0);
 });
+
+
+
+
+
+

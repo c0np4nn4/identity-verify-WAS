@@ -38,17 +38,17 @@ impl DidContract {
         self.set_service_name.iter().collect()
     }
 
-    pub fn get_mapped_holder_did_validity(
-        &self,
-        holder_did: HolderDID,
-    ) -> bool {
-        match self.map_holder_did_to_validity.get(&holder_did) {
-            Some(v) => v,
-            None => false,
-        }
-    }
+    pub fn get_servicename_values(&self, service_name: String) -> Vec<String> {
+        let list_of_valid_holders = self
+            .map_servicename_to_holder_validity
+            .get(&service_name)
+            .expect("No holders had been registered");
 
-    // zkp_verify.rs has 2 more methods
+        list_of_valid_holders
+            .iter()
+            .map(|v| v.to_string())
+            .collect()
+    }
 }
 
 pub fn convert_account_id_to_did(near_named_account: AccountId) -> DID {

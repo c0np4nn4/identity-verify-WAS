@@ -1,5 +1,5 @@
 # 1. start a new "powers of tau" ceremony
-snarkjs powersoftau new bn128 14 pot14_0000.ptau -v
+snarkjs powersoftau new bn128 13 pot14_0000.ptau -v
 
 # 2. contribute to the ceremony
 snarkjs powersoftau contribute pot14_0000.ptau pot14_0001.ptau --name="First contribution" -v

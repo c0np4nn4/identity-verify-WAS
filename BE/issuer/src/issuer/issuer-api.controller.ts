@@ -12,7 +12,7 @@ export class IssuerAPIController {
   constructor(
     private readonly issuerAPIService: IssuerAPIService,
     private readonly customLoggerService: CustomLoggerService,
-  ) {}
+  ) { }
 
   // * Holder에서 호출
   @Post('/create-vc')

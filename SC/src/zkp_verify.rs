@@ -53,17 +53,4 @@ impl DidContract {
 
         list_of_valid_holders.contains(&holder_did)
     }
-
-    // check
-    pub fn get_servicename_values(&self, service_name: String) -> Vec<String> {
-        let list_of_valid_holders = self
-            .map_servicename_to_holder_validity
-            .get(&service_name)
-            .expect("No holders had been registered");
-
-        list_of_valid_holders
-            .iter()
-            .map(|v| v.to_string())
-            .collect()
-    }
 }
